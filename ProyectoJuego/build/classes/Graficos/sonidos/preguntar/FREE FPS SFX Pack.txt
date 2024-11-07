@@ -1,0 +1,7 @@
+//Bajo CC BY-ND 4.0
+
+Rocket_Explosion-001.wav
+Shotgun_Shot-001.wav
+GrapplingHook_Shot-002.wav
+
+//https://lmglolo.itch.io/free-fps-sfx
