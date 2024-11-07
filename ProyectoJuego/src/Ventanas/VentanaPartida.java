@@ -34,74 +34,75 @@ import proyectojuego.ProyectoJuego;
  *
  * @author luis
  */
-public class VentanaPartida extends Ventana{
+public class VentanaPartida extends Ventana {
+
     VentanaPausa ventanaPausa;
-public static final Vectores PosicionInicial = 
-        new Vectores(Constantes.ancho/2 - Externos.player.getWidth()/2,
-			Constantes.alto/2 - Externos.player.getHeight()/2);
-	
+    public static final Vectores PosicionInicial
+            = new Vectores(Constantes.ancho / 2 - Externos.player.getWidth() / 2,
+                    Constantes.alto / 2 - Externos.player.getHeight() / 2);
+
     private Jugador jugador;
-    private VentanaPausa pausa;
-  
+    
+    
 
 //creamos un arreglo de tipo objetomovibles quese encargara de actualizar y dibujar todos los objetosmovibles
     private ArrayList<ObjetosMovibles> objetosmoviles = new ArrayList<ObjetosMovibles>();
     //creamos un arayList de animacion
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
     //
-    private ArrayList<Mensaje>mensajes= new ArrayList<Mensaje>();;
+    private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
+    ;
 
    
 
     private int puntos = 0;
-    private int vidas=3;
+    private int vidas = 3;
 
     //numero de meteoros por partida
     private int meteoros;
-    private int entregas=1;
-    
+    private int entregas = 1;
+
     private Sonido musicaFondo;
     private Cronometro TGameOver;
     private boolean finJuego;
-    
+
     private Cronometro aparecerUfo;
 
     public VentanaPartida() {
         //jugador
         jugador = new Jugador(Externos.player,
-                new Vectores(Constantes.ancho/2-Externos.player.getWidth()/2,
-                        Constantes.alto/2-Externos.player.getHeight()/2),
+                new Vectores(Constantes.ancho / 2 - Externos.player.getWidth() / 2,
+                        Constantes.alto / 2 - Externos.player.getHeight() / 2),
                 new Vectores(0, 0), 7, this);
-        
-        TGameOver=new Cronometro();
-        finJuego=false;
-        
+
+        TGameOver = new Cronometro();
+        finJuego = false;
+
         objetosmoviles.add(jugador);
 
         meteoros = 1;
         empezarEntrega();
         //musica de fondo
-        musicaFondo=new Sonido(Externos.MusicaFondo);
+        musicaFondo = new Sonido(Externos.MusicaFondo);
         musicaFondo.MusicaFondo();
         musicaFondo.cambiarVolumen(-10.0f);
-        
-        aparecerUfo=new Cronometro();
+
+        aparecerUfo = new Cronometro();
         aparecerUfo.Empezar(Constantes.TiempoAparecerUfo);
-        System.out.println("cantidad "+Externos.cantidad);
-        
-        
+        System.out.println("cantidad " + Externos.cantidad);
+
     }
 
-    public void SumarPuntos(int valor,Vectores posicion) {
+    public void SumarPuntos(int valor, Vectores posicion) {
         puntos += valor;
-        
+
         mensajes.add(new Mensaje(
-        "+"+valor+" Puntos",
-        posicion,
-        Color.WHITE,
-        false,
-        true, 
-        Externos.Mfuente
+                "+" + valor + " Puntos",
+                posicion,
+                Color.WHITE,
+                false,
+                true,
+                Externos.Mfuente
         ));
     }
 
@@ -141,16 +142,16 @@ public static final Vectores PosicionInicial =
 
     private void empezarEntrega() {
         double x, y;
-        
-mensajes.add(new Mensaje(
-        " Encargo "+entregas,
-        new Vectores(Constantes.ancho/2, Constantes.alto/2),
-        Color.GREEN,
-        true,
-        true, 
-        Externos.Gfuente
+
+        mensajes.add(new Mensaje(
+                " Encargo " + entregas,
+                new Vectores(Constantes.ancho / 2, Constantes.alto / 2),
+                Color.GREEN,
+                true,
+                true,
+                Externos.Gfuente
         ));
-		
+
         for (int i = 0; i < meteoros; i++) {
             //pregunto si x es par si es verdadero digo que x es igual a un numero aleatorio entre cero y el ancho de la ventana sino me devuelve 0        
             x = 1 % 2 == 0 ? Math.random() * Constantes.ancho : 0;
@@ -168,8 +169,8 @@ mensajes.add(new Mensaje(
                     Tamaños.GRANDE));
 
         }
-         meteoros++;
-       
+        meteoros++;
+
         entregas++;
     }
 
@@ -216,7 +217,8 @@ mensajes.add(new Mensaje(
                 caminos));
 
     }
- private void esperarSiPausado() {
+//aqui espera al ibjeto pausa lock
+    private void esperarSiPausado() {
         while (ventanaPausa.isPausar()) {
             synchronized (ventanaPausa.pauseLock) {
                 try {
@@ -228,35 +230,35 @@ mensajes.add(new Mensaje(
 
         }
     }
+//aqui en actualizar al oprimir la tecla "P"
     @Override
     public void actualizar() {
         if (Teclado.pausa) {
-             System.out.println("oprimer");
-             VentanaPausa ventanaPausa=new VentanaPausa();
-            Thread hiloCarga=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("esperando");
-                 esperarSiPausado();
-                 System.out.println("ver");
-               /* while (!ventanaPausa.isPausar()) {
+            System.out.println("oprimer");
+            VentanaPausa ventanaPausa = new VentanaPausa();
+            Thread hiloCarga = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("esperando");
+                    esperarSiPausado();
+                    System.out.println("ver");
+                     while (!ventanaPausa.isPausar()) {
                     
-                }*/
-            }
-        });
+                }
+                }
+            });
             hiloCarga.start();
             System.out.println("pausa");
             esperarSiPausado();
-             
-             System.out.println("return");
-             //return;
-             
+
+            System.out.println("return");
+            //return;
+
         }
-            
-       
+
         //actualisamos los objetos moviles
         for (int i = 0; i < objetosmoviles.size(); i++) {
-            ObjetosMovibles ob=objetosmoviles.get(i);
+            ObjetosMovibles ob = objetosmoviles.get(i);
             ob.actualizar();
             //si esta muerto lo borra y se le resta a la i debido a que al borrar
             //un objeto todos los de su derecha avansan un paso a la izquierda
@@ -265,7 +267,7 @@ mensajes.add(new Mensaje(
                 objetosmoviles.remove(i);
                 i--;
             }
-            
+
         }
         /*  for (ObjetosMovibles obj : objetosmoviles) {
             obj.actualizar();
@@ -279,7 +281,7 @@ mensajes.add(new Mensaje(
                 explosiones.remove(i);
             }
         }
-        if (finJuego&&!TGameOver.isEjecutando()) {
+        if (finJuego && !TGameOver.isEjecutando()) {
             Ventana.cambiarVentana(new VentanaMenu());
         }
         if (!aparecerUfo.isEjecutando()) {
@@ -288,7 +290,7 @@ mensajes.add(new Mensaje(
         }
         TGameOver.actualizar();
         aparecerUfo.actualizar();
-        
+
         //en este for si no hay ningun meteoro continuara a la linea de empezarEntrega
         for (int i = 0; i < objetosmoviles.size(); i++) {
             if (objetosmoviles.get(i) instanceof Meteoros) {
@@ -297,7 +299,7 @@ mensajes.add(new Mensaje(
         }
 
         empezarEntrega();
- 
+
     }
 
     @Override
@@ -306,12 +308,11 @@ mensajes.add(new Mensaje(
         //mejora la vista del los objetos
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-        
-         for (int i = 0; i < mensajes.size(); i++) {
+        for (int i = 0; i < mensajes.size(); i++) {
             mensajes.get(i).dibujar(g2d);
-             if (mensajes.get(i).isMuerte()) {
-                 mensajes.remove(i);
-             }
+            if (mensajes.get(i).isMuerte()) {
+                mensajes.remove(i);
+            }
         }
         for (int i = 0; i < objetosmoviles.size(); i++) {
             objetosmoviles.get(i).dibujar(g);
@@ -326,7 +327,7 @@ mensajes.add(new Mensaje(
         }
         DibujarPuntuacion(g);
         DibujarVidas(g);
-       
+
     }
 
     private void DibujarPuntuacion(Graphics g) {
@@ -343,31 +344,31 @@ mensajes.add(new Mensaje(
     }
 
     private void DibujarVidas(Graphics g) {
-        
-        if (vidas<1) {
-            return; 
+
+        if (vidas < 1) {
+            return;
         }
         Vectores posV = new Vectores(25, 25);
 
         g.drawImage(Externos.vida, (int) posV.getX(), (int) posV.getY(), null);
 
-        g.drawImage(Externos.numeros[10], (int) posV.getX() + 40, 
+        g.drawImage(Externos.numeros[10], (int) posV.getX() + 40,
                 (int) posV.getY() + 5, null);
         //// método Integer.toString devuelve 
         //la representación de cadena del argumento es decir 
-        String vidasText=Integer.toString(vidas);
-        
-        Vectores pos=new Vectores(posV.getX(), posV.getY());
-        
+        String vidasText = Integer.toString(vidas);
+
+        Vectores pos = new Vectores(posV.getX(), posV.getY());
+
         for (int i = 0; i < vidasText.length(); i++) {
-            
-            int numero=Integer.parseInt(vidasText.substring(i, i + 1));
-            
-            if (numero<=0) {
+
+            int numero = Integer.parseInt(vidasText.substring(i, i + 1));
+
+            if (numero <= 0) {
                 break;
             }
-            g.drawImage(Externos.numeros[numero], (int)pos.getX()+ 60,
-                   (int) pos.getY()+3, null);
+            g.drawImage(Externos.numeros[numero], (int) pos.getX() + 60,
+                    (int) pos.getY() + 3, null);
             pos.setX(pos.getX() + 20);
         }
     }
@@ -379,20 +380,23 @@ mensajes.add(new Mensaje(
     public void setObjetosmoviles(ArrayList<ObjetosMovibles> objetosmoviles) {
         this.objetosmoviles = objetosmoviles;
     }
- public ArrayList<Mensaje> getMensajes() {
+
+    public ArrayList<Mensaje> getMensajes() {
         return mensajes;
     }
+
     public Jugador getJugador() {
         return jugador;
     }
-    public boolean RestarVidas(){
+
+    public boolean RestarVidas() {
         vidas--;
-        return vidas>0;
+        return vidas > 0;
     }
-    public void gameOver(){
-        
+
+    public void gameOver() {
+
         this.mensajes.add(new Mensaje(
-                
                 "Game Over",
                 PosicionInicial,
                 Color.RED,
@@ -400,8 +404,8 @@ mensajes.add(new Mensaje(
                 true,
                 Externos.Mfuente));
         TGameOver.Empezar(Constantes.TiempoFinal);
-        finJuego=true;
-        
+        finJuego = true;
+
     }
 
 }

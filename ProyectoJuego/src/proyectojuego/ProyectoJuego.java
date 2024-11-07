@@ -63,7 +63,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
     private int PROFPS = FPS;
 
     
-    private VentanaPausa ventanaPausa;
+    
    
     private Teclado teclado;
     private RatonEntrada raton;
