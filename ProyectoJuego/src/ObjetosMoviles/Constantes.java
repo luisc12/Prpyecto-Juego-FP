@@ -51,6 +51,14 @@ public class Constantes {
     public static final String Salir = "Salir";
 
     //-------propiedades de Cargar----------------------
-    public static final int BarraCargaAncho= 500;//LOADING_BAR_WIDTH
-	public static final int BarraCargaAlto = 50;//LOADING_BAR_HEIGHT 
+    public static final int BarraCargaAncho = 500;//LOADING_BAR_WIDTH
+    public static final int BarraCargaAlto = 50;//LOADING_BAR_HEIGHT 
+    //-------propiedades Puntos----------------
+    public static final String Atras = "Atras";
+	public static final String MejoresPuntajes = "MEJORES PUNTAJES";
+	
+	public static final String Puntos = "PUNTOS";
+	public static final String fecha = "FECHA";
+    
+
 }

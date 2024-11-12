@@ -129,6 +129,7 @@ public class Externos {
         bVerde=CargarImagen("ui/button_Verde.png");
         
         cargado=true;
+        System.out.println(cantidad);
        
     }
 

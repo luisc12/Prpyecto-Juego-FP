@@ -140,7 +140,7 @@ public class VentanaPausa extends Ventana {
         }));
          
         Pausa.setVisible(true);    
-      
+        System.out.println("fuera");
     }
 
     private void Reanudar() {

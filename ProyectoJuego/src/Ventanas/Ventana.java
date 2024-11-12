@@ -6,12 +6,13 @@
 package Ventanas;
 
 import java.awt.Graphics;
+import javax.swing.JFrame;
 
 /**
  *
  * @author luis
  */
-public abstract class Ventana {
+public abstract class Ventana extends JFrame{
     private static Ventana ventanaActual=null;
 
     public static Ventana getVentanaActual() {
