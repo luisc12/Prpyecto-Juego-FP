@@ -6,6 +6,8 @@
 package Ventanas;
 
 import Entrada.Teclado;
+import EntradaSalida.DatosPuntaje;
+import EntradaSalida.XMLParser;
 import Graficos.Animacion;
 import Graficos.Externos;
 import static Graficos.Externos.Ufo;
@@ -25,9 +27,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
 
 /**
@@ -65,10 +71,13 @@ public class VentanaPartida extends Ventana {
     private Sonido musicaFondo;
     private Cronometro TGameOver;
     private boolean finJuego;
+    private String nombre;
 
     private Cronometro aparecerUfo;
 
-    public VentanaPartida() {
+    public VentanaPartida(String nombre) {
+        this.nombre=nombre;
+        System.out.println("nombre: "+nombre);
         //jugador
         jugador = new Jugador(Externos.player,
                 new Vectores(Constantes.ancho / 2 - Externos.player.getWidth() / 2,
@@ -282,6 +291,31 @@ public class VentanaPartida extends Ventana {
             }
         }
         if (finJuego && !TGameOver.isEjecutando()) {
+            boolean yagrabado=false;
+            try {
+                ArrayList<DatosPuntaje> listaDatos=XMLParser.LeerFichero();
+                
+                for (int i = 0; i < 10; i++) {
+                    
+                }
+                listaDatos.add(new DatosPuntaje(nombre, puntos));
+                System.out.println("");
+                try {
+                    XMLParser.escribirFichero(listaDatos);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
             Ventana.cambiarVentana(new VentanaMenu());
         }
         if (!aparecerUfo.isEjecutando()) {
@@ -404,6 +438,7 @@ public class VentanaPartida extends Ventana {
                 true,
                 Externos.Mfuente));
         TGameOver.Empezar(Constantes.TiempoFinal);
+        musicaFondo.parar();
         finJuego = true;
 
     }

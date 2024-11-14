@@ -5,6 +5,8 @@
  */
 package ObjetosMoviles;
 
+import javax.swing.filechooser.FileSystemView;
+
 /**
  *
  * @author luis
@@ -57,8 +59,15 @@ public class Constantes {
     public static final String Atras = "Atras";
 	public static final String MejoresPuntajes = "MEJORES PUNTAJES";
 	
+        public static final String Nombres = "NOMBRE";
 	public static final String Puntos = "PUNTOS";
 	public static final String fecha = "FECHA";
-    
+        //ubicar la carpeta en mis documentos o en el sistema operativo linix en la carpeta Home
+        public static final String ubicacion=FileSystemView.getFileSystemView().getDefaultDirectory().getPath()+"\\Entrega_Espacial\\RECORS.XML"; // data.xml if you use XMLParser
+	
+	// This variables are required to use XMLParser
+	
+	public static final String JUGADOR = "JUGADOR";
+	public static final String JUGADORES = "JUGADORES";
 
 }

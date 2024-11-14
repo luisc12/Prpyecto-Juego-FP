@@ -24,6 +24,11 @@ public class DatosPuntaje {
        SimpleDateFormat format=new SimpleDateFormat("yyyy-mm-dd");
        fecha=format.format(fechas);
     }
+    public DatosPuntaje(String nombre,  int puntaje,String fecha) {
+        this.nombre = nombre;
+        this.puntaje = puntaje;
+        this.fecha=fecha;
+    }
 
     public DatosPuntaje() {
     }
@@ -50,6 +55,11 @@ public class DatosPuntaje {
 
     public void setPuntaje(int puntaje) {
         this.puntaje = puntaje;
+    }
+
+    @Override
+    public String toString() {
+        return "DatosPuntaje{" + "nombre=" + nombre + ", fecha=" + fecha + ", puntaje=" + puntaje + '}';
     }
     
 }

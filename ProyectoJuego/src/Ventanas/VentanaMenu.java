@@ -40,7 +40,7 @@ public class VentanaMenu extends Ventana{
                 new Accion() {
             @Override
             public void hacerAccion() {
-               Ventana.cambiarVentana(new VentanaPartida());
+               Ventana.cambiarVentana(new VentanaNombre());
             }
         }));
         
@@ -80,7 +80,7 @@ public class VentanaMenu extends Ventana{
             }
         }));
      //this.add(boton2,0);
-     this.setVisible(true);
+     //this.setVisible(true);
     }
 
     

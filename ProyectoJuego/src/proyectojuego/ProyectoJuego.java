@@ -43,7 +43,7 @@ import javax.swing.SwingConstants;
  */
 public class ProyectoJuego extends JFrame implements Runnable {
 
-    public JPanel panel;
+  //  public JPanel panel;
 
     private Thread hilo;
     //canvas es un lienso en el que se dibuja y atrapa los eventos del teclado, ratony accion
@@ -111,7 +111,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         new ProyectoJuego().start();
 
     }
-
+/*
     private void Ingresarusuario() {
         //ventana nombre
         JFrame Pnom = new JFrame("Ingresar usuario");
@@ -154,7 +154,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         Pnom.setVisible(true);
 
     }
-
+*/
 
     private void actualizar() {
 
