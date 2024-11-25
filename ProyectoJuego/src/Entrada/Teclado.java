@@ -18,6 +18,7 @@ public class Teclado implements KeyListener {
 
     //para agregar cualquier tecla usamos 256
     private boolean[] keys = new boolean[256];
+    
     public static boolean arriba, derecha, izquierda, abajo, disparar,pausa,reanudar;
 
     public Teclado() {

@@ -7,7 +7,7 @@ package Ventanas;
 
 import EntradaSalida.DatosPuntaje;
 
-import EntradaSalida.XMLParser;
+import EntradaSalida.XMLParser2;
 import Graficos.Externos;
 import Graficos.Texto;
 import Matematicas.Vectores;
@@ -49,37 +49,23 @@ public class VentanaPuntaje extends Ventana {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu());
-            }
-        });
+            }});
 
         comparador = new Comparator<DatosPuntaje>() {
             @Override
             public int compare(DatosPuntaje d1, DatosPuntaje d2) {
                 return d1.getPuntaje() < d2.getPuntaje() ? -1 : d1.getPuntaje() > d2.getPuntaje()
                         ? 1 : 0;
-            }
-        };
+            } };
         datospuntajes = new PriorityQueue<DatosPuntaje>(10, comparador);
-       try {
-            //para acseder al segunda hay que remover el primer valor en el PriorityQueue por lo que abra que usar un iterador
-            //
-              /* datospuntajes.add(new DatosPuntaje("Juan", 1000));
-            datospuntajes.add(new DatosPuntaje("Jonh", 100));
-            datospuntajes.add(new DatosPuntaje("Clara",200));*/
-           ArrayList<DatosPuntaje> listaDatos = XMLParser.LeerFichero();
-DatosPuntaje d=new DatosPuntaje();
+        try {
+            ArrayList<DatosPuntaje> listaDatos = XMLParser2.LeerFichero();
+            
+            DatosPuntaje d = new DatosPuntaje();
             for (DatosPuntaje l : listaDatos) {
-                
-                if (!(l.getNombre().equalsIgnoreCase(d.getNombre()))&&
-                        !(l.getPuntaje()!=d.getPuntaje())
-                        &&!(l.getFecha().equalsIgnoreCase(d.getFecha()))||d!=null) {
-                    
-                     datospuntajes.add(l);
-                }
-               d=l;
-                System.out.println("ver");
+                datospuntajes.add(l);
             }
-            //si datospuntajes es meayor que dies iremos removiendo la cabesa
+            //si datospuntajes es mayor que dies iremos removiendo la cabesa
             while (datospuntajes.size() > 10) {
                 //remover objeto
                 datospuntajes.poll();
@@ -95,7 +81,7 @@ DatosPuntaje d=new DatosPuntaje();
     }
 
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
         atras.actualizar();
     }
 
@@ -131,8 +117,6 @@ DatosPuntaje d=new DatosPuntaje();
                 true,
                 Color.yellow,
                 Externos.Gfuente);
-
-        //sumamos 40 piseles
         posNombres.setY(posNombres.getY() + 40);
         posPuntajes.setY(posPuntajes.getY() + 40);
         posFechas.setY(posFechas.getY() + 40);

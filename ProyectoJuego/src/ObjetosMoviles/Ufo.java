@@ -27,29 +27,42 @@ el camino seguira con la velocidad con la que valla hasta que salga por completo
 
 usando Seek behavior que genera una fuerza generado por 2 vectores la velosidad actual y la velocidad deseada
 UFO hasta el node Seek force= desired velocity- current velocity (F=m*a) (a=F/m) V+=a)*/
-public class Ufo extends ObjetosMovibles {
+public class Ufo extends Enemigos {
 
     private ArrayList<Vectores> camino;
     private Vectores nodoActual;
+    
     private int indice;
+    private int vida;
 
     private boolean continuar;
 
-    private Cronometro fuego;
+    //private Cronometro fuego;
+    private long fuego;
     
     private Sonido Sdisparar;
-
-    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel,
-            VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
+    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {    
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
-        indice = 0;
-        continuar = true;
-        fuego = new Cronometro();
-        fuego.Empezar(Constantes.TDisparoUfo);
-        Sdisparar=new Sonido(Externos.DisparoUfo);
+    indice = 0;
+    continuar = true;
+    fuego=0;
+    Sdisparar=new Sonido(Externos.DisparoUfo);
+    vida=100;
     }
 
+/*
+    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel,
+    VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
+    super(textura, posicion, velocidad, maxVel, ventanapartida);
+    this.camino = camino;
+    indice = 0;
+    continuar = true;
+    fuego=0;
+    Sdisparar=new Sonido(Externos.DisparoUfo);
+    vida=100;
+    }
+     */
     private Vectores SeguirCamino() {
         nodoActual = camino.get(indice);
 
@@ -74,7 +87,9 @@ public class Ufo extends ObjetosMovibles {
     }
 
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
+        
+        fuego+=dt;
         Vectores siguindo;
 
         if (continuar) {
@@ -96,7 +111,8 @@ public class Ufo extends ObjetosMovibles {
             Destruir();
         }
         //disparar
-        if (!fuego.isEjecutando()) {
+        
+        if (fuego>Constantes.TDisparoUfo) {
             //tomamos la posicion del centro del jugador y le restamos el centro y lo normalisamos para optener la distancia
             Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
 
@@ -116,11 +132,11 @@ public class Ufo extends ObjetosMovibles {
                     posicionJ,
                     Constantes.Velocidad_lac,
                     anguloActual+ Math.PI / 2,
-                    ventanapartida);
+                    ventanapartida,true,0);
 
             ventanapartida.getObjetosmoviles().add(0, laser);
 
-            fuego.Empezar(Constantes.TDisparoUfo);
+            fuego=0;
             Sdisparar.play();
         }
          
@@ -130,13 +146,18 @@ public class Ufo extends ObjetosMovibles {
         angulo += 0.05;
 
         ColisonaCon();
-        fuego.actualizar();
+       
     }
 
     @Override
     public void Destruir(){
+        if (continuar) {
+            
+       
         ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
+        ventanapartida.Explotar(posicion);
         super.Destruir();
+         }
     }
     @Override
     public void dibujar(Graphics g) {
@@ -148,6 +169,14 @@ public class Ufo extends ObjetosMovibles {
 
         g2d.drawImage(textura, at, null);
 
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
     }
 
 }

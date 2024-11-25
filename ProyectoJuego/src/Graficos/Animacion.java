@@ -24,7 +24,7 @@ public class Animacion {
     //posiion de la animacion
     private Vectores posicion;
     
-    private long tiempo,TPasado;
+    private long tiempo;
 
     public Animacion(BufferedImage[] frames, int velocidad, Vectores posicion) {
         this.frames = frames;
@@ -32,13 +32,12 @@ public class Animacion {
         this.posicion = posicion;
         indice=0;
         ejecutando=true;
-        tiempo=0;
-        TPasado=System.currentTimeMillis();
+        
         
     }
-    public void actualizar(){
-        tiempo+=System.currentTimeMillis()-TPasado;
-        TPasado=System.currentTimeMillis();
+    public void actualizar(float dt){
+        tiempo+=dt;
+        
         
         if (tiempo>velocidad) {
             tiempo=0;
@@ -46,6 +45,7 @@ public class Animacion {
             if (indice>=frames.length) {
                 
                 ejecutando=false;
+                indice=0;
             }
         }
     }

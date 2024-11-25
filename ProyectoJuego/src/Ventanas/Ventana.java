@@ -12,7 +12,7 @@ import javax.swing.JFrame;
  *
  * @author luis
  */
-public abstract class Ventana extends JFrame{
+public abstract class Ventana extends JFrame{//extends JFrame
     private static Ventana ventanaActual=null;
 
     public static Ventana getVentanaActual() {
@@ -22,6 +22,6 @@ public abstract class Ventana extends JFrame{
         ventanaActual=v;
     }
     
-    public abstract void actualizar();
+    public abstract void actualizar(float dt);
     public  abstract void dibujar(Graphics g);
 }

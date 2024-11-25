@@ -18,6 +18,8 @@ import java.awt.image.BufferedImage;
  */
 public class Laser extends ObjetosMovibles{
 
+    public boolean enemigo;
+    public int daño;
     //le pasamos el angulo del jugador 
     public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad,
             double maxVel,double angulo, VentanaPartida ventanapartida) {
@@ -25,10 +27,28 @@ public class Laser extends ObjetosMovibles{
         this.angulo=angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
         this.velocidad=velocidad.MultiplicarVector(maxVel);
+        enemigo=false;
+    }
+    public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad,
+            double maxVel,double angulo, VentanaPartida ventanapartida,boolean enemigo,int daño) {
+        super(textura, posicion, velocidad, maxVel,ventanapartida);
+        this.angulo=angulo;
+        //la velocidad seria la direcion multipicado por la velocidad maxima
+        this.velocidad=velocidad.MultiplicarVector(maxVel);
+        this.enemigo=enemigo;
+        this.daño=daño;
+    }
+
+    public int getDaño() {
+        return daño;
+    }
+
+    public boolean isEnemigo() {
+        return enemigo;
     }
 
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
         //a la posicion le sumamos la velocidad
         posicion=posicion.SumaVectores(velocidad);
         if (posicion.getX()<0||posicion.getX()>Constantes.ancho||

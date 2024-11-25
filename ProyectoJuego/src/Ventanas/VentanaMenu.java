@@ -55,19 +55,7 @@ public class VentanaMenu extends Ventana{
                System.exit(0);
             }
         }));
-    /*       JButton boton2=new JButton();
-        boton2.setBounds(Constantes.ancho/2-Externos.bGris.getWidth()/2,
-                Constantes.alto/2, 
-                Externos.bGris.getWidth()+200, 
-                Externos.bGris.getHeight());
-       ImageIcon clicAqui=new ImageIcon("button_Verde.png");
-       ImageIcon clicAqui2=new ImageIcon("button_Gris.png");
-        boton2.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton2.getWidth(), boton2.getHeight(), Image.SCALE_SMOOTH)));
-        boton2.addMouseListener(new RatonEntrada2(boton2, clicAqui2, clicAqui, () -> {
-         Ventana.cambiarVentana(new VentanaPuntaje());}));*/
-        
-        
-        
+   
       botones.add(new Boton(Externos.bGris,
                 Externos.bVerde,
                 Constantes.ancho/2-Externos.bGris.getWidth()/2,
@@ -79,13 +67,13 @@ public class VentanaMenu extends Ventana{
                Ventana.cambiarVentana(new VentanaPuntaje());
             }
         }));
-     //this.add(boton2,0);
-     //this.setVisible(true);
+     
+     
     }
 
     
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
         for (Boton b : botones) {
             b.actualizar();
         }

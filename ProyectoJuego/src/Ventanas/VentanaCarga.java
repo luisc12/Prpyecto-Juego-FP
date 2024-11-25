@@ -36,7 +36,7 @@ public class VentanaCarga extends Ventana{
     
 
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
         if (Externos.cargado) {
             Ventana.cambiarVentana(new VentanaMenu());
             try {

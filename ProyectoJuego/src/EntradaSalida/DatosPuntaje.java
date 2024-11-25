@@ -20,9 +20,11 @@ public class DatosPuntaje {
     public DatosPuntaje(String nombre,  int puntaje) {
         this.nombre = nombre;
         this.puntaje = puntaje;
+        
         Date fechas=new Date(System.currentTimeMillis());
-       SimpleDateFormat format=new SimpleDateFormat("yyyy-mm-dd");
+       SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
        fecha=format.format(fechas);
+        System.out.println(fecha);
     }
     public DatosPuntaje(String nombre,  int puntaje,String fecha) {
         this.nombre = nombre;
@@ -57,9 +59,5 @@ public class DatosPuntaje {
         this.puntaje = puntaje;
     }
 
-    @Override
-    public String toString() {
-        return "DatosPuntaje{" + "nombre=" + nombre + ", fecha=" + fecha + ", puntaje=" + puntaje + '}';
-    }
     
 }

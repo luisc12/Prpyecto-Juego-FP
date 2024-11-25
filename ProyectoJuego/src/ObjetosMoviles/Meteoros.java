@@ -29,9 +29,29 @@ public class Meteoros extends ObjetosMovibles {
     }
 
     @Override
-    public void actualizar() {
-        posicion = posicion.SumaVectores(velocidad);
-
+    public void actualizar(float dt) {
+      //  posicion = posicion.SumaVectores(velocidad);
+      Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
+      
+      int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
+      
+        if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
+            if (ventanapartida.getJugador().isEscudoActivo()) {
+                Vectores fuerzaHuida=fuerzaHuida();
+                velocidad=velocidad.SumaVectores(fuerzaHuida);
+                
+            }
+        }
+        
+        if (velocidad.Manitud()>=this.maxVel) {
+            Vectores velocidadInvertida=new Vectores(-velocidad.getX(),-velocidad.getY());
+            velocidad=velocidad.SumaVectores(velocidadInvertida.NormalizarVector().MultiplicarVector(0.01f));
+            
+        }
+        velocidad=velocidad.velocidadlimite(Constantes.MaxVelocidadMeteor);
+        
+        posicion=posicion.SumaVectores(velocidad);
+        
         if (posicion.getX() > Constantes.ancho) {
             posicion.setX(-imgancho);
         }
@@ -49,10 +69,19 @@ public class Meteoros extends ObjetosMovibles {
         angulo += Constantes.anguloBase/2;
 
     }
+    
+    public Vectores fuerzaHuida(){
+        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen();
+        velocidadDeseada=(velocidadDeseada.NormalizarVector()).MultiplicarVector(Constantes.MaxVelocidadMeteor);
+        Vectores v=new Vectores(velocidad);
+        return v.RestaVectores(velocidadDeseada);
+    }
     @Override
     public void Destruir(){
     ventanapartida.DividirMeteoro(this);
+    ventanapartida.Explotar(posicion);
     ventanapartida.SumarPuntos(Constantes.PuntosMeteoros,posicion);
+    
     super.Destruir();
 }
     @Override

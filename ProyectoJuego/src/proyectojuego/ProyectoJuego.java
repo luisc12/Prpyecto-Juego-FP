@@ -13,6 +13,7 @@ import ObjetosMoviles.Constantes;
 import Ventanas.Ventana;
 import Ventanas.VentanaCarga;
 import Ventanas.VentanaMenu;
+import Ventanas.VentanaNombre;
 import Ventanas.VentanaPartida;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -33,6 +34,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -41,15 +43,16 @@ import javax.swing.SwingConstants;
  *
  * @author luis
  */
+
 public class ProyectoJuego extends JFrame implements Runnable {
 
-  //  public JPanel panel;
+    public JPanel panel;
 
     private Thread hilo;
     //canvas es un lienso en el que se dibuja y atrapa los eventos del teclado, ratony accion
-    private Canvas canvas;
+    private  Canvas canvas;
     private boolean ejecutando = false;
-
+ JLayeredPane layeredPane;
     private BufferStrategy bs;
     private Graphics g;
 
@@ -62,9 +65,9 @@ public class ProyectoJuego extends JFrame implements Runnable {
     //promedio de FPS
     private int PROFPS = FPS;
 
+    private VentanaNombre ventanan;
+
     
-    
-   
     private Teclado teclado;
     private RatonEntrada raton;
 
@@ -91,12 +94,17 @@ public class ProyectoJuego extends JFrame implements Runnable {
         //con este nos aseguramos que resiva los eventos de los botones cuando se mueva
         canvas.addMouseMotionListener(raton);
         // canvas.setBounds(alto, alto, WIDTH, HEIGHT);
-
+  //
+       
+        
+        
+        //
         setIconImage(getIconImage());
         // Ingresarusuario();
-
+//boolean v=ventanan.isEjecutando();
         setVisible(true);
     }
+    
 
     //icono del JFrame
     @Override
@@ -111,8 +119,8 @@ public class ProyectoJuego extends JFrame implements Runnable {
         new ProyectoJuego().start();
 
     }
-/*
-    private void Ingresarusuario() {
+
+    public void Ingresarusuario() {
         //ventana nombre
         JFrame Pnom = new JFrame("Ingresar usuario");
         Pnom.setIconImage(getIconImage());
@@ -154,12 +162,13 @@ public class ProyectoJuego extends JFrame implements Runnable {
         Pnom.setVisible(true);
 
     }
-*/
 
-    private void actualizar() {
 
+    private void actualizar(float dt) {
+
+        //this.setVisibles(ventanan.isEjecutando());
         teclado.actualizar();
-        Ventana.getVentanaActual().actualizar();
+        Ventana.getVentanaActual().actualizar(dt);
 
     }
 
@@ -167,7 +176,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         bs = canvas.getBufferStrategy();
 
         if (bs == null) {
-            canvas.createBufferStrategy(3);//el numero de buffer que utiliza un canvas
+           canvas.createBufferStrategy(3);//el numero de buffer que utiliza un canvas
 
             return;
         }
@@ -181,6 +190,8 @@ public class ProyectoJuego extends JFrame implements Runnable {
        // ventanaPartida.dibujar(g);
        Ventana.getVentanaActual().dibujar(g);
 
+       g.setColor(Color.WHITE);
+       
         g.drawString("" + PROFPS, 10, 20);
 
         //---------------------
@@ -222,7 +233,8 @@ public class ProyectoJuego extends JFrame implements Runnable {
             tiempo += (ahora - TPasado);
             TPasado = ahora;
             if (TTrans >= 1) {
-                actualizar();
+                //paso el tiempo entre fotogramas multiplicando TTrans por objT y luego convertirlo en milisegundos
+                actualizar((float)(TTrans*objT*0.000001f));
                 dibujar();
                 TTrans--;
                 frames++;
@@ -232,7 +244,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
                 PROFPS = frames;
                 frames = 0;
                 tiempo = 0;
-                // System.out.println("");
+               
             }
 
         }
@@ -243,7 +255,6 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
         hilo = new Thread(this);
         hilo.start();
-
         ejecutando = true;
 
     }

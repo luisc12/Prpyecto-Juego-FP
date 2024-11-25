@@ -25,13 +25,20 @@ public class Externos {
     //barra de carga
     public static boolean cargado=false;
     public static float cantidad=0;
-    public static float cantidadMax=46;
+    public static float cantidadMax=57;
     //Skins
-    public static BufferedImage player;
+    public static BufferedImage jugador;
+    public static BufferedImage jugadorDobleGun;
 
     //efectos
     public static BufferedImage propulsion;
+    
+    public static BufferedImage[] efectoEscudo = new BufferedImage[3];
+    
+    //animacion
 
+    public static BufferedImage[] explosion = new BufferedImage[9];
+    
     //laseres    
     public static BufferedImage blueLaser, redLaser, greenLaser;
 
@@ -43,11 +50,10 @@ public class Externos {
     public static BufferedImage[] pequeños = new BufferedImage[2];
 
     public static BufferedImage[] enanos = new BufferedImage[2];
-    //efectos
-
-    public static BufferedImage[] explosion = new BufferedImage[9];
+    
     //enemigos
     public static BufferedImage[] Ufo = new BufferedImage[2];
+    public static BufferedImage enemigo1;
 
     //numeros
     public static BufferedImage[] numeros = new BufferedImage[11];
@@ -59,14 +65,18 @@ public class Externos {
     public static Font Mfuente;
     
     //Sonidos
-    public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo;
+    public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
     
     //ui
     public static BufferedImage bVerde,bGris;
+    
+    //powerUP
+    public static BufferedImage orbe,doblePuntuacion,dobleGun,fuegoRapido,escudo,estrella;
+    
 
     public static void inicio() {
-        player = CargarImagen("skins/Player2.png");
-
+        jugador = CargarImagen("skins/Player2.png");
+jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         propulsion = CargarImagen("efectos/fire05.png");
         
         //laseres
@@ -83,6 +93,8 @@ public class Externos {
         //fuentes
         Gfuente=CargarFuente("fuentes/kenvector_future.ttf", 42);
         Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 20);
+        
+        
         //meteoros
 
         for (int i = 0; i < grades.length; i++) {
@@ -108,26 +120,47 @@ public class Externos {
             explosion[i] = CargarImagen("explosion/" + i + ".png");
 
         }
+        //enemigos
         for (int i = 0; i < Ufo.length; i++) {
 
             Ufo[i] = CargarImagen("enemigos/ufo" + (i + 1) + ".png");
 
         }
+        enemigo1=CargarImagen("enemigos/enemigo1.png");
+        //ui
         for (int i = 0; i < numeros.length; i++) {
 
             numeros[i] = CargarImagen("numeros/numeral" + i + ".png");
         }
+        //
+        for(int i = 0; i < 3; i++){
+            efectoEscudo[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
+		
+        }
+            
+			
         //sonido
-        MusicaFondo=CargarMusica("sonidos/backgroundMusic.wav");
+        
+        MusicaFondo=CargarMusica("sonidos/Track01V2.wav");
         Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         PerdidaJugador=CargarMusica("sonidos/playerLoose.wav");
-        DisparoJugador=CargarMusica("sonidos/playerShoot.wav");
+        DisparoJugador=CargarMusica("sonidos/ShotgunShot001V2.wav");
         DisparoUfo=CargarMusica("sonidos/ufoShoot.wav");
+        PowerUP=CargarMusica("sonidos/powerUp.wav");
         
         //botones
         bGris=CargarImagen("ui/button_Gris.png");
         bVerde=CargarImagen("ui/button_Verde.png");
         
+        //Poderes
+        orbe=CargarImagen("poderes/orb.png");
+        doblePuntuacion=CargarImagen("poderes/doubleScore.png");
+        dobleGun=CargarImagen("poderes/doubleGun.png");
+        fuegoRapido=CargarImagen("poderes/fastFire.png");
+        estrella=CargarImagen("poderes/star.png");
+        escudo=CargarImagen("poderes/shield.png");
+        
+        //--------------------------------------------------------
         cargado=true;
         System.out.println(cantidad);
        

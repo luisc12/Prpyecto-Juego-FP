@@ -155,7 +155,7 @@ public class VentanaPausa extends Ventana {
     }
 
     @Override
-    public void actualizar() {
+    public void actualizar(float dt) {
         System.out.println("actualizar");
         for (Boton b : botones) {
             b.actualizar();
