@@ -77,17 +77,19 @@ public class Enemigo1 extends Enemigos{
          
         fuego+=dt;
    
-      direccion=ventanapartida.getJugador().getPosicion().RestaVectores(posicion);
+      direccion=ventanapartida.getJugador().getPosicion();
+      direccion.RestaVectores(posicion);
+      //------------------rotar------------
+       //angulo=ventanapartida.getJugador().getPosicion().getAngulo();
+      angulo= direccion.getAngulo();
+       //--------------------
       direccion=direccion.NormalizarVector().MultiplicarVector(Constantes.MaxVelEnemigo1);
       
       velocidad=direccion;
       //velocidad.velocidadlimite(Constantes.MaxVelUfo);
        posicion=posicion.SumaVectores(velocidad);
        
-       //------------------rotar------------
-       //angulo=ventanapartida.getJugador().getPosicion().getAngulo();
-      angulo= Math.asin(ventanapartida.getJugador().getPosicion().getY()/ventanapartida.getJugador().getPosicion().Manitud())+180;
-       //--------------------
+      
         System.out.println("");
         System.out.println((int)posicion.getX()+ " "+(int)posicion.getY());
          if (posicion.getX() > Constantes.ancho) {

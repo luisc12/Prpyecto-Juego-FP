@@ -7,7 +7,7 @@ package Ventanas;
 
 import Entrada.Teclado;
 import EntradaSalida.DatosPuntaje;
-import EntradaSalida.XMLParser2;
+import EntradaSalida.XMLParser;
 import Graficos.Animacion;
 import Graficos.Externos;
 import static Graficos.Externos.Ufo;
@@ -465,11 +465,11 @@ public class VentanaPartida extends Ventana {
         if (TGameOver > Constantes.TiempoFinal) {
             //boolean yagrabado = false;
             try {
-                ArrayList<DatosPuntaje> listaDatos = XMLParser2.LeerFichero();
+                ArrayList<DatosPuntaje> listaDatos = XMLParser.LeerFichero();
 
                 listaDatos.add(new DatosPuntaje(nombre, puntos));
 
-                XMLParser2.escribirFichero(listaDatos);
+                XMLParser.escribirFichero(listaDatos);
 
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);

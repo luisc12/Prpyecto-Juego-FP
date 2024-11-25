@@ -7,7 +7,7 @@ package Ventanas;
 
 import EntradaSalida.DatosPuntaje;
 
-import EntradaSalida.XMLParser2;
+import EntradaSalida.XMLParser;
 import Graficos.Externos;
 import Graficos.Texto;
 import Matematicas.Vectores;
@@ -59,7 +59,7 @@ public class VentanaPuntaje extends Ventana {
             } };
         datospuntajes = new PriorityQueue<DatosPuntaje>(10, comparador);
         try {
-            ArrayList<DatosPuntaje> listaDatos = XMLParser2.LeerFichero();
+            ArrayList<DatosPuntaje> listaDatos = XMLParser.LeerFichero();
             
             DatosPuntaje d = new DatosPuntaje();
             for (DatosPuntaje l : listaDatos) {

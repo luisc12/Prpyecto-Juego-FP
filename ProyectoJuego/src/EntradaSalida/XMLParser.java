@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
  *
  * @author luis
  */
-public class XMLParser2 {
+public class XMLParser {
 
     public static ArrayList<DatosPuntaje> LeerFichero() throws ParserConfigurationException, SAXException, IOException {
 
