@@ -79,6 +79,11 @@ public class Vectores {
 
     public double getAngulo() {
         return Math.asin(y / Manitud());
+        
+    }
+    public double getAngulo2() {
+        return Math.atan2(y, x);
+        
     }
 
     public double getX() {

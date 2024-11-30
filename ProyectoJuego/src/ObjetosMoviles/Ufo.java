@@ -15,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import javax.sound.sampled.Clip;
 
 /**
  *
@@ -39,6 +40,7 @@ public class Ufo extends Enemigos {
 
     //private Cronometro fuego;
     private long fuego;
+    private Sonido sonidoufo;
     
     private Sonido Sdisparar;
     public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {    
@@ -48,6 +50,9 @@ public class Ufo extends Enemigos {
     continuar = true;
     fuego=0;
     Sdisparar=new Sonido(Externos.DisparoUfo);
+    sonidoufo=new Sonido(Externos.Ufosonido);
+    sonidoufo.cambiarVolumen(-10.0f);
+    sonidoufo.play();
     vida=100;
     }
 
@@ -88,7 +93,7 @@ public class Ufo extends Enemigos {
 
     @Override
     public void actualizar(float dt) {
-        
+         
         fuego+=dt;
         Vectores siguindo;
 
@@ -106,8 +111,8 @@ public class Ufo extends Enemigos {
 
         posicion = posicion.SumaVectores(velocidad);
 
-        if (posicion.getX() > Constantes.ancho || posicion.getY() > Constantes.alto
-                || posicion.getX() < -imgancho || posicion.getY() < -imgalto) {
+        if (posicion.getX() > Constantes.ancho+imgancho || posicion.getY() > Constantes.alto+imgalto||
+                 posicion.getX() < -imgancho || posicion.getY()<-imgalto) {
             Destruir();
         }
         //disparar
@@ -144,6 +149,10 @@ public class Ufo extends Enemigos {
             Sdisparar.parar();
         }
         angulo += 0.05;
+        
+        if (posicion.getX()<0-imgancho||posicion.getX()>0) {
+            
+        }
 
         ColisonaCon();
        
@@ -156,6 +165,7 @@ public class Ufo extends Enemigos {
        
         ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
         ventanapartida.Explotar(posicion);
+        sonidoufo.parar();
         super.Destruir();
          }
     }

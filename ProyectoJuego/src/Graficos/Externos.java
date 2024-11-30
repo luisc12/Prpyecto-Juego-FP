@@ -5,6 +5,7 @@
  */
 package Graficos;
 
+import static Graficos.Externos.efectoEscudo2;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
@@ -33,8 +34,8 @@ public class Externos {
     //efectos
     public static BufferedImage propulsion;
     
-    public static BufferedImage[] efectoEscudo = new BufferedImage[3];
-    
+    public static BufferedImage[] efectoEscudo1 = new BufferedImage[3];
+    public static BufferedImage[] efectoEscudo2 = new BufferedImage[12];
     //animacion
 
     public static BufferedImage[] explosion = new BufferedImage[9];
@@ -66,7 +67,7 @@ public class Externos {
     
     //Sonidos
     public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
-    
+    public static Clip Ufosonido;
     //ui
     public static BufferedImage bVerde,bGris;
     
@@ -126,27 +127,27 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             Ufo[i] = CargarImagen("enemigos/ufo" + (i + 1) + ".png");
 
         }
-        enemigo1=CargarImagen("enemigos/enemigo1.png");
+        enemigo1=CargarImagen("enemigos/enemigo2.png");
         //ui
         for (int i = 0; i < numeros.length; i++) {
 
             numeros[i] = CargarImagen("numeros/numeral" + i + ".png");
         }
         //
-        for(int i = 0; i < 3; i++){
-            efectoEscudo[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
+        for(int i = 0; i < efectoEscudo1.length; i++){
+            efectoEscudo1[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
 		
         }
-            
-			
-        //sonido
-        
+        for (int i = 0; i<efectoEscudo2.length ; i++) {
+            efectoEscudo2[i]=CargarImagen("efectos/shieldV2" + (i + 1)+".png");
+        }
         MusicaFondo=CargarMusica("sonidos/Track01V2.wav");
         Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         PerdidaJugador=CargarMusica("sonidos/playerLoose.wav");
         DisparoJugador=CargarMusica("sonidos/ShotgunShot001V2.wav");
         DisparoUfo=CargarMusica("sonidos/ufoShoot.wav");
         PowerUP=CargarMusica("sonidos/powerUp.wav");
+        Ufosonido=CargarMusica("sonidos/GrapplingHook_Reel(Loop).wav");
         
         //botones
         bGris=CargarImagen("ui/button_Gris.png");

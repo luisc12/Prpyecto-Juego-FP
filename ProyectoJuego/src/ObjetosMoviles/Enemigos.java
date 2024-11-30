@@ -43,19 +43,6 @@ public abstract class Enemigos extends ObjetosMovibles {
         vida=100;
     }
 
-    private Vectores SeguirCamino() {
-        nodoActual = camino.get(indice);
-
-        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Manitud();
-
-        if (distanciaAlNodo < Constantes.RadiusNodo) {
-            indice++;
-            if (indice >= camino.size()) {
-                continuar = false;
-            }
-        }
-        return SeekForce(nodoActual);
-    }
 
     private Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo

@@ -279,8 +279,7 @@ public class VentanaPartida extends Ventana {
                 new Vectores(x, y),
                 new Vectores(),
                 Constantes.MaxVelUfo,
-                this,
-                caminos));
+                this));
     }
 //aqui espera al ibjeto pausa lock
 
@@ -480,7 +479,7 @@ public class VentanaPartida extends Ventana {
             } catch (TransformerException ex) {
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
             }
-            musicaFondo.parar();
+            
             Ventana.cambiarVentana(new VentanaMenu());
         }
         if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
@@ -490,8 +489,8 @@ public class VentanaPartida extends Ventana {
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
 
-           // spawnUfo();
-            spanwEnemigo();
+            spawnUfo();
+            //spanwEnemigo();
             aparecerUfo = 0;
 
         }

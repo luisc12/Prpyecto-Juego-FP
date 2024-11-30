@@ -19,30 +19,32 @@ import java.util.ArrayList;
  *
  * @author luis
  */
-public class Enemigo1 extends Enemigos{
- private ArrayList<Vectores> camino;
-    private Vectores nodoActual;
+public class Enemigo1 extends Enemigos {
+
     private Vectores direccion;
     private int indice;
     private int vida;
-    private Vectores FPosicion;
 
     private boolean continuar;
+    private Vectores jugadorP;
 
+    private Vectores ultimaposicion;
     //private Cronometro fuego;
     long fuego;
-    
+
     private Sonido Sdisparar;
-    public Enemigo1(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
+
+    public Enemigo1(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
-         this.camino = camino;
-         direccion=new Vectores(0,1);
+
+        direccion = new Vectores(0, 1);
         indice = 0;
         continuar = true;
-        fuego=0;
-        Sdisparar=new Sonido(Externos.DisparoUfo);
-        vida=100;
+        fuego = 0;
+        Sdisparar = new Sonido(Externos.DisparoUfo);
+        vida = 100;
     }
+
     /*
     private Vectores SeguirCamino() {
         nodoActual = camino.get(indice);
@@ -71,54 +73,75 @@ public class Enemigo1 extends Enemigos{
         Vectores FuturePosicion=posicion.SumaVectores(velocidad.MultiplicarVector(tiempo));
         return SeekForce(FuturePosicion);
     }
-    */
+     */
     @Override
     public void actualizar(float dt) {
-         
-        fuego+=dt;
-   
-      direccion=ventanapartida.getJugador().getPosicion();
-      direccion.RestaVectores(posicion);
-      //------------------rotar------------
-       //angulo=ventanapartida.getJugador().getPosicion().getAngulo();
-      angulo= direccion.getAngulo();
-       //--------------------
-      direccion=direccion.NormalizarVector().MultiplicarVector(Constantes.MaxVelEnemigo1);
-      
-      velocidad=direccion;
-      //velocidad.velocidadlimite(Constantes.MaxVelUfo);
-       posicion=posicion.SumaVectores(velocidad);
-       
-      
+
+        fuego += dt;
+
+        jugadorP = ventanapartida.getJugador().getPosicion();
+
+        continuar = false;
+        ultimaposicion = jugadorP;
+
+        direccion = jugadorP.RestaVectores(posicion);
+        angulo = direccion.getAngulo();
+        
+        //System.out.println(this.angulo + "------" + Math.atan2(direccion.getY(), direccion.getX()));
+
+        
+        //velocidad.velocidadlimite(Constantes.MaxVelUfo);
+        velocidad=direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
+        posicion = posicion.SumaVectores(velocidad);
+        
+        if (fuego>Constantes.TDisparoEnemigo1) {
+            System.out.println("dentro");
+            
+            Laser laser = new Laser(Externos.blueLaser,
+                    CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
+                    velocidad,
+                    Constantes.Velocidad_lac,
+                    angulo+ Math.PI / 2,
+                    ventanapartida,true,0);
+             ventanapartida.getObjetosmoviles().add(0, laser);
+             System.out.println(laser.posicion.getX()+"  "+laser.getPosicion().getY());
+ System.out.println(posicion.getX()+"  "+posicion.getY());
+            fuego=0;
+            Sdisparar.play();
+        }
+
         System.out.println("");
-        System.out.println((int)posicion.getX()+ " "+(int)posicion.getY());
-         if (posicion.getX() > Constantes.ancho) {
+        System.out.println((int) posicion.getX() + " " + (int) posicion.getY());
+        if (posicion.getX() > Constantes.ancho) {
             posicion.setX(0);
+            continuar = true;
         }
         if (posicion.getY() > Constantes.alto) {
             posicion.setY(0);
+            continuar = true;
         }
 
         if (posicion.getX() < 0) {
             posicion.setX(Constantes.ancho);
+            continuar = true;
         }
         if (posicion.getY() < 0) {
             posicion.setY(Constantes.alto);
+            continuar = true;
         }
         ColisonaCon();
-       
+
     }
 
     @Override
-    public void Destruir(){
-       
-            
-       
-        ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
+    public void Destruir() {
+
+        ventanapartida.SumarPuntos(Constantes.PuntosUfo, posicion);
         ventanapartida.Explotar(posicion);
         super.Destruir();
-         
+
     }
+
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -128,8 +151,9 @@ public class Enemigo1 extends Enemigos{
         at.rotate(angulo, imgancho / 2, imgalto / 2);
 
         g2d.drawImage(textura, at, null);
+        
+        
 
     }
 
-    
 }

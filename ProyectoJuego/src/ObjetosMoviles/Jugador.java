@@ -68,7 +68,7 @@ public class Jugador extends ObjetosMovibles {
         Sdisparar = new Sonido(Externos.DisparoJugador);
         SPerdida = new Sonido(Externos.PerdidaJugador);
 
-        efectoEscudo = new Animacion(Externos.efectoEscudo, 80, null);
+        efectoEscudo = new Animacion(Externos.efectoEscudo2, 80, null);
 
         visible = true;
 
