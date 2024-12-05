@@ -111,10 +111,6 @@ public class Ufo extends Enemigos {
 
         posicion = posicion.SumaVectores(velocidad);
 
-        if (posicion.getX() > Constantes.ancho+imgancho || posicion.getY() > Constantes.alto+imgalto||
-                 posicion.getX() < -imgancho || posicion.getY()<-imgalto) {
-            Destruir();
-        }
         //disparar
         
         if (fuego>Constantes.TDisparoUfo) {
@@ -150,9 +146,7 @@ public class Ufo extends Enemigos {
         }
         angulo += 0.05;
         
-        if (posicion.getX()<0-imgancho||posicion.getX()>0) {
-            
-        }
+       
 
         ColisonaCon();
        
@@ -160,14 +154,15 @@ public class Ufo extends Enemigos {
 
     @Override
     public void Destruir(){
-        if (continuar) {
+        //if (continuar) {
             
        
         ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
         ventanapartida.Explotar(posicion);
         sonidoufo.parar();
         super.Destruir();
-         }
+        System.out.println("destruido ufo");
+         //}
     }
     @Override
     public void dibujar(Graphics g) {

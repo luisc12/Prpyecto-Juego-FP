@@ -69,13 +69,13 @@ public class Meteoros extends ObjetosMovibles {
         angulo += Constantes.anguloBase/2;
 
     }
-    
+    /*
     public Vectores fuerzaHuida(){
-        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen();
+        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
         velocidadDeseada=(velocidadDeseada.NormalizarVector()).MultiplicarVector(Constantes.MaxVelocidadMeteor);
         Vectores v=new Vectores(velocidad);
         return v.RestaVectores(velocidadDeseada);
-    }
+    }*/
     @Override
     public void Destruir(){
     ventanapartida.DividirMeteoro(this);

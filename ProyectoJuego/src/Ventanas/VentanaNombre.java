@@ -19,7 +19,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -31,6 +34,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
 
 /**
@@ -136,7 +141,15 @@ public class VentanaNombre extends Ventana {
                Pnom.setVisible(false);
                String nombre=textField.getText();
                System.out.println(nombre);
-                Ventana.cambiarVentana(new VentanaPartida(nombre));
+                try {
+                    Ventana.cambiarVentana(new VentanaSkins(textField.getText()));
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SAXException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                
             }
@@ -152,7 +165,15 @@ public class VentanaNombre extends Ventana {
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaPartida(textField.getText()));
+                try {
+                    Ventana.cambiarVentana(new VentanaSkins(textField.getText()));
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SAXException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaNombre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }));
  

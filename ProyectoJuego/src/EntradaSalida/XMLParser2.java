@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  *
  * @author luis
  */
-public class XMLParser2 {
+public class XMLParser2 {/*
      public static ArrayList<Creditos> LeerFichero() throws ParserConfigurationException, SAXException, IOException {
 
         ArrayList<Creditos> datosLista = new ArrayList<Creditos>();
@@ -96,5 +96,5 @@ public class XMLParser2 {
         Result result = new StreamResult(pw);
         t.transform(source, result);
 
-    }
+    }*/
 }

@@ -497,7 +497,15 @@ public class VentanaPartida extends Ventana {
 
         //en este for si no hay ningun meteoro continuara a la linea de empezarEntrega
         for (int i = 0; i < objetosmoviles.size(); i++) {
-            if (objetosmoviles.get(i) instanceof Meteoros) {
+           
+            if (!(objetosmoviles.get(i) instanceof Jugador)&&!(objetosmoviles.get(i)instanceof Meteoros)) {
+                if (objetosmoviles.get(i).getPosicion().getX()<-objetosmoviles.get(i).getImgancho()||objetosmoviles.get(i).getPosicion().getX()>Constantes.ancho+objetosmoviles.get(i).getImgancho()
+                        ||objetosmoviles.get(i).getPosicion().getY()<-objetosmoviles.get(i).getImgalto()||objetosmoviles.get(i).getPosicion().getY()>Constantes.alto+objetosmoviles.get(i).getImgalto()) {
+                    objetosmoviles.get(i).Destruir();
+                    System.out.println("destruido");
+                }
+            }
+             if (objetosmoviles.get(i) instanceof Meteoros) {
                 return;
             }
         }

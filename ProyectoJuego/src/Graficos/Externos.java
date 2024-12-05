@@ -28,6 +28,7 @@ public class Externos {
     public static float cantidad=0;
     public static float cantidadMax=57;
     //Skins
+    public static BufferedImage[] jugadores = new BufferedImage[8];
     public static BufferedImage jugador;
     public static BufferedImage jugadorDobleGun;
 
@@ -76,9 +77,13 @@ public class Externos {
     
 
     public static void inicio() {
-        jugador = CargarImagen("skins/Player2.png");
+        jugador = CargarImagen("skins/Player1.png");
 jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         propulsion = CargarImagen("efectos/fire05.png");
+        
+         for (int i = 0; i < jugadores.length; i++) {
+            jugadores[i] = CargarImagen("skins/Player" + (i + 1) + ".png");
+        }
         
         //laseres
 
@@ -98,6 +103,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         
         //meteoros
 
+        
         for (int i = 0; i < grades.length; i++) {
             grades[i] = CargarImagen("meteoros/meteorBrown_big" + (i + 1) + ".png");
         }

@@ -16,27 +16,29 @@ import java.awt.image.BufferedImage;
  *
  * @author luis
  */
-public class Laser extends ObjetosMovibles{
+public class Laser extends ObjetosMovibles {
 
     public boolean enemigo;
     public int daño;
+
     //le pasamos el angulo del jugador 
     public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad,
-            double maxVel,double angulo, VentanaPartida ventanapartida) {
-        super(textura, posicion, velocidad, maxVel,ventanapartida);
-        this.angulo=angulo;
+            double maxVel, double angulo, VentanaPartida ventanapartida) {
+        super(textura, posicion, velocidad, maxVel, ventanapartida);
+        this.angulo = angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
-        this.velocidad=velocidad.MultiplicarVector(maxVel);
-        enemigo=false;
+        this.velocidad = velocidad.MultiplicarVector(maxVel);
+        enemigo = false;
     }
+
     public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad,
-            double maxVel,double angulo, VentanaPartida ventanapartida,boolean enemigo,int daño) {
-        super(textura, posicion, velocidad, maxVel,ventanapartida);
-        this.angulo=angulo;
+            double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo, int daño) {
+        super(textura, posicion, velocidad, maxVel, ventanapartida);
+        this.angulo = angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
-        this.velocidad=velocidad.MultiplicarVector(maxVel);
-        this.enemigo=enemigo;
-        this.daño=daño;
+        this.velocidad = velocidad.MultiplicarVector(maxVel);
+        this.enemigo = enemigo;
+        this.daño = daño;
     }
 
     public int getDaño() {
@@ -50,9 +52,25 @@ public class Laser extends ObjetosMovibles{
     @Override
     public void actualizar(float dt) {
         //a la posicion le sumamos la velocidad
-        posicion=posicion.SumaVectores(velocidad);
-        if (posicion.getX()<0||posicion.getX()>Constantes.ancho||
-                posicion.getY()<0||posicion.getY()>Constantes.alto) {
+        Vectores PosicionJ = new Vectores(ventanapartida.getJugador().CentroImagen());
+        int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen()).Manitud();
+        if (enemigo && ventanapartida.getJugador().isEscudoActivo() && jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
+
+            Vectores fuerzaHuida = fuerzaHuida();
+            velocidad = velocidad.SumaVectores(fuerzaHuida);
+angulo=velocidad.getAngulo();
+        }
+        if (velocidad.Manitud() >= this.maxVel) {
+            Vectores velocidadInvertida = new Vectores(-velocidad.getX(), -velocidad.getY());
+            velocidad = velocidad.SumaVectores(velocidadInvertida.NormalizarVector().MultiplicarVector(0.01f));
+
+        }
+        velocidad = velocidad.velocidadlimite(Constantes.Velocidad_lac);
+        
+        posicion = posicion.SumaVectores(velocidad);
+        
+        if (posicion.getX() < 0 || posicion.getX() > Constantes.ancho
+                || posicion.getY() < 0 || posicion.getY() > Constantes.alto) {
             Destruir();
         }
         ColisonaCon();
@@ -61,17 +79,18 @@ public class Laser extends ObjetosMovibles{
     @Override
     public void dibujar(Graphics g) {
         //dibujamos el laser
-        Graphics2D g2d=(Graphics2D)g;
-        
-        at=AffineTransform.getTranslateInstance(posicion.getX()-imgancho/2, posicion.getY());
+        Graphics2D g2d = (Graphics2D) g;
+
+        at = AffineTransform.getTranslateInstance(posicion.getX() - imgancho / 2, posicion.getY());
         //le sumamos el ancho de la imagen al angulo para que asi siga rotando al rededor de su centro
-        at.rotate(angulo,imgancho/2,0);
-        
+        at.rotate(angulo, imgancho / 2, 0);
+
         g2d.drawImage(textura, at, null);
-        
+
     }
+
     @Override
-     public Vectores CentroImagen(){
-        return new Vectores(posicion.getX()+imgancho/2, posicion.getY()+imgancho/2);
+    public Vectores CentroImagen() {
+        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho / 2);
     }
 }

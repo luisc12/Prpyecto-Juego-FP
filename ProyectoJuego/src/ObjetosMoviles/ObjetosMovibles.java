@@ -34,6 +34,22 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     private Sonido explosion;
     
     private boolean muerte;
+
+    public int getImgancho() {
+        return imgancho;
+    }
+
+    public void setImgancho(int imgancho) {
+        this.imgancho = imgancho;
+    }
+
+    public int getImgalto() {
+        return imgalto;
+    }
+
+    public void setImgalto(int imgalto) {
+        this.imgalto = imgalto;
+    }
     
     public ObjetosMovibles(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         // super(textura, posicion);
@@ -85,6 +101,12 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }
     }
 
+    public Vectores fuerzaHuida(){
+        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
+        velocidadDeseada=(velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
+        Vectores v=new Vectores(velocidad);
+        return v.RestaVectores(velocidadDeseada);
+    }
     protected void ColisionObjetos(ObjetosMovibles a, ObjetosMovibles b) {
         
         Jugador j = null;
@@ -155,7 +177,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }*/
     }
 
-    protected void Destruir() {
+    public void Destruir() {
         muerte = true;
         // ventanapartida.getObjetosmoviles().remove(this);
         
