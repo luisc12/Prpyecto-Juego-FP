@@ -120,14 +120,15 @@ public class Jugador extends ObjetosMovibles {
             Tparpadeo += dt;
             TAparecer += dt;
             //si es verdadero "visible pasa a false y viseversa obteniendo el efecto parpadeo
-            if (Tparpadeo > Constantes.TiempoParpadeo) {
+            if (Tparpadeo > Constantes.TiempoParpadeo*2) {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador) {
+            if (TAparecer > Constantes.TiempoAparecerJugador*2) {
                 aparecer = false;
                 visible = true;
             }
+            System.out.println("apareci");
         }
         if (Teclado.disparar && fuego > velocidadFuego & !aparecer) {
             if (dobleGunActivo) {
@@ -280,6 +281,7 @@ public class Jugador extends ObjetosMovibles {
 
         aparecer = true;
         ventanapartida.Explotar(posicion);
+        TAparecer=0;
         SPerdida.play();
         if (!ventanapartida.RestarVidas(posicion)) {
             ventanapartida.gameOver();

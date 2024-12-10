@@ -30,9 +30,9 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     protected double maxVel;
     protected int imgancho, imgalto;
     protected VentanaPartida ventanapartida;
-    
+
     private Sonido explosion;
-    
+
     private boolean muerte;
 
     public int getImgancho() {
@@ -50,7 +50,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     public void setImgalto(int imgalto) {
         this.imgalto = imgalto;
     }
-    
+
     public ObjetosMovibles(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         // super(textura, posicion);
         this.textura = textura;
@@ -62,19 +62,19 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         imgancho = textura.getWidth();
         imgalto = textura.getHeight();
         explosion = new Sonido(Externos.Sonidoexplosion);
-        
+
         muerte = false;
-        
+
     }
 
     public abstract void actualizar(float dt);
-    
+
     public abstract void dibujar(Graphics g);
-    
+
     public Vectores getPosicion() {
         return posicion;
     }
-    
+
     public void setPosicion(Vectores posicion) {
         this.posicion = posicion;
     }
@@ -82,7 +82,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     protected void ColisonaCon() {
         //pedimos la lista de objetos moviles de la ventanapartida y hacemos un for
         ArrayList<ObjetosMovibles> objetosmovibles = ventanapartida.getObjetosmoviles();
-        
+
         for (int i = 0; i < objetosmovibles.size(); i++) {
             ObjetosMovibles o = objetosmovibles.get(i);
             //si el objeto es el mismo que llama al metodo continua con el for
@@ -101,14 +101,15 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }
     }
 
-    public Vectores fuerzaHuida(){
-        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-        velocidadDeseada=(velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
-        Vectores v=new Vectores(velocidad);
+    public Vectores fuerzaHuida() {
+        Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
+        velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
+        Vectores v = new Vectores(velocidad);
         return v.RestaVectores(velocidadDeseada);
     }
+
     protected void ColisionObjetos(ObjetosMovibles a, ObjetosMovibles b) {
-        
+
         Jugador j = null;
         boolean enemigos = false;
         if (a instanceof Laser) {
@@ -125,7 +126,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         } else if (b instanceof Jugador) {
             j = (Jugador) b;
         }
-        
+
         if (j != null && j.isAparecer()) {
             return;
         }
@@ -142,10 +143,10 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         if (a instanceof Enemigos && b instanceof Meteoros || b instanceof Enemigos && a instanceof Meteoros) {
             return;
         }
-        
-        if (a instanceof Enemigos&&b instanceof Laser&&!enemigos||b instanceof Enemigos&&a instanceof Laser&& !enemigos) {
+
+        if (a instanceof Enemigos && b instanceof Laser && !enemigos || b instanceof Enemigos && a instanceof Laser && !enemigos) {
             if (a instanceof Ufo) {
-                
+
             }
         }
         //-------------------------------------
@@ -158,7 +159,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
             if (a instanceof Jugador) {
                 ((PowerUp) b).EjecutarAccion();
                 b.Destruir();
-                
+
             } else if (b instanceof Jugador) {
                 ((PowerUp) a).EjecutarAccion();
                 a.Destruir();
@@ -180,21 +181,34 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     public void Destruir() {
         muerte = true;
         // ventanapartida.getObjetosmoviles().remove(this);
-        
+
         if (!(this instanceof Laser) && !(this instanceof PowerUp)) {
             explosion.play();
+             if (!(this instanceof Jugador)) {
+            int probabilidad = (int) (Math.random() * 5);
+            if (probabilidad==4) {
+            System.out.println("creado");
+            Vectores aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector()).MultiplicarVector(0);
+            velocidad = velocidad.SumaVectores(aceleracion);
+
+            velocidad = velocidad.velocidadlimite(maxVel);
+            posicion = posicion.SumaVectores(velocidad);
+            ventanapartida.spawnPowerUp2(posicion);
+              }
         }
+        }
+       
         /* if (!(this instanceof Laser)) {
             explosion.play();
         }*/
     }
-    
+
     protected Vectores CentroImagen() {
         return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgalto / 2);
     }
-    
+
     public boolean isMuerte() {
         return muerte;
     }
-    
+
 }

@@ -25,6 +25,7 @@ public class PowerUp extends ObjetosMovibles{
     private Accion accion;
     private Sonido activarPowerUP;
     private BufferedImage tipoTextura;
+    private BufferedImage orbe;
     
     public PowerUp(BufferedImage textura, Vectores posicion,VentanaPartida ventanapartida,Accion accion) {
         super(textura, posicion, new Vectores(), 0, ventanapartida);

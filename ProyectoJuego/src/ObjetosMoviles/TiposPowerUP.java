@@ -7,11 +7,11 @@ package ObjetosMoviles;
 
 import Graficos.Externos;
 import java.awt.image.BufferedImage;
-
 /**
  *
  * @author luis
  */
+
 public enum TiposPowerUP {
     
     ESCUDO("ESCUDO",Externos.escudo),
@@ -22,9 +22,10 @@ public enum TiposPowerUP {
     DOBLE_GUN("DOBLE GUN",Externos.dobleGun);
     
     
-    
+    public BufferedImage textura2;
     public String texto;
     public BufferedImage textura;
+    public int i;
 
     private TiposPowerUP(String texto, BufferedImage textura) {
         this.texto = texto;

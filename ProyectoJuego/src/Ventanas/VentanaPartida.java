@@ -15,7 +15,7 @@ import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Enemigo1;
+import ObjetosMoviles.Nostromo;
 import ObjetosMoviles.Jugador;
 import ObjetosMoviles.Mensaje;
 import ObjetosMoviles.Meteoros;
@@ -76,13 +76,15 @@ public class VentanaPartida extends Ventana {
     //private Cronometro aparecerUfo;
     private long aparecerUfo;
     private long aparecerPowerUP;
+    private BufferedImage apariencia;
 
-    public VentanaPartida(String nombre) {
+    public VentanaPartida(String nombre,BufferedImage apariencia) {
         this.nombre = nombre;
+        this.apariencia=apariencia;
         //jugador
-        jugador = new Jugador(Externos.jugador,
-                new Vectores(Constantes.ancho / 2 - Externos.jugador.getWidth() / 2,
-                        Constantes.alto / 2 - Externos.jugador.getHeight() / 2),
+        jugador = new Jugador(apariencia,
+                new Vectores(Constantes.ancho / 2 - apariencia.getWidth() / 2,
+                        Constantes.alto / 2 - apariencia.getHeight() / 2),
                 new Vectores(0, 0), 7, this);
 
         // TGameOver = new Cronometro();
@@ -275,7 +277,7 @@ public class VentanaPartida extends Ventana {
         v=new Vectores(posX,posY);
         caminos.add(v);*/
 
-        objetosmoviles.add(new Enemigo1(Externos.enemigo1,
+        objetosmoviles.add(new Nostromo(Externos.enemigo1,
                 new Vectores(x, y),
                 new Vectores(),
                 Constantes.MaxVelUfo,
@@ -308,6 +310,114 @@ public class VentanaPartida extends Ventana {
         Accion accion = null;
 
         Vectores posicion = new Vectores(x, y);
+
+        switch (tp) {
+            case VIDA:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        vidas++;
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.blue,
+                                false,
+                                false,
+                                Externos.Mfuente));
+                    }
+                };
+
+                break;
+            case ESCUDO:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        jugador.setEscudoActivo();
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.CYAN,
+                                false,
+                                false,
+                                Externos.Mfuente));
+                    }
+                };
+                break;
+            case PUNTOSX2:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        jugador.setDoblePuntajeActivo();
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.green,
+                                false,
+                                false,
+                                Externos.Mfuente));
+                    }
+                };
+                break;
+            case FUEGO_RAPIDO:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        jugador.setFuegoRapidoActivo();
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.ORANGE,
+                                false,
+                                false,
+                                Externos.Mfuente));
+
+                    }
+                };
+                break;
+            case GRAN_PUNTUACION:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        puntos += 1000;
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.MAGENTA,
+                                false,
+                                false,
+                                Externos.Mfuente));
+                    }
+                };
+                break;
+            case DOBLE_GUN:
+                accion = new Accion() {
+                    @Override
+                    public void hacerAccion() {
+                        jugador.setDobleGunActivo();
+                        mensajes.add(new Mensaje(texto,
+                                posicion,
+                                Color.lightGray,
+                                false,
+                                false,
+                                Externos.Mfuente));
+                    }
+                };
+                break;
+
+            default:
+                throw new AssertionError();
+        }
+        this.objetosmoviles.add(new PowerUp(tp.textura,
+                posicion,
+                this,
+                accion));
+    }
+    public void spawnPowerUp2(Vectores posicion) {
+        
+
+        int index = (int) (Math.random() * (TiposPowerUP.values().length));
+
+        TiposPowerUP tp = TiposPowerUP.values()[index];
+
+        final String texto = tp.texto;
+        Accion accion = null;
+
+        
 
         switch (tp) {
             case VIDA:
@@ -482,15 +592,15 @@ public class VentanaPartida extends Ventana {
             
             Ventana.cambiarVentana(new VentanaMenu());
         }
-        if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
+       /* if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
             spawnPowerUp();
             aparecerPowerUP = 0;
-        }
+        }*/
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
 
             spawnUfo();
-            //spanwEnemigo();
+           // spanwEnemigo();
             aparecerUfo = 0;
 
         }
@@ -502,7 +612,7 @@ public class VentanaPartida extends Ventana {
                 if (objetosmoviles.get(i).getPosicion().getX()<-objetosmoviles.get(i).getImgancho()||objetosmoviles.get(i).getPosicion().getX()>Constantes.ancho+objetosmoviles.get(i).getImgancho()
                         ||objetosmoviles.get(i).getPosicion().getY()<-objetosmoviles.get(i).getImgalto()||objetosmoviles.get(i).getPosicion().getY()>Constantes.alto+objetosmoviles.get(i).getImgalto()) {
                     objetosmoviles.get(i).Destruir();
-                    System.out.println("destruido");
+                   
                 }
             }
              if (objetosmoviles.get(i) instanceof Meteoros) {
@@ -562,7 +672,8 @@ public class VentanaPartida extends Ventana {
         }
         Vectores posV = new Vectores(25, 25);
 
-        g.drawImage(Externos.vida, (int) posV.getX(), (int) posV.getY(), null);
+        BufferedImage vida=Externos.cambiarTamaño(apariencia, 25);
+        g.drawImage(vida, (int) posV.getX(), (int) posV.getY(), null);
 
         g.drawImage(Externos.numeros[10], (int) posV.getX() + 40,
                 (int) posV.getY() + 5, null);

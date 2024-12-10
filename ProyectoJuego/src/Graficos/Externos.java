@@ -8,6 +8,7 @@ package Graficos;
 import static Graficos.Externos.efectoEscudo2;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -71,10 +72,10 @@ public class Externos {
     public static Clip Ufosonido;
     //ui
     public static BufferedImage bVerde,bGris;
-    
+    public static BufferedImage flechaVerdeD,flechaVerdeI,flechaGrisD,flechaGrisI;
     //powerUP
-    public static BufferedImage orbe,doblePuntuacion,dobleGun,fuegoRapido,escudo,estrella;
-    
+    public static BufferedImage doblePuntuacion,dobleGun,fuegoRapido,escudo,estrella;
+    public static BufferedImage orbe,orbFuego,orb2X,orbGun,orbVida,orbPuntuacion;
 
     public static void inicio() {
         jugador = CargarImagen("skins/Player1.png");
@@ -159,8 +160,21 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         bGris=CargarImagen("ui/button_Gris.png");
         bVerde=CargarImagen("ui/button_Verde.png");
         
+        flechaGrisD=CargarImagen("ui/flecha_Gris_Derecha.png");
+        flechaVerdeD=CargarImagen("ui/flecha_Verde_Derecha.png");
+        flechaGrisI=CargarImagen("ui/flecha_Gris_Izquierda.png");
+        flechaVerdeI=CargarImagen("ui/flecha_Verde_Izquierda.png");
+        
+        
         //Poderes
         orbe=CargarImagen("poderes/orb.png");
+        orb2X=CargarImagen("poderes/orb2X.png");
+        orbFuego=CargarImagen("poderes/orbFuego.png");
+        orbGun=CargarImagen("poderes/orbGun.png");
+        orbPuntuacion=CargarImagen("poderes/orbPuntuacion.png");
+        orbVida=CargarImagen("poderes/orbVida.png");
+        
+        
         doblePuntuacion=CargarImagen("poderes/doubleScore.png");
         dobleGun=CargarImagen("poderes/doubleGun.png");
         fuegoRapido=CargarImagen("poderes/fastFire.png");
@@ -206,4 +220,28 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         }
         return null;
     }
+    public static  BufferedImage cambiarTamaño(BufferedImage img, int newHeight) {
+    
+    double scaleFactor = (double) newHeight / img.getHeight();
+    int newWidth = (int) (img.getWidth() * scaleFactor);
+
+    BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, img.getType());
+    Graphics2D g2d = scaledImage.createGraphics();
+    g2d.drawImage(img, 0, 0, newWidth, newHeight, null);
+    g2d.dispose();
+
+    return scaledImage;
+}
+     public static  BufferedImage cambiarancho(BufferedImage img, int newHeight) {
+    
+    double scaleFactor = (double) newHeight / img.getHeight();
+    int newWidth = (int) (img.getWidth() * scaleFactor);
+
+    BufferedImage scaledImage = new BufferedImage(newWidth, img.getHeight(), img.getType());
+    Graphics2D g2d = scaledImage.createGraphics();
+    g2d.drawImage(img, 0, 0, newWidth, img.getHeight(), null);
+    g2d.dispose();
+
+    return scaledImage;
+}
 }

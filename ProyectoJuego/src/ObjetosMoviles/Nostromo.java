@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *
  * @author luis
  */
-public class Enemigo1 extends Enemigos {
+public class Nostromo extends Enemigos {
 
     private Vectores direccion;
     private int indice;
@@ -34,7 +34,7 @@ public class Enemigo1 extends Enemigos {
 
     private Sonido Sdisparar;
 
-    public Enemigo1(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
+    public Nostromo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
 
         direccion = new Vectores(0, 1);
@@ -79,39 +79,32 @@ public class Enemigo1 extends Enemigos {
 
         fuego += dt;
 
-        jugadorP = ventanapartida.getJugador().getPosicion();
+        jugadorP = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
 
         continuar = false;
         ultimaposicion = jugadorP;
+        angulo = jugadorP.NormalizarVector().getAngulo();
+        direccion = jugadorP.calcularDireccion(jugadorP.getAngulo());
 
-        direccion = jugadorP.RestaVectores(posicion);
-        angulo = direccion.getAngulo();
-        
         //System.out.println(this.angulo + "------" + Math.atan2(direccion.getY(), direccion.getX()));
-
-        
         //velocidad.velocidadlimite(Constantes.MaxVelUfo);
-        velocidad=direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
+        velocidad = direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
         posicion = posicion.SumaVectores(velocidad);
-        
-        if (fuego>Constantes.TDisparoEnemigo1) {
-            System.out.println("dentro");
-            
+
+        if (fuego > Constantes.TDisparoEnemigo1) {
+
             Laser laser = new Laser(Externos.blueLaser,
-                    CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                    velocidad,
+                    CentroImagen(),
+                    jugadorP,
                     Constantes.Velocidad_lac,
-                    angulo+ Math.PI / 2,
-                    ventanapartida,true,0);
-             ventanapartida.getObjetosmoviles().add(0, laser);
-             System.out.println(laser.posicion.getX()+"  "+laser.getPosicion().getY());
- System.out.println(posicion.getX()+"  "+posicion.getY());
-            fuego=0;
+                    angulo + Math.PI / 2,
+                    ventanapartida, true, 0);
+            ventanapartida.getObjetosmoviles().add(0, laser);
+
+            fuego = 0;
             Sdisparar.play();
         }
 
-        System.out.println("");
-        System.out.println((int) posicion.getX() + " " + (int) posicion.getY());
         if (posicion.getX() > Constantes.ancho) {
             posicion.setX(0);
             continuar = true;
@@ -151,8 +144,6 @@ public class Enemigo1 extends Enemigos {
         at.rotate(angulo, imgancho / 2, imgalto / 2);
 
         g2d.drawImage(textura, at, null);
-        
-        
 
     }
 

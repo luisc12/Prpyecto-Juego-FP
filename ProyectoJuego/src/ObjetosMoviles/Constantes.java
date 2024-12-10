@@ -54,7 +54,7 @@ public class Constantes {
     //------propiedades Enemigo 1----
     public static final double MasaEnemigo1 = 50;//UFO_MASS
     public static final int MaxVelEnemigo1 = 2;//UFO_MAX_VEL
-    public static final long TDisparoEnemigo1 = 500;//UFO_FIRE_RATE
+    public static final long TDisparoEnemigo1 = 2000;//UFO_FIRE_RATE
     //------propiedades Botones----
     public static final String Comenzar = "Comenzar";
 

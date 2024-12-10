@@ -161,7 +161,6 @@ public class Ufo extends Enemigos {
         ventanapartida.Explotar(posicion);
         sonidoufo.parar();
         super.Destruir();
-        System.out.println("destruido ufo");
          //}
     }
     @Override
