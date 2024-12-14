@@ -186,15 +186,15 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
             explosion.play();
              if (!(this instanceof Jugador)) {
             int probabilidad = (int) (Math.random() * 5);
-            if (probabilidad==4) {
-            System.out.println("creado");
+        //   if (probabilidad==4) {
+           
             Vectores aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector()).MultiplicarVector(0);
             velocidad = velocidad.SumaVectores(aceleracion);
 
             velocidad = velocidad.velocidadlimite(maxVel);
             posicion = posicion.SumaVectores(velocidad);
-            ventanapartida.spawnPowerUp2(posicion);
-              }
+            ventanapartida.spawnPowerUp(posicion);
+             // }*
         }
         }
        

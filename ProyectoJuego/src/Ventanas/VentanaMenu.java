@@ -5,7 +5,6 @@
  */
 package Ventanas;
 
-import Entrada.RatonEntrada2;
 import Graficos.Externos;
 import Graficos.Texto;
 import Matematicas.Vectores;
@@ -20,9 +19,14 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -46,7 +50,9 @@ boolean ver;
                         new Accion() {
                     @Override
                     public void hacerAccion() {
-                        Ventana.cambiarVentana(new VentanaNombre());
+                       
+                            Ventana.cambiarVentana(new VentanaControl());
+                        
                     }
                 }));
 
@@ -73,7 +79,7 @@ boolean ver;
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaPuntaje());
+                Ventana.cambiarVentana(new VentanaCreditos());
             }
         }));
 

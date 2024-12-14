@@ -13,7 +13,6 @@ import ObjetosMoviles.Constantes;
 import Ventanas.Ventana;
 import Ventanas.VentanaCarga;
 import Ventanas.VentanaMenu;
-import Ventanas.VentanaNombre;
 import Ventanas.VentanaPartida;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -65,7 +64,6 @@ public class ProyectoJuego extends JFrame implements Runnable {
     //promedio de FPS
     private int PROFPS = FPS;
 
-    private VentanaNombre ventanan;
 
     
     private Teclado teclado;
@@ -78,6 +76,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+        
 
         canvas = new Canvas();
         teclado = new Teclado();
@@ -99,7 +98,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         
         
         //
-        setIconImage(getIconImage());
+        setIconImage(Externos.getIconImage());
         // Ingresarusuario();
 //boolean v=ventanan.isEjecutando();
         setVisible(true);
@@ -107,13 +106,13 @@ public class ProyectoJuego extends JFrame implements Runnable {
     
 
     //icono del JFrame
-    @Override
+  /*  @Override
     public Image getIconImage() {
         Image retValue;
         retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Graficos/otros/icono2.png"));
 
         return retValue;
-    }
+    }*/
 
     public static void main(String[] args) {
         new ProyectoJuego().start();

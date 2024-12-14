@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class VentanaPartida extends Ventana {
     private ArrayList<ObjetosMovibles> objetosmoviles = new ArrayList<ObjetosMovibles>();
     //creamos un arayList de animacion
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
+    double angulo2=0;
     //
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 
@@ -201,10 +203,11 @@ public class VentanaPartida extends Ventana {
     }
 
     public void Explotar(Vectores posicion) {
-        explosiones.add(new Animacion(Externos.explosion,
-                50,
+        
+        explosiones.add(new Animacion(Externos.explosion2,
+                25,
                 //le restamos a la posicion la mitad del ancho y la altura de la imagen para que asi la animacion este en el centro
-                posicion.RestaVectores(new Vectores(Externos.explosion[0].getWidth() / 2, Externos.explosion[0].getHeight() / 2))));
+                posicion.RestaVectores(new Vectores(Externos.explosion2[0].getWidth() / 2, Externos.explosion2[0].getHeight() / 2))));
     }
 
     private void spawnUfo() {
@@ -298,116 +301,7 @@ public class VentanaPartida extends Ventana {
         }
     }
 
-    private void spawnPowerUp() {
-        final int x = (int) ((Constantes.ancho - Externos.orbe.getWidth()) * Math.random());
-        final int y = (int) ((Constantes.alto - Externos.orbe.getHeight()) * Math.random());
-
-        int index = (int) (Math.random() * (TiposPowerUP.values().length));
-
-        TiposPowerUP tp = TiposPowerUP.values()[index];
-
-        final String texto = tp.texto;
-        Accion accion = null;
-
-        Vectores posicion = new Vectores(x, y);
-
-        switch (tp) {
-            case VIDA:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        vidas++;
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.blue,
-                                false,
-                                false,
-                                Externos.Mfuente));
-                    }
-                };
-
-                break;
-            case ESCUDO:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        jugador.setEscudoActivo();
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.CYAN,
-                                false,
-                                false,
-                                Externos.Mfuente));
-                    }
-                };
-                break;
-            case PUNTOSX2:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        jugador.setDoblePuntajeActivo();
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.green,
-                                false,
-                                false,
-                                Externos.Mfuente));
-                    }
-                };
-                break;
-            case FUEGO_RAPIDO:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        jugador.setFuegoRapidoActivo();
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.ORANGE,
-                                false,
-                                false,
-                                Externos.Mfuente));
-
-                    }
-                };
-                break;
-            case GRAN_PUNTUACION:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        puntos += 1000;
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.MAGENTA,
-                                false,
-                                false,
-                                Externos.Mfuente));
-                    }
-                };
-                break;
-            case DOBLE_GUN:
-                accion = new Accion() {
-                    @Override
-                    public void hacerAccion() {
-                        jugador.setDobleGunActivo();
-                        mensajes.add(new Mensaje(texto,
-                                posicion,
-                                Color.lightGray,
-                                false,
-                                false,
-                                Externos.Mfuente));
-                    }
-                };
-                break;
-
-            default:
-                throw new AssertionError();
-        }
-        this.objetosmoviles.add(new PowerUp(tp.textura,
-                posicion,
-                this,
-                accion));
-    }
-    public void spawnPowerUp2(Vectores posicion) {
+    public void spawnPowerUp(Vectores posicion) {
         
 
         int index = (int) (Math.random() * (TiposPowerUP.values().length));
@@ -513,12 +407,13 @@ public class VentanaPartida extends Ventana {
         this.objetosmoviles.add(new PowerUp(tp.textura,
                 posicion,
                 this,
-                accion));
+                accion,tp.orbe));
     }
 //aqui en actualizar al oprimir la tecla "P"
 
     @Override
     public void actualizar(float dt) {
+        angulo2 += Constantes.anguloBase/2;
         /* if (Teclado.pausa) {
             System.out.println("oprimer");
             VentanaPausa ventanaPausa = new VentanaPausa();
@@ -642,9 +537,12 @@ public class VentanaPartida extends Ventana {
 
         for (int i = 0; i < explosiones.size(); i++) {
             Animacion animacion = explosiones.get(i);
+AffineTransform atexplosion = AffineTransform.getTranslateInstance(
+                    animacion.getPosicion().getX(),
+                    animacion.getPosicion().getY());
+atexplosion.rotate(angulo2,animacion.getFrameActual().getWidth()/2,animacion.getFrameActual().getHeight()/2);
 
-            g2d.drawImage(animacion.getFrameActual(), (int) animacion.getPosicion().getX(),
-                    (int) animacion.getPosicion().getY(), null);
+            g2d.drawImage(animacion.getFrameActual(),atexplosion, null);
 
         }
         DibujarPuntuacion(g);

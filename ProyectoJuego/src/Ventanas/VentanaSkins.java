@@ -15,12 +15,29 @@ import ObjetosMoviles.Constantes;
 import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -38,8 +55,18 @@ public class VentanaSkins extends Ventana {
     private Naves[] aux;
     private boolean activar;
     long permitir;
+    String nombre;
 
-    public VentanaSkins(String nombre) throws ParserConfigurationException, SAXException, IOException {
+    ///ventana nombre
+    private JTextField Input = new JTextField();
+    public JPanel panel;
+    // private Canvas canvas;
+    private boolean ejecutando = true;
+    private BufferStrategy bs;
+    private JTextField textField;
+    private MyCanvas canvas;
+
+    public VentanaSkins() throws ParserConfigurationException, SAXException, IOException {
         botones = new ArrayList<Boton>();
 
         Boton atras = new Boton(Externos.bGris,
@@ -75,7 +102,7 @@ public class VentanaSkins extends Ventana {
         Boton derecha = new Boton(flechaderechaG,
                 flechaderechaV,
                 Constantes.ancho - flechaderechaG.getWidth() * 2,
-                Constantes.alto / 2 - flechaderechaG.getHeight()/2,
+                Constantes.alto / 2 - flechaderechaG.getHeight() / 2,
                 "", new Accion() {
             @Override
             public void hacerAccion() {
@@ -94,7 +121,7 @@ public class VentanaSkins extends Ventana {
         Boton izquierda = new Boton(flechaizquierdaG,
                 flechaizquierdaV,
                 Externos.flechaGrisI.getWidth() * 2,
-                Constantes.alto / 2 - flechaizquierdaG.getHeight()/2,
+                Constantes.alto / 2 - flechaizquierdaG.getHeight() / 2,
                 "", new Accion() {
             @Override
             public void hacerAccion() {
@@ -136,7 +163,110 @@ public class VentanaSkins extends Ventana {
         for (int j = 0; j < aux.length; j++) {
             System.out.println(aux[j].name() + " " + aux[j].puntaje);
         }
+        ////-------------ventana nombre------------
+        JFrame Pnom = new JFrame("Ingresar usuario");
+        Pnom.setSize(400, 400);
+        Pnom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Pnom.setLocationRelativeTo(null);
 
+        // Configurar el JLayeredPane para manejar capas
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(500, 500));
+        Pnom.add(layeredPane);
+
+        // Inicializar el Canvas y agregarlo a la capa inferior
+        canvas = new MyCanvas();
+        canvas.setBounds(0, 0, 500, 500); // Posición y tamaño del Canvas
+        layeredPane.add(canvas, JLayeredPane.DEFAULT_LAYER); // Añadir el Canvas en la capa por defecto
+
+        // Crear el JTextField y agregarlo en una capa superior
+        textField = new JTextField();
+        textField.setBounds(100, 50, 200, 30); // Posicionamiento del JTextField sobre el Canvas
+        textField.setFont(Externos.Mfuente);
+        layeredPane.add(textField, JLayeredPane.PALETTE_LAYER); // Añadir el JTextField en una capa superior
+
+        textField.setText("Jugador 1");
+
+        // Acción para capturar el texto cuando se presiona Enter
+        textField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (textField.getText().length() == 9) {
+                    e.consume();
+                }
+            }
+        });
+
+        JButton boton1 = new JButton("Aceptar");
+        ImageIcon normalIcon = new ImageIcon(Externos.bGris); // Imagen por defecto
+        ImageIcon hoverIcon = new ImageIcon(Externos.bVerde);   // Imagen al pasar el mouse
+        boton1.setBounds(20, 300, Externos.bGris.getWidth(), Externos.bGris.getHeight());
+        boton1.setHorizontalTextPosition(JButton.CENTER);
+        boton1.setVerticalTextPosition(JButton.CENTER);
+        boton1.setEnabled(true);//establecemos el encendido del boton
+        boton1.setMnemonic('a');//Establecemos alt+ letra
+        boton1.setForeground(Color.BLACK);//Establecemos el color de la letra de nuestro botón
+        boton1.setFont(Externos.Mfuente);//Establecemos la fuente de la letra del botton
+        //panel.add(boton1);
+
+        // boton1.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+        // boton1.setText("Aceptar");//establecemos un texto al boton
+        /*boton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+               Pnom.setVisible(false);
+               String nombre2=textField.getText();
+               System.out.println(nombre);
+                Pnom.setVisible(false);
+                
+               
+            }
+            
+        });*/
+        boton1.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {//boton 1 es el boton izquierdodel raton
+                    //  boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+                    boton1.setIcon(hoverIcon);
+                    nombre = textField.getText();
+                    System.out.println(nombre);
+                    //  Pnom.setVisible(false);
+
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //verifica que el raton esta encima del boton
+                if (boton1.getBounds().contains(e.getPoint())) {
+                    boton1.setIcon(hoverIcon);
+                } else {
+                    boton1.setIcon(normalIcon);
+                }
+                /*if (e.getButton() == MouseEvent.BUTTON1) {//boton 1 es el boton izquierdodel raton
+                    
+                    boton1.setIcon(new ImageIcon(Externos.bGris.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+                }*/
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //mantendra la posicion del raton almacenada en estas variables
+                boton1.setIcon(hoverIcon);
+                // boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton1.setIcon(normalIcon); // Volver a la imagen normal
+            }
+
+        });
+        layeredPane.add(boton1, JLayeredPane.PALETTE_LAYER);
+        Pnom.setIconImage(Externos.getIconImage());
+        Pnom.setVisible(true);
     }
 
     @Override

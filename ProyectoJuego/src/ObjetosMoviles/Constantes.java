@@ -74,7 +74,7 @@ public class Constantes {
 
     //ubicar la carpeta en mis documentos o en el sistema operativo linix en la carpeta Home
     public static final String ubicacion = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "\\Entrega_Espacial\\RECORS.XML"; // data.xml if you use XMLParser
-
+public static final String ubicacioncreditos = "../entregaespacial.xml";
     // This variables are required to use XMLParser
     public static final String JUGADOR = "JUGADOR";
     public static final String JUGADORES = "JUGADORES";

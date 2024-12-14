@@ -26,6 +26,10 @@ public class Animacion {
     
     private long tiempo;
 
+    public BufferedImage[] getFrames() {
+        return frames;
+    }
+
     public Animacion(BufferedImage[] frames, int velocidad, Vectores posicion) {
         this.frames = frames;
         this.velocidad = velocidad;

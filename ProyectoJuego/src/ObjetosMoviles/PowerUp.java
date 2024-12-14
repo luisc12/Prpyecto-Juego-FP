@@ -33,6 +33,16 @@ public class PowerUp extends ObjetosMovibles{
         this.tipoTextura=textura;
         duracion=0;
         activarPowerUP=new Sonido(Externos.PowerUP);
+        orbe=Externos.orbe;
+    }
+    
+    public PowerUp(BufferedImage textura, Vectores posicion,VentanaPartida ventanapartida,Accion accion,BufferedImage orbe) {
+        super(textura, posicion, new Vectores(), 0, ventanapartida);
+        this.accion=accion;
+        this.tipoTextura=textura;
+        this.orbe=orbe;
+        duracion=0;
+        activarPowerUP=new Sonido(Externos.PowerUP);
         
     }
     public void EjecutarAccion() {
@@ -56,12 +66,16 @@ public class PowerUp extends ObjetosMovibles{
        Graphics2D g2d=(Graphics2D) g;
        
        at=AffineTransform.getTranslateInstance(
-               posicion.getX()+Externos.orbe.getWidth()/2- tipoTextura.getWidth()/2,
-               posicion.getY()+Externos.orbe.getHeight()/2-tipoTextura.getHeight()/2);
+               posicion.getX()+orbe.getWidth()/2- tipoTextura.getWidth()/2,
+               posicion.getY()+orbe.getHeight()/2-tipoTextura.getHeight()/2);
        
        at.rotate(angulo,tipoTextura.getWidth()/2,tipoTextura.getHeight()/2);
        
-       g.drawImage(Externos.orbe,(int)posicion.getX(),(int)posicion.getY(),null);
+       
+       //AffineTransform at2=AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
+      // at2.rotate(angulo,orbe.getWidth()/2,orbe.getHeight()/2);
+       g.drawImage(orbe,(int)posicion.getX(),(int)posicion.getY(),null);
+      // g.drawImage(orbe, at2, null);
        
        g2d.drawImage(tipoTextura, at, null);
        

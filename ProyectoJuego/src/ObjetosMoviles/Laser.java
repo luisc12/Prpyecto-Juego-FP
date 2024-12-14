@@ -61,16 +61,16 @@ cambiardireccion=true;
             velocidad = velocidad.SumaVectores(fuerzaHuida);
 
         }
-       /* if (velocidad.Manitud() >= this.maxVel) {
+        if (velocidad.Manitud() >= this.maxVel) {
             Vectores velocidadInvertida = new Vectores(-velocidad.getX(), -velocidad.getY());
             velocidad = velocidad.SumaVectores(velocidadInvertida.velocidadlimite(0.01f));
 
-        }*/
+        }
         velocidad = velocidad.velocidadlimite(Constantes.Velocidad_lac);
         
         posicion = posicion.SumaVectores(velocidad);
         if (cambiardireccion) {
-           angulo=posicion.getAngulo();
+            angulo=posicion.NormalizarVector().getAngulo()+Math.PI/2;
         }
         
         if (posicion.getX() < 0 || posicion.getX() > Constantes.ancho

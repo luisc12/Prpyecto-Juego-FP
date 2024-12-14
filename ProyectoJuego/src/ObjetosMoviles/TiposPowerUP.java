@@ -14,22 +14,27 @@ import java.awt.image.BufferedImage;
 
 public enum TiposPowerUP {
     
-    ESCUDO("ESCUDO",Externos.escudo),
-    VIDA("1+ VIDA",Externos.vida),
-    PUNTOSX2("PUNTOS x2",Externos.doblePuntuacion),
-    FUEGO_RAPIDO("FUEGO RAPIDO",Externos.fuegoRapido),
-    GRAN_PUNTUACION("+1000 PUNTOS",Externos.estrella),
-    DOBLE_GUN("DOBLE GUN",Externos.dobleGun);
+    ESCUDO("ESCUDO",Externos.escudo,Externos.orbe),
+    VIDA("1+ VIDA",Externos.vida,Externos.orbVida),
+    PUNTOSX2("PUNTOS x2",Externos.doblePuntuacion,Externos.orb2X),
+    FUEGO_RAPIDO("FUEGO RAPIDO",Externos.fuegoRapido,Externos.orbFuego),
+    GRAN_PUNTUACION("+1000 PUNTOS",Externos.estrella,Externos.orbPuntuacion),
+    DOBLE_GUN("DOBLE GUN",Externos.dobleGun,Externos.orbGun);
     
     
-    public BufferedImage textura2;
+    public BufferedImage orbe;
     public String texto;
     public BufferedImage textura;
     public int i;
-
+/*
     private TiposPowerUP(String texto, BufferedImage textura) {
         this.texto = texto;
         this.textura = textura;
     }
-    
+    */
+    private TiposPowerUP(String texto, BufferedImage textura,BufferedImage orbe) {
+        this.texto = texto;
+        this.textura = textura;
+        this.orbe=orbe;
+    }
 }

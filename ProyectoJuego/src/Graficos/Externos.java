@@ -9,6 +9,8 @@ import static Graficos.Externos.efectoEscudo2;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -40,8 +42,8 @@ public class Externos {
     public static BufferedImage[] efectoEscudo2 = new BufferedImage[12];
     //animacion
 
-    public static BufferedImage[] explosion = new BufferedImage[9];
-    
+    //public static BufferedImage[] explosion = new BufferedImage[9];
+    public static BufferedImage[] explosion2 = new BufferedImage[16];
     //laseres    
     public static BufferedImage blueLaser, redLaser, greenLaser;
 
@@ -72,7 +74,8 @@ public class Externos {
     public static Clip Ufosonido;
     //ui
     public static BufferedImage bVerde,bGris;
-    public static BufferedImage flechaVerdeD,flechaVerdeI,flechaGrisD,flechaGrisI;
+    public static BufferedImage flechaVerdeD,flechaVerdeI,flechaGrisD,flechaGrisI,
+            flechaVerdeA,flechaVerdeB,flechaGrisA,flechaGrisB;
     //powerUP
     public static BufferedImage doblePuntuacion,dobleGun,fuegoRapido,escudo,estrella;
     public static BufferedImage orbe,orbFuego,orb2X,orbGun,orbVida,orbPuntuacion;
@@ -123,10 +126,14 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             enanos[i] = CargarImagen("meteoros/meteorBrown_tiny" + (i + 1) + ".png");
 
         }
-        for (int i = 0; i < explosion.length; i++) {
+        //exploxiones
+      /*  for (int i = 0; i < explosion.length; i++) {
 
             explosion[i] = CargarImagen("explosion/" + i + ".png");
 
+        }*/
+        for (int i = 0; i < explosion2.length; i++){
+            explosion2[i] = CargarImagen("explosion/square_explosion" + (i+1) + ".png");
         }
         //enemigos
         for (int i = 0; i < Ufo.length; i++) {
@@ -149,6 +156,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             efectoEscudo2[i]=CargarImagen("efectos/shieldV2" + (i + 1)+".png");
         }
         MusicaFondo=CargarMusica("sonidos/Track01V2.wav");
+        //Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         PerdidaJugador=CargarMusica("sonidos/playerLoose.wav");
         DisparoJugador=CargarMusica("sonidos/ShotgunShot001V2.wav");
@@ -165,6 +173,10 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         flechaGrisI=CargarImagen("ui/flecha_Gris_Izquierda.png");
         flechaVerdeI=CargarImagen("ui/flecha_Verde_Izquierda.png");
         
+        flechaGrisA=CargarImagen("ui/flecha_Gris_Arriba.png");
+        flechaVerdeA=CargarImagen("ui/flecha_Verde_Arriba.png");
+        flechaGrisB=CargarImagen("ui/flecha_Gris_Abajo.png");
+        flechaVerdeB=CargarImagen("ui/flecha_Verde_Abajo.png");
         
         //Poderes
         orbe=CargarImagen("poderes/orb.png");
@@ -244,4 +256,10 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
 
     return scaledImage;
 }
+    public static Image getIconImage() {
+        Image retValue;
+        retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Graficos/otros/icono2.png"));
+
+        return retValue;
+    }
 }

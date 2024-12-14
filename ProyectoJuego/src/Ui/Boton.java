@@ -76,4 +76,12 @@ public class Boton {
 
     }
 
+    public boolean isRatonDentro() {
+        return ratonDentro;
+    }
+
+    public void setRatonDentro(boolean ratonDentro) {
+        this.ratonDentro = ratonDentro;
+    }
+
 }
