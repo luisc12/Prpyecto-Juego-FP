@@ -54,7 +54,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
  JLayeredPane layeredPane;
     private BufferStrategy bs;
     private Graphics g;
-
+VentanaPausa p;
     private final int FPS = 60;//fotogramas por segundo
 
     //un segundo en nanosegundos dividido por FPS
@@ -98,7 +98,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
         
         
         //
-        setIconImage(Externos.getIconImage());
+        Externos.getIconImage();
         // Ingresarusuario();
 //boolean v=ventanan.isEjecutando();
         setVisible(true);
@@ -213,7 +213,22 @@ public class ProyectoJuego extends JFrame implements Runnable {
         Ventana.cambiarVentana(new VentanaCarga(hiloCarga));
 
     }
+ private void pausar() {
+        
+        Thread hiloCarga=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(p.isPausar()){
+                    
+                }
+            }
+        });
+        
+        
+        
+        Ventana.cambiarVentana(new VentanaPausa(hiloCarga));
 
+    }
     @Override
     public void run() {
 

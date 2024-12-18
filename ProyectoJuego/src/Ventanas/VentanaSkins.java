@@ -232,7 +232,7 @@ public class VentanaSkins extends Ventana {
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
                     System.out.println(nombre);
-                    //  Pnom.setVisible(false);
+                      Pnom.setVisible(false);
 
                 }
             }

@@ -32,7 +32,7 @@ public class Externos {
     public static float cantidadMax=57;
     //Skins
     public static BufferedImage[] jugadores = new BufferedImage[8];
-    public static BufferedImage jugador;
+    
     public static BufferedImage jugadorDobleGun;
 
     //efectos
@@ -81,7 +81,7 @@ public class Externos {
     public static BufferedImage orbe,orbFuego,orb2X,orbGun,orbVida,orbPuntuacion;
 
     public static void inicio() {
-        jugador = CargarImagen("skins/Player1.png");
+        
 jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         propulsion = CargarImagen("efectos/fire05.png");
         

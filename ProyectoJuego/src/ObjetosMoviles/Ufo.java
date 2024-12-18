@@ -96,7 +96,14 @@ public class Ufo extends Enemigos {
          
         fuego+=dt;
         Vectores siguindo;
-
+          Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
+        int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
+if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
+            if (ventanapartida.getJugador().isEscudoActivo()) {
+               Destruir();
+                
+            }
+        }
         if (continuar) {
             siguindo = SeguirCamino();
         } else {

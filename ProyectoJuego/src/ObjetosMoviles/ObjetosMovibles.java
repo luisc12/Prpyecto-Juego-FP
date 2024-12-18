@@ -51,6 +51,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         this.imgalto = imgalto;
     }
 
+    
     public ObjetosMovibles(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         // super(textura, posicion);
         this.textura = textura;

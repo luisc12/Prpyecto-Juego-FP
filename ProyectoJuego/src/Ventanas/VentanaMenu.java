@@ -51,6 +51,8 @@ boolean ver;
                     @Override
                     public void hacerAccion() {
                        
+                       
+                            //Ventana.cambiarVentana(new VentanaControl());
                             Ventana.cambiarVentana(new VentanaControl());
                         
                     }
@@ -79,7 +81,7 @@ boolean ver;
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaCreditos());
+                Ventana.cambiarVentana(new VentanaPuntaje());
             }
         }));
 

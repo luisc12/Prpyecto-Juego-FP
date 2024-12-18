@@ -46,11 +46,11 @@ import proyectojuego.ProyectoJuego;
  * @author luis
  */
 public class VentanaPartida extends Ventana {
-
+ProyectoJuego proyecto;
     VentanaPausa ventanaPausa;
     public static final Vectores PosicionInicial
-            = new Vectores(Constantes.ancho / 2 - Externos.jugador.getWidth() / 2,
-                    Constantes.alto / 2 - Externos.jugador.getHeight() / 2);
+            = new Vectores(Constantes.ancho / 2 - Externos.jugadores[0].getWidth() / 2,
+                    Constantes.alto / 2 - Externos.jugadores[0].getWidth() / 2);
 
     private Jugador jugador;
 
@@ -58,7 +58,7 @@ public class VentanaPartida extends Ventana {
     private ArrayList<ObjetosMovibles> objetosmoviles = new ArrayList<ObjetosMovibles>();
     //creamos un arayList de animacion
     private ArrayList<Animacion> explosiones = new ArrayList<Animacion>();
-    double angulo2=0;
+    double angulo = 0;
     //
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 
@@ -76,13 +76,14 @@ public class VentanaPartida extends Ventana {
     public String nombre;
 
     //private Cronometro aparecerUfo;
+    private long pausa;
     private long aparecerUfo;
     private long aparecerPowerUP;
     private BufferedImage apariencia;
 
-    public VentanaPartida(String nombre,BufferedImage apariencia) {
+    public VentanaPartida(String nombre, BufferedImage apariencia) {
         this.nombre = nombre;
-        this.apariencia=apariencia;
+        this.apariencia = apariencia;
         //jugador
         jugador = new Jugador(apariencia,
                 new Vectores(Constantes.ancho / 2 - apariencia.getWidth() / 2,
@@ -104,6 +105,7 @@ public class VentanaPartida extends Ventana {
         TGameOver = 0;
         aparecerUfo = 0;
         aparecerPowerUP = 0;
+        pausa = 500;
 
         /*  aparecerUfo.Empezar(Constantes.TiempoAparecerUfo);
         System.out.println("cantidad " + Externos.cantidad);*/
@@ -203,7 +205,7 @@ public class VentanaPartida extends Ventana {
     }
 
     public void Explotar(Vectores posicion) {
-        
+
         explosiones.add(new Animacion(Externos.explosion2,
                 25,
                 //le restamos a la posicion la mitad del ancho y la altura de la imagen para que asi la animacion este en el centro
@@ -248,38 +250,19 @@ public class VentanaPartida extends Ventana {
     }
 
     private void spanwEnemigo() {
-         int randio = (int) (Math.random() * 2);
+        int randio = (int) (Math.random() * 2);
 
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
         double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
 
-        ArrayList<Vectores> caminos = new ArrayList<Vectores>();
-
+        //  ArrayList<Vectores> caminos = new ArrayList<Vectores>();
         double posX, posY;
         //sector superior izquierdo
 
-        posX = Math.random() *getJugador().getPosicion().getX();
+        /*posX = Math.random() *getJugador().getPosicion().getX();
         posY = Math.random() * getJugador().getPosicion().getY();
         Vectores v=new Vectores(posX,posY);
-        caminos.add(v);
-    /*    //sector superior derecho
-         posX = Math.random() *getJugador().getPosicion().getX();
-        posY = Math.random() * getJugador().getPosicion().getY();
-        v=new Vectores(posX,posY);
-        caminos.add(v);
-        
-        caminos.add(v);
-        //sector inferior izquierdo
-        posX = Math.random() *getJugador().getPosicion().getX();
-        posY = Math.random() * getJugador().getPosicion().getY();
-        v=new Vectores(posX,posY);
-        caminos.add(v);
-        //sector inferior derecho
-       posX = Math.random() *getJugador().getPosicion().getX();
-        posY = Math.random() * getJugador().getPosicion().getY();
-        v=new Vectores(posX,posY);
         caminos.add(v);*/
-
         objetosmoviles.add(new Nostromo(Externos.enemigo1,
                 new Vectores(x, y),
                 new Vectores(),
@@ -290,19 +273,18 @@ public class VentanaPartida extends Ventana {
 
     private void esperarSiPausado() {
         while (ventanaPausa.isPausar()) {
-            synchronized (ventanaPausa.pauseLock) {
+            //synchronized (ventanaPausa.pauseLock) {
                 try {
                     ventanaPausa.pauseLock.wait();
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-            }
+            //}
 
         }
     }
 
     public void spawnPowerUp(Vectores posicion) {
-        
 
         int index = (int) (Math.random() * (TiposPowerUP.values().length));
 
@@ -310,8 +292,6 @@ public class VentanaPartida extends Ventana {
 
         final String texto = tp.texto;
         Accion accion = null;
-
-        
 
         switch (tp) {
             case VIDA:
@@ -407,35 +387,41 @@ public class VentanaPartida extends Ventana {
         this.objetosmoviles.add(new PowerUp(tp.textura,
                 posicion,
                 this,
-                accion,tp.orbe));
+                accion, tp.orbe));
     }
 //aqui en actualizar al oprimir la tecla "P"
 
     @Override
     public void actualizar(float dt) {
-        angulo2 += Constantes.anguloBase/2;
-        /* if (Teclado.pausa) {
-            System.out.println("oprimer");
-            VentanaPausa ventanaPausa = new VentanaPausa();
-            Thread hiloCarga = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("esperando");
-                    esperarSiPausado();
-                    System.out.println("ver");
-                    while (!ventanaPausa.isPausar()) {
+        angulo += Constantes.anguloBase / 2;
+        pausa += dt;
+       
+        
 
+            if (Teclado.pausa) {
+                if (pausa> 500) {
+                System.out.println("oprimer");
+                Thread hiloCarga = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("esperando");
+                        esperarSiPausado();
+                        System.out.println("ver");
+                        while (!ventanaPausa.isPausar()) {
+                            System.out.println("pausado");
+                        }
                     }
-                }
-            });
-            hiloCarga.start();
-            System.out.println("pausa");
-            esperarSiPausado();
+                });
+                 Ventana.cambiarVentana( new VentanaPausa(hiloCarga));
+                
+               
 
-            System.out.println("return");
-            //return;
-
-        }*/
+                System.out.println("return");
+                //return;
+ pausa=0;
+            }
+           
+        }
         if (finJuego) {
             TGameOver += dt;
 
@@ -484,10 +470,10 @@ public class VentanaPartida extends Ventana {
             } catch (TransformerException ex) {
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             Ventana.cambiarVentana(new VentanaMenu());
         }
-       /* if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
+        /* if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
             spawnPowerUp();
             aparecerPowerUP = 0;
         }*/
@@ -495,22 +481,22 @@ public class VentanaPartida extends Ventana {
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
 
             spawnUfo();
-           // spanwEnemigo();
+            // spanwEnemigo();
             aparecerUfo = 0;
 
         }
 
         //en este for si no hay ningun meteoro continuara a la linea de empezarEntrega
         for (int i = 0; i < objetosmoviles.size(); i++) {
-           
-            if (!(objetosmoviles.get(i) instanceof Jugador)&&!(objetosmoviles.get(i)instanceof Meteoros)) {
-                if (objetosmoviles.get(i).getPosicion().getX()<-objetosmoviles.get(i).getImgancho()||objetosmoviles.get(i).getPosicion().getX()>Constantes.ancho+objetosmoviles.get(i).getImgancho()
-                        ||objetosmoviles.get(i).getPosicion().getY()<-objetosmoviles.get(i).getImgalto()||objetosmoviles.get(i).getPosicion().getY()>Constantes.alto+objetosmoviles.get(i).getImgalto()) {
+
+            if (!(objetosmoviles.get(i) instanceof Jugador) && !(objetosmoviles.get(i) instanceof Meteoros)) {
+                if (objetosmoviles.get(i).getPosicion().getX() < -objetosmoviles.get(i).getImgancho() || objetosmoviles.get(i).getPosicion().getX() > Constantes.ancho + objetosmoviles.get(i).getImgancho()
+                        || objetosmoviles.get(i).getPosicion().getY() < -objetosmoviles.get(i).getImgalto() || objetosmoviles.get(i).getPosicion().getY() > Constantes.alto + objetosmoviles.get(i).getImgalto()) {
                     objetosmoviles.get(i).Destruir();
-                   
+
                 }
             }
-             if (objetosmoviles.get(i) instanceof Meteoros) {
+            if (objetosmoviles.get(i) instanceof Meteoros) {
                 return;
             }
         }
@@ -537,12 +523,12 @@ public class VentanaPartida extends Ventana {
 
         for (int i = 0; i < explosiones.size(); i++) {
             Animacion animacion = explosiones.get(i);
-AffineTransform atexplosion = AffineTransform.getTranslateInstance(
+            AffineTransform atexplosion = AffineTransform.getTranslateInstance(
                     animacion.getPosicion().getX(),
                     animacion.getPosicion().getY());
-atexplosion.rotate(angulo2,animacion.getFrameActual().getWidth()/2,animacion.getFrameActual().getHeight()/2);
+            atexplosion.rotate(angulo, animacion.getFrameActual().getWidth() / 2, animacion.getFrameActual().getHeight() / 2);
 
-            g2d.drawImage(animacion.getFrameActual(),atexplosion, null);
+            g2d.drawImage(animacion.getFrameActual(), atexplosion, null);
 
         }
         DibujarPuntuacion(g);
@@ -570,7 +556,7 @@ atexplosion.rotate(angulo2,animacion.getFrameActual().getWidth()/2,animacion.get
         }
         Vectores posV = new Vectores(25, 25);
 
-        BufferedImage vida=Externos.cambiarTamaño(apariencia, 25);
+        BufferedImage vida = Externos.cambiarTamaño(apariencia, 25);
         g.drawImage(vida, (int) posV.getX(), (int) posV.getY(), null);
 
         g.drawImage(Externos.numeros[10], (int) posV.getX() + 40,

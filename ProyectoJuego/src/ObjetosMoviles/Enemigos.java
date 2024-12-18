@@ -25,7 +25,6 @@ public abstract class Enemigos extends ObjetosMovibles {
     private int indice;
     private int vida;
 
-    private boolean continuar;
 
     //private Cronometro fuego;
     long fuego;
@@ -37,7 +36,6 @@ public abstract class Enemigos extends ObjetosMovibles {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
         indice = 0;
-        continuar = true;
         fuego=0;
         Sdisparar=new Sonido(Externos.DisparoUfo);
         vida=100;
@@ -62,14 +60,13 @@ public abstract class Enemigos extends ObjetosMovibles {
 
     @Override
     public void Destruir(){
-        if (continuar) {
-            
        
         ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
         ventanapartida.Explotar(posicion);
         super.Destruir();
-         }
+         
     }
+    
     @Override
     public abstract void dibujar(Graphics g);
 

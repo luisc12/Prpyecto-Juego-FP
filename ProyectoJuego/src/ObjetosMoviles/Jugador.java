@@ -73,7 +73,6 @@ public class Jugador extends ObjetosMovibles {
         visible = true;
 
     }
-
     @Override
     public void actualizar(float dt) {
 
@@ -120,15 +119,14 @@ public class Jugador extends ObjetosMovibles {
             Tparpadeo += dt;
             TAparecer += dt;
             //si es verdadero "visible pasa a false y viseversa obteniendo el efecto parpadeo
-            if (Tparpadeo > Constantes.TiempoParpadeo*2) {
+            if (Tparpadeo > Constantes.TiempoParpadeo) {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador*2) {
+            if (TAparecer > Constantes.TiempoAparecerJugador) {
                 aparecer = false;
                 visible = true;
             }
-            System.out.println("apareci");
         }
         if (Teclado.disparar && fuego > velocidadFuego & !aparecer) {
             if (dobleGunActivo) {
@@ -162,13 +160,24 @@ public class Jugador extends ObjetosMovibles {
                 ventanapartida.getObjetosmoviles().add(0, i);
 
             } else {
-                ventanapartida.getObjetosmoviles().add(0, new Laser(
+                if (ventanapartida!=null) {
+                     ventanapartida.getObjetosmoviles().add(0, new Laser(
                         Externos.greenLaser,
                         CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
                         ventanapartida));
+                }else{
+                   Laser l= new Laser(
+                        Externos.greenLaser,
+                        CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
+                        direccion,
+                        Constantes.Velocidad_lac,
+                        angulo,
+                        null);
+                }
+               
             }
             fuego = 0;
             Sdisparar.play();
@@ -227,8 +236,10 @@ public class Jugador extends ObjetosMovibles {
         if (escudoActivo) {
             efectoEscudo.actualizar(dt);
         }
-
-        ColisonaCon();
+        if (ventanapartida!=null) {
+             ColisonaCon();
+        }
+       
     }
 
     public boolean isEscudoActivo() {
