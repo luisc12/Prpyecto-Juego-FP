@@ -272,14 +272,18 @@ ProyectoJuego proyecto;
 //aqui espera al ibjeto pausa lock
 
     private void esperarSiPausado() {
-        while (ventanaPausa.isPausar()) {
-            //synchronized (ventanaPausa.pauseLock) {
+        System.out.println("p11");
+        while (!ventanaPausa.isPausar()) {
+            System.out.println("p12");
+            System.out.println("entrando en synchronized (ventanaPausa.pauseLock");
+            synchronized (ventanaPausa.pauseLock) {
+                System.out.println("pausado en el metodo");
                 try {
                     ventanaPausa.pauseLock.wait();
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-            //}
+            }
 
         }
     }
@@ -400,15 +404,15 @@ ProyectoJuego proyecto;
 
             if (Teclado.pausa) {
                 if (pausa> 500) {
-                System.out.println("oprimer");
+                System.out.println("p1");
                 Thread hiloCarga = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("esperando");
+                        System.out.println("p2");
                         esperarSiPausado();
-                        System.out.println("ver");
+                        System.out.println("p3");
                         while (!ventanaPausa.isPausar()) {
-                            System.out.println("pausado");
+                            System.out.println("p4");
                         }
                     }
                 });

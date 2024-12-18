@@ -47,7 +47,7 @@ import javax.swing.SwingConstants;
 public class VentanaPausa extends Ventana {
 
     final Object pauseLock = new Object();
-    private volatile boolean pausar = false;
+    private volatile boolean pausar;
     private boolean ver;
 //JButton botonReanudar;
     ArrayList<Boton> botones ;
@@ -68,12 +68,12 @@ public class VentanaPausa extends Ventana {
     long permitir;
 
     public VentanaPausa(Thread PausaHilo) {
-        
+        pausar = false;
         this.PausaHilo=PausaHilo;
        
         this.PausaHilo.start();
 
-        System.out.println("Ventana de pausa");
+        System.out.println("p6");
         JFrame Pausa = new JFrame("Ventana de pausa");
 
         Pausa.setSize(Pancho, Palto);
@@ -113,7 +113,7 @@ public class VentanaPausa extends Ventana {
         etiqueta.setVisible(true);*/
 //panel.add(etiqueta);
         //caja de boton
-        JButton botonReanudar = new JButton();
+      /*  JButton botonReanudar = new JButton();
         botonReanudar.setText("Reanudar");//establecemos un texto al boton
         botonReanudar.setBounds(20, 100, 100, 30);
         botonReanudar.setEnabled(true);//establecemos el encendido del boton
@@ -130,12 +130,12 @@ public class VentanaPausa extends Ventana {
                     pauseLock.notifyAll();
                 }
             }
-        });
+        });*/
 
         //panel.add(botonReanudar);
         // Pausa.add(panel);//agregamos el panel a la ventana
        
-        System.out.println("botones");
+        System.out.println("p7");
         botones = new ArrayList<Boton>();
            botones.add(new Boton(Externos.bGris,
                 Externos.bVerde,
@@ -152,7 +152,7 @@ public class VentanaPausa extends Ventana {
         }));
          
         Pausa.setVisible(true);    
-        System.out.println("fuera");
+        System.out.println("p8");
     }
     //-----vercion2-----
     /*
@@ -239,7 +239,8 @@ public class VentanaPausa extends Ventana {
         }
     }
 
-    public boolean isPausar() {
+    public synchronized boolean isPausar() {
+        System.out.println("p13");
         return pausar;
     }
 
@@ -247,8 +248,9 @@ public class VentanaPausa extends Ventana {
     public void actualizar(float dt) {
         if (permitir > 100) {
             for (Boton b : botones) {
-
+                System.out.println("p9");
                 b.actualizar();
+                System.out.println("p10");
             }
             permitir = 0;
         }
@@ -264,7 +266,7 @@ public class VentanaPausa extends Ventana {
                 true,
                 Color.white,
                 Externos.Mfuente);
-         System.out.println("dibujar");
+         
         for (Boton b : botones) {
             b.dibujar(g);
         }
