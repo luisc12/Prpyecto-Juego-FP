@@ -204,7 +204,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }*/
     }
 
-    protected Vectores CentroImagen() {
+    public Vectores CentroImagen() {
         return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgalto / 2);
     }
 

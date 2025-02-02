@@ -39,6 +39,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -46,8 +47,7 @@ import javax.swing.SwingConstants;
  */
 public class VentanaPausa extends Ventana {
 
-    final Object pauseLock = new Object();
-    private volatile boolean pausar;
+    
     private boolean ver;
 //JButton botonReanudar;
     ArrayList<Boton> botones ;
@@ -67,7 +67,8 @@ public class VentanaPausa extends Ventana {
     //private MyCanvas canvas;
     long permitir;
 
-    public VentanaPausa(Thread PausaHilo) {
+    public VentanaPausa(ProyectoJuego p) {
+        super(p);
         pausar = false;
         this.PausaHilo=PausaHilo;
        
@@ -231,7 +232,7 @@ public class VentanaPausa extends Ventana {
        
 
         
-
+/*
     private void Reanudar() {
         synchronized (pauseLock) {
             pausar = true;
@@ -271,5 +272,15 @@ public class VentanaPausa extends Ventana {
             b.dibujar(g);
         }
     }
+*/
 
+    @Override
+    public void actualizar(float dt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void dibujar(Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

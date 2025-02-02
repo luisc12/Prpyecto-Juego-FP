@@ -40,10 +40,21 @@ public class Teclado implements KeyListener {
         abajo=keys[KeyEvent.VK_DOWN];
         disparar=keys[KeyEvent.VK_SPACE];
         pausa=keys[KeyEvent.VK_P];
-        //reanudar=keys[KeyEvent.VK_P];
+        reanudar=keys[KeyEvent.VK_O];
 
     }
+ // Método para resetear el estado de las teclas
+    public void resetearTeclas() {
+        arriba = false;
+        abajo = false;
+        izquierda = false;
+        derecha = false;
+    }
 
+    // Método para resetear el estado de pausa
+    public void resetPausa() {
+        pausa = false;
+    }
 //al precionar
     @Override
     public void keyPressed(KeyEvent e) {

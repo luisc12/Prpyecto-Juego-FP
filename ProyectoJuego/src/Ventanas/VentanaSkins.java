@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -64,9 +65,10 @@ public class VentanaSkins extends Ventana {
     private boolean ejecutando = true;
     private BufferStrategy bs;
     private JTextField textField;
-    private MyCanvas canvas;
+    //private MyCanvas canvas;
 
-    public VentanaSkins() throws ParserConfigurationException, SAXException, IOException {
+    public VentanaSkins(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
+         super(p);
         botones = new ArrayList<Boton>();
 
         Boton atras = new Boton(Externos.bGris,
@@ -76,7 +78,7 @@ public class VentanaSkins extends Ventana {
                 Constantes.Atras, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu());
+                Ventana.cambiarVentana(new VentanaMenu(p));
             }
         });
         botones.add(atras);
@@ -89,7 +91,7 @@ public class VentanaSkins extends Ventana {
             @Override
             public void hacerAccion() {
 
-                Ventana.cambiarVentana(new VentanaPartida(nombre, aux[indice].textura));
+                Ventana.cambiarVentana(new VentanaPartida(nombre, aux[indice].textura, p));
             }
         });
         botones.add(comenzar);
@@ -168,23 +170,21 @@ public class VentanaSkins extends Ventana {
         Pnom.setSize(400, 400);
         Pnom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Pnom.setLocationRelativeTo(null);
+       panel = new JPanel();
 
-        // Configurar el JLayeredPane para manejar capas
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(500, 500));
-        Pnom.add(layeredPane);
+        panel.setLayout(null);//desactivar el diseño 
+
+        
 
         // Inicializar el Canvas y agregarlo a la capa inferior
-        canvas = new MyCanvas();
-        canvas.setBounds(0, 0, 500, 500); // Posición y tamaño del Canvas
-        layeredPane.add(canvas, JLayeredPane.DEFAULT_LAYER); // Añadir el Canvas en la capa por defecto
+        
 
         // Crear el JTextField y agregarlo en una capa superior
         textField = new JTextField();
         textField.setBounds(100, 50, 200, 30); // Posicionamiento del JTextField sobre el Canvas
         textField.setFont(Externos.Mfuente);
-        layeredPane.add(textField, JLayeredPane.PALETTE_LAYER); // Añadir el JTextField en una capa superior
-
+        
+panel.add(textField);
         textField.setText("Jugador 1");
 
         // Acción para capturar el texto cuando se presiona Enter
@@ -206,7 +206,7 @@ public class VentanaSkins extends Ventana {
         boton1.setMnemonic('a');//Establecemos alt+ letra
         boton1.setForeground(Color.BLACK);//Establecemos el color de la letra de nuestro botón
         boton1.setFont(Externos.Mfuente);//Establecemos la fuente de la letra del botton
-        //panel.add(boton1);
+        panel.add(boton1);
 
         // boton1.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
         // boton1.setText("Aceptar");//establecemos un texto al boton
@@ -232,6 +232,7 @@ public class VentanaSkins extends Ventana {
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
                     System.out.println(nombre);
+                // p.pasar();
                       Pnom.setVisible(false);
 
                 }
@@ -264,7 +265,11 @@ public class VentanaSkins extends Ventana {
             }
 
         });
-        layeredPane.add(boton1, JLayeredPane.PALETTE_LAYER);
+       
+//       p.impedir();
+panel.setBackground(Color.BLACK);
+Pnom.add(panel);
+
         Pnom.setIconImage(Externos.getIconImage());
         Pnom.setVisible(true);
     }

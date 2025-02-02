@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -38,7 +39,8 @@ public class VentanaMenu extends Ventana {
 Color c;
 long cambio;
 boolean ver;
-    public VentanaMenu() {
+    public VentanaMenu(ProyectoJuego p) {
+         super(p);
         botones = new ArrayList<Boton>();
 
         botones.add(
@@ -53,7 +55,7 @@ boolean ver;
                        
                        
                             //Ventana.cambiarVentana(new VentanaControl());
-                            Ventana.cambiarVentana(new VentanaControl());
+                            Ventana.cambiarVentana(new VentanaControl(p));
                         
                     }
                 }));
@@ -81,10 +83,34 @@ boolean ver;
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaPuntaje());
+                Ventana.cambiarVentana(new VentanaPuntaje(p));
             }
         }));
+ int randio = (int) (Math.random() * 2);
 
+        double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
+        double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
+
+        ArrayList<Vectores> caminos = new ArrayList<Vectores>();
+
+        double posX, posY;
+        //sector superior izquierdo
+
+        posX = Math.random() * Constantes.ancho / 2;
+        posY = Math.random() * Constantes.alto / 2;
+        caminos.add(new Vectores(posX, posY));
+        //sector superior derecho
+        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
+        posY = Math.random() * Constantes.alto / 2;
+        caminos.add(new Vectores(posX, posY));
+        //sector inferior izquierdo
+        posX = Math.random() * Constantes.ancho / 2;
+        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
+        caminos.add(new Vectores(posX, posY));
+        //sector inferior derecho
+        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
+        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
+        caminos.add(new Vectores(posX, posY));
     }
 
     @Override
@@ -104,6 +130,8 @@ boolean ver;
 
     @Override
     public void dibujar(Graphics g) {
+        
+        
         for (Boton b : botones) {
             b.dibujar(g);
         }

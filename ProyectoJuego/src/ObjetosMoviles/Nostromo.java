@@ -5,9 +5,14 @@
  */
 package ObjetosMoviles;
 
+import ObjetosMoviles.Enemigos;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Laser;
+import ObjetosMoviles.Laser;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,7 +33,6 @@ public class Nostromo extends Enemigos {
     private boolean continuar;
     private Vectores jugadorP;
 
-    private Vectores ultimaposicion;
     //private Cronometro fuego;
     long fuego;
 
@@ -80,25 +84,36 @@ public class Nostromo extends Enemigos {
         fuego += dt;
 
         jugadorP = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
+//-------------------------
 
         continuar = false;
-        ultimaposicion = jugadorP;
-        angulo = jugadorP.NormalizarVector().getAngulo();
-        direccion = jugadorP.calcularDireccion(jugadorP.getAngulo());
-
-        //System.out.println(this.angulo + "------" + Math.atan2(direccion.getY(), direccion.getX()));
-        //velocidad.velocidadlimite(Constantes.MaxVelUfo);
+        /*  angulo = jugadorP.NormalizarVector().getAngulo();
+       angulo=jugadorSurdo(jugadorP);
+        direccion = jugadorP.calcularDireccion(angulo);
         velocidad = direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
-        posicion = posicion.SumaVectores(velocidad);
+        posicion = posicion.SumaVectores(velocidad);*/
+        //-------------------
+        Vectores posicionJ = ventanapartida.getJugador().getPosicion().RestaVectores(posicion);
+        Vectores force = PursuingForce();
 
+        //  force= force.MultiplicarVector(1 / Constantes.MasaEnemigo1);
+        velocidad = velocidad.SumaVectores(force);
+        velocidad = velocidad.velocidadlimite(maxVel);
+        posicion = posicion.SumaVectores(velocidad);
+        angulo = posicionJ.NormalizarVector().getAngulo();
+
+       angulo= jugadorSurdo(posicionJ.NormalizarVector());
+
+        // angulo = jugadorSurdo(direccion);
         if (fuego > Constantes.TDisparoEnemigo1) {
 
             Laser laser = new Laser(Externos.blueLaser,
                     CentroImagen(),
                     jugadorP,
-                    Constantes.Velocidad_lac,
+                    Constantes.Velocidad_lacNostromo,
                     angulo + Math.PI / 2,
                     ventanapartida, true, 0);
+
             ventanapartida.getObjetosmoviles().add(0, laser);
 
             fuego = 0;

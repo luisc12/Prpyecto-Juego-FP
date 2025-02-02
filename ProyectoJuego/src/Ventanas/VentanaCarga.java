@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -27,7 +28,8 @@ public class VentanaCarga extends Ventana{
     private Thread cargarHilo;
     private Font fuente;
     
-    public VentanaCarga(Thread cargarHilo) {
+    public VentanaCarga(Thread cargarHilo,ProyectoJuego p) {
+        super(p);
         this.cargarHilo=cargarHilo;
         this.cargarHilo.start();
         fuente=Externos.CargarFuente("fuentes/kenvector_future.ttf", 38);
@@ -38,7 +40,7 @@ public class VentanaCarga extends Ventana{
     @Override
     public void actualizar(float dt) {
         if (Externos.cargado) {
-            Ventana.cambiarVentana(new VentanaMenu());
+            Ventana.cambiarVentana(new VentanaMenu(p));
             try {
                 cargarHilo.join();
             } catch (InterruptedException ex) {

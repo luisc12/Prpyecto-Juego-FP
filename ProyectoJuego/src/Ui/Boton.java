@@ -72,7 +72,7 @@ public class Boton {
                         cuadroDelimitador.y + cuadroDelimitador.getHeight()),
                 true,
                 Color.BLACK,
-                Externos.Mfuente);
+                Externos.Pixeloid);
 
     }
 

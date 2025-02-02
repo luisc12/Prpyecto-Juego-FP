@@ -8,6 +8,9 @@ package ObjetosMoviles;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Jugador;
+import ObjetosMoviles.ObjetosMovibles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,7 +28,7 @@ public abstract class Enemigos extends ObjetosMovibles {
     private int indice;
     private int vida;
 
-
+Jugador jugador=ventanapartida.getJugador();
     //private Cronometro fuego;
     long fuego;
     
@@ -50,12 +53,33 @@ public abstract class Enemigos extends ObjetosMovibles {
         //
         return velocidadDeseada.RestaVectores(velocidad);
     }
-    private Vectores PursuingForce(Vectores objetivo, int tiempo){
-        Vectores FuturePosicion=posicion.SumaVectores(velocidad.MultiplicarVector(tiempo));
-        return FuturePosicion;
+    protected Vectores PursuingForce(){
+      //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
+      // Calcular distancia al jugador
+      Vectores vjp=jugador.getPosicion();
+      Vectores vjv=jugador.JugadorgetVelocidad();
+      Vectores posicionJ=vjp.RestaVectores(posicion);
+      
+      double distancia=posicionJ.Manitud();
+      
+        // Estimar el tiempo de intercepción
+      double prediccion=distancia/maxVel;
+      
+       // Calcular la posición futura del jugador
+      Vectores futuraPosicion = vjp.SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(prediccion));
+      // Aplicar Seek hacia la posición futura
+      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(0.5);
+      
+      return force ;
     }
 
-    
+    protected double jugadorSurdo( Vectores jugadorP){
+         if (jugadorP.getX() < 0) {
+                angulo = -angulo + Math.PI;
+                return angulo;
+            }
+        return angulo;
+    }
     public abstract void actualizar(float dt);
 
     @Override

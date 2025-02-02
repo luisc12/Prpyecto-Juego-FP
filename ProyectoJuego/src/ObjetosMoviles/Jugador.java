@@ -364,4 +364,8 @@ public class Jugador extends ObjetosMovibles {
         return aparecer;
     }
 
+    public Vectores JugadorgetVelocidad() {
+        return velocidad;
+    }
+
 }

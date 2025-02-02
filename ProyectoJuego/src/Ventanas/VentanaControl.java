@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -44,7 +45,8 @@ public class VentanaControl extends Ventana {
 
     Jugador j;
 
-    public VentanaControl() {
+    public VentanaControl(ProyectoJuego p) {
+         super(p);
         botones = new ArrayList<Boton>();
 
         imagen = Externos.jugadores[0];
@@ -135,7 +137,7 @@ public class VentanaControl extends Ventana {
                 Constantes.Atras, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu());
+                Ventana.cambiarVentana(new VentanaMenu(p));
             }
         });
         comenzar = new Boton(Externos.bGris,
@@ -147,7 +149,7 @@ public class VentanaControl extends Ventana {
             public void hacerAccion() {
 
                 try {
-                    Ventana.cambiarVentana(new VentanaSkins());
+                    Ventana.cambiarVentana(new VentanaSkins(p));
                 } catch (ParserConfigurationException ex) {
                     Logger.getLogger(VentanaControl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SAXException ex) {
@@ -260,8 +262,8 @@ public class VentanaControl extends Ventana {
                 Externos.Mfuente);
           Texto.DibujarTexto(g,
                 "Disparar",
-                new Vectores(  Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2 + 25)+300,
-                Constantes.alto - Externos.bGris.getHeight() * 4+200),
+                new Vectores(  Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2+25 )+300,
+                Constantes.alto - Externos.bGris.getHeight() * 5+100),
                 false,
                 Color.white,
                 Externos.Mfuente);

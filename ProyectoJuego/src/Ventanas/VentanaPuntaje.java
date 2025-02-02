@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -40,7 +41,8 @@ public class VentanaPuntaje extends Ventana {
     private Comparator<DatosPuntaje> comparador;
     private DatosPuntaje[] aux;
 
-    public VentanaPuntaje() {
+    public VentanaPuntaje(ProyectoJuego p) {
+         super(p);
         atras = new Boton(Externos.bGris,
                 Externos.bVerde,
                 Externos.bGris.getHeight(),
@@ -48,7 +50,7 @@ public class VentanaPuntaje extends Ventana {
                 Constantes.Atras, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu());
+                Ventana.cambiarVentana(new VentanaMenu(p));
             }});
 
         comparador = new Comparator<DatosPuntaje>() {

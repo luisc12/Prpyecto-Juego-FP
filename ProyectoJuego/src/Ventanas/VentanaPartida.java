@@ -20,6 +20,7 @@ import ObjetosMoviles.Jugador;
 import ObjetosMoviles.Mensaje;
 import ObjetosMoviles.Meteoros;
 import ObjetosMoviles.ObjetosMovibles;
+import ObjetosMoviles.Planetas;
 import ObjetosMoviles.PowerUp;
 import ObjetosMoviles.Tamaños;
 import ObjetosMoviles.TiposPowerUP;
@@ -46,7 +47,8 @@ import proyectojuego.ProyectoJuego;
  * @author luis
  */
 public class VentanaPartida extends Ventana {
-ProyectoJuego proyecto;
+
+    ProyectoJuego proyecto;
     VentanaPausa ventanaPausa;
     public static final Vectores PosicionInicial
             = new Vectores(Constantes.ancho / 2 - Externos.jugadores[0].getWidth() / 2,
@@ -73,6 +75,7 @@ ProyectoJuego proyecto;
     //private Cronometro TGameOver;
     private long TGameOver;
     private boolean finJuego;
+    private boolean AparecePlaneta;
     public String nombre;
 
     //private Cronometro aparecerUfo;
@@ -81,7 +84,8 @@ ProyectoJuego proyecto;
     private long aparecerPowerUP;
     private BufferedImage apariencia;
 
-    public VentanaPartida(String nombre, BufferedImage apariencia) {
+    public VentanaPartida(String nombre, BufferedImage apariencia, ProyectoJuego p) {
+        super(p);
         this.nombre = nombre;
         this.apariencia = apariencia;
         //jugador
@@ -106,12 +110,15 @@ ProyectoJuego proyecto;
         aparecerUfo = 0;
         aparecerPowerUP = 0;
         pausa = 500;
+        AparecePlaneta = false;
+
 
         /*  aparecerUfo.Empezar(Constantes.TiempoAparecerUfo);
         System.out.println("cantidad " + Externos.cantidad);*/
     }
 
-    public VentanaPartida() {
+    public VentanaPartida(ProyectoJuego p) {
+        super(p);
     }
 
     public void SumarPuntos(int valor, Vectores posicion) {
@@ -199,6 +206,7 @@ ProyectoJuego proyecto;
                     Tamaños.GRANDE));
 
         }
+//        irPlaneta();
         meteoros++;
 
         entregas++;
@@ -270,7 +278,7 @@ ProyectoJuego proyecto;
                 this));
     }
 //aqui espera al ibjeto pausa lock
-
+/*
     private void esperarSiPausado() {
         System.out.println("p11");
         while (!ventanaPausa.isPausar()) {
@@ -287,7 +295,7 @@ ProyectoJuego proyecto;
 
         }
     }
-
+     */
     public void spawnPowerUp(Vectores posicion) {
 
         int index = (int) (Math.random() * (TiposPowerUP.values().length));
@@ -399,32 +407,17 @@ ProyectoJuego proyecto;
     public void actualizar(float dt) {
         angulo += Constantes.anguloBase / 2;
         pausa += dt;
-       
-        
 
-            if (Teclado.pausa) {
-                if (pausa> 500) {
+        if (Teclado.pausa) {
+            if (pausa > 500) {
                 System.out.println("p1");
-                Thread hiloCarga = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("p2");
-                        esperarSiPausado();
-                        System.out.println("p3");
-                        while (!ventanaPausa.isPausar()) {
-                            System.out.println("p4");
-                        }
-                    }
-                });
-                 Ventana.cambiarVentana( new VentanaPausa(hiloCarga));
-                
-               
+                p.pausar();
 
                 System.out.println("return");
                 //return;
- pausa=0;
+                //pausa=0;
             }
-           
+
         }
         if (finJuego) {
             TGameOver += dt;
@@ -475,7 +468,7 @@ ProyectoJuego proyecto;
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            Ventana.cambiarVentana(new VentanaMenu());
+            Ventana.cambiarVentana(new VentanaMenu(p));
         }
         /* if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
             spawnPowerUp();
@@ -483,11 +476,15 @@ ProyectoJuego proyecto;
         }*/
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
-
-            spawnUfo();
-            // spanwEnemigo();
+           /* int probabilidad = (int) (Math.random() * 3 + 1);
+            if (probabilidad == 3) {
+                spawnUfo();
+            }
+            if (probabilidad == 2) {
+                spanwEnemigo();
+            }*/
+            spanwEnemigo();
             aparecerUfo = 0;
-
         }
 
         //en este for si no hay ningun meteoro continuara a la linea de empezarEntrega
@@ -629,4 +626,7 @@ ProyectoJuego proyecto;
 
     }
 
+    /*  private void irPlaneta() {
+       Planetas planeta=new Planetas(apariencia, PosicionInicial, PosicionInicial, angulo, this)
+    }*/
 }

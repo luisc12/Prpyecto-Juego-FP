@@ -68,7 +68,7 @@ public class Externos {
     //fuentes
     public static Font Gfuente;
     public static Font Mfuente;
-    
+    public static Font Pixeloid;
     //Sonidos
     public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
     public static Clip Ufosonido;
@@ -77,8 +77,11 @@ public class Externos {
     public static BufferedImage flechaVerdeD,flechaVerdeI,flechaGrisD,flechaGrisI,
             flechaVerdeA,flechaVerdeB,flechaGrisA,flechaGrisB;
     //powerUP
-    public static BufferedImage doblePuntuacion,dobleGun,fuegoRapido,escudo,estrella;
+    public static BufferedImage doblePuntuacion,dobleGun,fuegoRapido,escudo,escudov2,estrella;
     public static BufferedImage orbe,orbFuego,orb2X,orbGun,orbVida,orbPuntuacion;
+    
+    //Planetas
+    public static BufferedImage[] planetas = new BufferedImage[4];
 
     public static void inicio() {
         
@@ -104,7 +107,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         Gfuente=CargarFuente("fuentes/kenvector_future.ttf", 42);
         Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 20);
         
-        
+        Pixeloid=CargarFuente("fuentes/PixeloidSans-Bold.ttf", 20);
         //meteoros
 
         
@@ -148,13 +151,16 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             numeros[i] = CargarImagen("numeros/numeral" + i + ".png");
         }
         //
-        for(int i = 0; i < efectoEscudo1.length; i++){
-            efectoEscudo1[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
-		
-        }
+      //  for(int i = 0; i < efectoEscudo1.length; i++){
+        //    efectoEscudo1[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
+	 // }
         for (int i = 0; i<efectoEscudo2.length ; i++) {
             efectoEscudo2[i]=CargarImagen("efectos/shieldV2" + (i + 1)+".png");
         }
+         for (int i = 0; i<planetas.length ; i++) {
+            planetas[i]=CargarImagen("otros/Planeta" + (i + 1)+".png");
+        }
+        
         MusicaFondo=CargarMusica("sonidos/Track01V2.wav");
         //Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
@@ -192,7 +198,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         fuegoRapido=CargarImagen("poderes/fastFire.png");
         estrella=CargarImagen("poderes/star.png");
         escudo=CargarImagen("poderes/shield.png");
-        
+        escudov2=CargarImagen("poderes/escudov2.png");
         //--------------------------------------------------------
         cargado=true;
         System.out.println(cantidad);

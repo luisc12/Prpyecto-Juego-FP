@@ -7,6 +7,7 @@ package Ventanas;
 
 import java.awt.Graphics;
 import javax.swing.JFrame;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -14,6 +15,10 @@ import javax.swing.JFrame;
  */
 public abstract class Ventana extends JFrame{//extends JFrame
     private static Ventana ventanaActual=null;
+ProyectoJuego p;
+    public Ventana(ProyectoJuego p) {
+        p=this.p;
+    }
 
     public static Ventana getVentanaActual() {
         return ventanaActual;

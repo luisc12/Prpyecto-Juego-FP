@@ -11,6 +11,7 @@ import Ui.Accion;
 import Ui.Boton;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import proyectojuego.ProyectoJuego;
 
 /**
  *
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 public class VentanaCreditos extends Ventana{
 ArrayList<Boton> botones;
 
-    public VentanaCreditos() {
+    public VentanaCreditos(ProyectoJuego p) {
+        super(p);
         botones=new ArrayList<>();
         botones.add( new Boton(Externos.bGris,
                 Externos.bVerde,
@@ -28,7 +30,7 @@ ArrayList<Boton> botones;
                 Constantes.Atras, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu());
+                Ventana.cambiarVentana(new VentanaMenu(p));
             }}));
         
     }

@@ -8,6 +8,8 @@ package ObjetosMoviles;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Laser;
 import Ventanas.VentanaPartida;
 import java.awt.Color;
 import java.awt.Graphics;

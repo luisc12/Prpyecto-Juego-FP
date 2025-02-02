@@ -32,6 +32,7 @@ public class Constantes {
     //----propiedades del laser-------------------
     //velocidad del laser //LASER_VEL
     public static final double Velocidad_lac = 15.0;
+    
 
     //------propiedades meteoros-------
     public static final double Velocidad_Meteo = 2.0;
@@ -54,7 +55,8 @@ public class Constantes {
     //------propiedades Enemigo 1----
     public static final double MasaEnemigo1 = 50;//UFO_MASS
     public static final int MaxVelEnemigo1 = 2;//UFO_MAX_VEL
-    public static final long TDisparoEnemigo1 = 2000;//UFO_FIRE_RATE
+    public static final long TDisparoEnemigo1 = 3000;//UFO_FIRE_RATE
+    public static final double Velocidad_lacNostromo = 5.0;
     //------propiedades Botones----
     public static final String Comenzar = "Comenzar";
 
