@@ -9,6 +9,6 @@ package ObjetosMoviles;
  *
  * @author luis
  */
-public class Disparos {
+public class Misiles {
     
 }

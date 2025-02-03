@@ -33,12 +33,6 @@ public class Constantes {
     //velocidad del laser //LASER_VEL
     public static final double Velocidad_lac = 15.0;
     
-        public static final double maxForce=0.5;
- //----propiedades del Misil-------------------
-   public static final double Velocidad_Mic = 6.0;
-    
-        public static final double maxForceMis=0.5;
-    
 
     //------propiedades meteoros-------
     public static final double Velocidad_Meteo = 2.0;

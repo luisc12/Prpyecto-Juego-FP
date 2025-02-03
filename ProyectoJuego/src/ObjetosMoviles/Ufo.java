@@ -34,7 +34,7 @@ public class Ufo extends Enemigos {
 
     private ArrayList<Vectores> camino;
     private Vectores nodoActual;
-
+    
     private int indice;
     private int vida;
 
@@ -43,23 +43,22 @@ public class Ufo extends Enemigos {
     //private Cronometro fuego;
     private long fuego;
     private Sonido sonidoufo;
-
+    
     private Sonido Sdisparar;
-
-    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
+    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {    
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
-        indice = 0;
-        continuar = true;
-        fuego = 0;
-        Sdisparar = new Sonido(Externos.DisparoUfo);
-        sonidoufo = new Sonido(Externos.Ufosonido);
-        sonidoufo.cambiarVolumen(-10.0f);
-        sonidoufo.play();
-        vida = 100;
+    indice = 0;
+    continuar = true;
+    fuego=0;
+    Sdisparar=new Sonido(Externos.DisparoUfo);
+    sonidoufo=new Sonido(Externos.Ufosonido);
+    sonidoufo.cambiarVolumen(-10.0f);
+    sonidoufo.play();
+    vida=100;
     }
 
-    /*
+/*
     public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel,
     VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
     super(textura, posicion, velocidad, maxVel, ventanapartida);
@@ -96,15 +95,15 @@ public class Ufo extends Enemigos {
 
     @Override
     public void actualizar(float dt) {
-
-        fuego += dt;
+         
+        fuego+=dt;
         Vectores siguindo;
-        Vectores PosicionJ = new Vectores(ventanapartida.getJugador().CentroImagen());
-        int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen()).Manitud();
-        if (jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
+          Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
+        int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
+if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
-                Destruir();
-
+               Destruir();
+                
             }
         }
         if (continuar) {
@@ -122,7 +121,8 @@ public class Ufo extends Enemigos {
         posicion = posicion.SumaVectores(velocidad);
 
         //disparar
-        if (fuego > Constantes.TDisparoUfo) {
+        
+        if (fuego>Constantes.TDisparoUfo) {
             //tomamos la posicion del centro del jugador y le restamos el centro y lo normalisamos para optener la distancia
             Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
 
@@ -135,8 +135,8 @@ public class Ufo extends Enemigos {
             if (posicionJ.getX() < 0) {
                 anguloActual = -anguloActual + Math.PI;
             }
-            posicionJ = posicionJ.calcularDireccion(anguloActual);
-            /*
+            posicionJ=posicionJ.calcularDireccion(anguloActual);
+
             Laser laser = new Laser(Externos.blueLaser,
                     CentroImagen().SumaVectores(posicionJ.MultiplicarVector(imgancho)),
                     posicionJ,
@@ -145,39 +145,33 @@ public class Ufo extends Enemigos {
                     ventanapartida,true,0);
 
             ventanapartida.getObjetosmoviles().add(0, laser);
-             */
-            Misil misil = new Misil(
-                    Externos.blueMisil,
-                    CentroImagen().SumaVectores(posicionJ.MultiplicarVector(imgancho)),
-                    posicionJ,
-                    Constantes.Velocidad_lac,
-                    anguloActual+ Math.PI / 2,
-                    ventanapartida,true,0);
-            ventanapartida.getObjetosmoviles().add(0, misil);
-            fuego = 0;
+
+            fuego=0;
             Sdisparar.play();
         }
-
-        if (Sdisparar.getFramePsition() > 8500) {
+         
+        if (Sdisparar.getFramePsition()>8500) {
             Sdisparar.parar();
         }
         angulo += 0.05;
+        
+       
 
         ColisonaCon();
-
+       
     }
 
     @Override
-    public void Destruir() {
+    public void Destruir(){
         //if (continuar) {
-
-        ventanapartida.SumarPuntos(Constantes.PuntosUfo, posicion);
+            
+       
+        ventanapartida.SumarPuntos(Constantes.PuntosUfo,posicion);
         ventanapartida.Explotar(posicion);
         sonidoufo.parar();
         super.Destruir();
-        //}
+         //}
     }
-
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

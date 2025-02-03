@@ -154,7 +154,7 @@ public class Jugador extends ObjetosMovibles {
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
-                        ventanapartida,false,0);
+                        ventanapartida);
                 //el cero antes de introducir un nuevo laser significa que el laser se va a agregar primero y no al final  
                 ventanapartida.getObjetosmoviles().add(0, d);
                 ventanapartida.getObjetosmoviles().add(0, i);
@@ -167,7 +167,7 @@ public class Jugador extends ObjetosMovibles {
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
-                        ventanapartida,false,0));
+                        ventanapartida));
                 }else{
                    Laser l= new Laser(
                         Externos.greenLaser,
@@ -175,7 +175,7 @@ public class Jugador extends ObjetosMovibles {
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
-                        null,false,0);
+                        null);
                 }
                
             }
