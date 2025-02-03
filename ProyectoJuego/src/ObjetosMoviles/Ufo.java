@@ -122,7 +122,7 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
 
         //disparar
         
-        if (fuego>Constantes.TDisparoUfo) {
+        if (fuego>Constantes.TDisparoUfo*3) {
             //tomamos la posicion del centro del jugador y le restamos el centro y lo normalisamos para optener la distancia
             Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
 
@@ -137,16 +137,23 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             }
             posicionJ=posicionJ.calcularDireccion(anguloActual);
 
-            Laser laser = new Laser(Externos.blueLaser,
+      /*      Laser laser = new Laser(Externos.blueLaser,
                     CentroImagen().SumaVectores(posicionJ.MultiplicarVector(imgancho)),
                     posicionJ,
                     Constantes.Velocidad_lac,
                     anguloActual+ Math.PI / 2,
                     ventanapartida,true,0);
 
-            ventanapartida.getObjetosmoviles().add(0, laser);
+            ventanapartida.getObjetosmoviles().add(0, laser);*/
 
+      Misil misil=new Misil(Externos.blueMisil,
+                    CentroImagen(),
+                    posicionJ.NormalizarVector(),
+                    Constantes.Velocidad_Mic,
+                    anguloActual,
+                    ventanapartida,true,0);
             fuego=0;
+            ventanapartida.getObjetosmoviles().add(0, misil);
             Sdisparar.play();
         }
          

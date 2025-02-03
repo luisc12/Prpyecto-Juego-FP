@@ -46,7 +46,8 @@ public class Externos {
     public static BufferedImage[] explosion2 = new BufferedImage[16];
     //laseres    
     public static BufferedImage blueLaser, redLaser, greenLaser;
-
+ //Misiles    
+    public static BufferedImage blueMisil, redMisil, greenMisil;
     //meteoros
     public static BufferedImage[] grades = new BufferedImage[4];
 
@@ -99,6 +100,12 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         redLaser = CargarImagen("laseres/laserRed01.png");
 
         greenLaser = CargarImagen("laseres/laserGreen11.png");
+        // Misiles
+        blueMisil = CargarImagen("laseres/spaceMissilesBlue.png");
+
+        redMisil = CargarImagen("laseres/spaceMissilesRed.png");
+
+        greenMisil = CargarImagen("laseres/spaceMissilesGreen.png");
         
         //vida
         vida= CargarImagen("otros/playerLife2.png");

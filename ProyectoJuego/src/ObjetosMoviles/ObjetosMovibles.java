@@ -113,12 +113,12 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
 
         Jugador j = null;
         boolean enemigos = false;
-        if (a instanceof Laser) {
-            if (((Laser) a).isEnemigo()) {
+        if (a instanceof Disparos) {
+            if (((Disparos) a).isEnemigo()) {
                 enemigos = true;
             }
-        } else if (b instanceof Laser) {
-            if (((Laser) b).isEnemigo()) {
+        } else if (b instanceof Disparos) {
+            if (((Disparos) b).isEnemigo()) {
                 enemigos = true;
             }
         }

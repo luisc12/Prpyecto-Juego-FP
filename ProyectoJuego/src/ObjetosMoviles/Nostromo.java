@@ -95,7 +95,9 @@ public class Nostromo extends Enemigos {
         //-------------------
         Vectores posicionJ = ventanapartida.getJugador().getPosicion().RestaVectores(posicion);
         Vectores force = PursuingForce();
-
+ if (force.Manitud() > Constantes.maxforceNos) {
+            force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
+        }
         //  force= force.MultiplicarVector(1 / Constantes.MasaEnemigo1);
         velocidad = velocidad.SumaVectores(force);
         velocidad = velocidad.velocidadlimite(maxVel);
