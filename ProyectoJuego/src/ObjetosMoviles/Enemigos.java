@@ -51,6 +51,9 @@ Jugador jugador=ventanapartida.getJugador();
         //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
         velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
         //
+         if (velocidadDeseada.Manitud() > Constantes.maxForce) {
+            velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(Constantes.maxForce);
+        }
         return velocidadDeseada.RestaVectores(velocidad);
     }
     protected Vectores PursuingForce(){
@@ -68,7 +71,7 @@ Jugador jugador=ventanapartida.getJugador();
        // Calcular la posición futura del jugador
       Vectores futuraPosicion = vjp.SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(prediccion));
       // Aplicar Seek hacia la posición futura
-      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(0.5);
+      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(1);
       
       return force ;
     }

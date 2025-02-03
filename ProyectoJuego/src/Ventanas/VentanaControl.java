@@ -43,7 +43,7 @@ public class VentanaControl extends Ventana {
     boolean existe;
     Vectores posicion;
 
-    Jugador j;
+  //  Jugador j;
 
     public VentanaControl(ProyectoJuego p) {
          super(p);
@@ -56,7 +56,7 @@ public class VentanaControl extends Ventana {
         posicion = new Vectores((Constantes.ancho / 2 + 100) + 100, (Constantes.alto / 4 - 50) + 100);
 
         //-----------Jugador
-        j = new Jugador(imagen, posicion, new Vectores(0, 0), 7, null);
+     //   j = new Jugador(imagen, posicion, new Vectores(0, 0), 7, null);
 
         //-------------------
         int tamaño = 100;
@@ -195,7 +195,7 @@ public class VentanaControl extends Ventana {
             espacio.setRatonDentro(false);
         }
 
-        j.actualizar(dt);
+//        j.actualizar(dt);
 
         double anchuraRectanguloMinimo = Constantes.ancho / 2 + 100;
         double anchuraRectanguloMaximo = (Constantes.ancho / 2 + 100) + 200;
@@ -203,7 +203,7 @@ public class VentanaControl extends Ventana {
         double alturaRectanguloMinimo = Constantes.alto / 4 - 50;
         double alturaRectanguloMaximo = (Constantes.alto / 4 - 50) + 200;
 
-        if (j.getPosicion().getX() < anchuraRectanguloMinimo) {
+      /*  if (j.getPosicion().getX() < anchuraRectanguloMinimo) {
 
             posicion.setX(anchuraRectanguloMaximo - imagen.getWidth());
             posicion.setY(j.getPosicion().getY());
@@ -225,7 +225,7 @@ public class VentanaControl extends Ventana {
             posicion.setX(j.getPosicion().getX());
             posicion.setY(alturaRectanguloMinimo);
             j.setPosicion(posicion);
-        }
+        }*/
         /*     if (j.getDireccion().Manitud() >= this.maxVel) {
             Vectores velocidadInvertida = new Vectores(-getDireccion().getX(), -velocidad.getY());
             velocidad = velocidad.SumaVectores(velocidadInvertida.velocidadlimite(0.01f));
@@ -246,7 +246,7 @@ public class VentanaControl extends Ventana {
         g.setColor(Color.DARK_GRAY);
         g.drawRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, 200, 200);
         g.fillRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, 200, 200);
-        j.dibujar(g);
+       // j.dibujar(g);
         Texto.DibujarTexto(g,
                 "Controles",
                 new Vectores(Constantes.ancho / 2, 100),
