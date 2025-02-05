@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileSystemView;
 public class Constantes {
     //-----frame dimensiones-----------------
 
-    public static final int ancho = 1000, alto = 600;
+    public static final int ancho = 1500, alto = 800;
 
     //----propiedades del jugador-------------------
     //tiempo de disparo //FIRERATE
@@ -81,11 +81,12 @@ public static final double MasaMisil = 20;//UFO_MASS
 
     //ubicar la carpeta en mis documentos o en el sistema operativo linix en la carpeta Home
     public static final String ubicacion = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "\\Entrega_Espacial\\RECORS.XML"; // data.xml if you use XMLParser
-public static final String ubicacioncreditos = "../entregaespacial.xml";
+public static final String ubicacioncreditos = "src/Graficos/creditos.xml";
     // This variables are required to use XMLParser
     public static final String JUGADOR = "JUGADOR";
     public static final String JUGADORES = "JUGADORES";
     //------------Creditos-----------
+    
     public static final String Tema = "TEMA";
     public static final String OBJETO = "OBJETO";
     public static final String CREADOR = "CREADOR";

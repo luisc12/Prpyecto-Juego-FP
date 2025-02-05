@@ -144,11 +144,12 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         if (a instanceof Enemigos && b instanceof Meteoros || b instanceof Enemigos && a instanceof Meteoros) {
             return;
         }
-
-        if (a instanceof Enemigos && b instanceof Laser && !enemigos || b instanceof Enemigos && a instanceof Laser && !enemigos) {
-            if (a instanceof Ufo) {
-
-            }
+      /*  if (a instanceof Enemigos && b instanceof Laser && !enemigos || b instanceof Enemigos && a instanceof Laser && !enemigos) {
+            
+        }*/
+        if (a instanceof Planetas && b instanceof Enemigos||b instanceof Planetas && a instanceof Enemigos||
+                a instanceof Planetas && b instanceof Disparos||b instanceof Planetas && a instanceof Disparos) {
+            return;
         }
         //-------------------------------------
         if (!(a instanceof PowerUp || b instanceof PowerUp)) {
@@ -165,7 +166,9 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
                 ((PowerUp) a).EjecutarAccion();
                 a.Destruir();
             }
+            
         }
+        
 
         /*if ((a instanceof Jugador &&((Jugador)a).isAparecer())||
                 (b instanceof Jugador &&((Jugador)b).isAparecer())) {

@@ -46,7 +46,7 @@ import javax.swing.SwingConstants;
 public class ProyectoJuego extends JFrame implements Runnable {
 
     public JPanel panel;
-
+public Color c;
     private Thread hilo;
     //canvas es un lienso en el que se dibuja y atrapa los eventos del teclado, ratony accion
     private Canvas canvas;
@@ -194,7 +194,7 @@ public void  pasar(){
         // ventanaPartida.dibujar(g);
         Ventana.getVentanaActual().dibujar(g);
 
-        g.setColor(Color.WHITE);
+        //g.setColor(Color.WHITE);
 
         //  g.drawString("" + PROFPS, 10, 20);
         //---------------------

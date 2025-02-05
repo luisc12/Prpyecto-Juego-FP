@@ -1,25 +1,68 @@
 <CREDITOS>
+<!--Musicas usadas.-->    
  <CREDITO TEMA="MUSICA">
   <OBJETO>Track01V2.wav</OBJETO>
-  <CREADOR>Free Cyberpunk Music Cyber Tracks Volume 1</CREADOR>
-  <LICENCIA>(Creative Commons Zero, CC0)</LICENCIA>
-  <MODIFICACION>formato estandar de window<MODIFICACION>
+  <CREADOR>Cyberpunk Music Cyber Tracks</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO>
  
  <CREDITO TEMA="MUSICA">
   <OBJETO>ShotgunShot001V2.wav</OBJETO>
-  <CREADOR>FREE FPS SFX Pack LMGLolo</CREADOR>
+  <CREADOR>LMGLolo</CREADOR>
   <LICENCIA>CC BY-ND 4.0</LICENCIA>
-  <MODIFICACION>formato estandar de window<MODIFICACION>
+  <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO>
  
- <CREDITO TEMA="MUSICA">
-  <OBJETO>GrapplingHook_Reel(Loop).wav</OBJETO>
-  <CREADOR>FREE FPS SFX Pack LMGLolo</CREADOR>
-  <LICENCIA>CC BY-ND 4.0</LICENCIA>
-  <MODIFICACION>formato estandar de window<MODIFICACION>
+<!--spritesrecursos utilizados.-->
+<!--escudo.-->     
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>shieldV2.png(1 a 12)</OBJETO>
+  <CREADOR>Baldur</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO>
  
+ <!--Orbes.-->  
  
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orbe/orb.png</OBJETO>
+  <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
  
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orb2X/orb2X.png</OBJETO>
+  <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO>
+ 
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orbFuego/orbFuego.png</OBJETO>
+  <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO>  
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orbGun/orbGun.png</OBJETO>
+  <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO>
+ 
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orbVida.png/orbVida.png</OBJETO>
+  <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>square_explosion.png(1 a 16)</OBJETO>
+  <CREADOR>Tiao Ferreira</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>tamaño de las imagenes</MODIFICACION>
+ </CREDITO>  
 </CREDITOS>

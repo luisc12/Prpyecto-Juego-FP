@@ -57,6 +57,8 @@ public class Boton {
 
     public void dibujar(Graphics g) {
          Graphics2D g2d = (Graphics2D) g;
+        //mejora la vista del los objetos
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         if (ratonDentro) {
            
                 g2d .drawImage(ratonSobre, cuadroDelimitador.x, cuadroDelimitador.y, null);

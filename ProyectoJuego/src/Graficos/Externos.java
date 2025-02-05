@@ -38,7 +38,7 @@ public class Externos {
     //efectos
     public static BufferedImage propulsion;
     
-    public static BufferedImage[] efectoEscudo1 = new BufferedImage[3];
+    //public static BufferedImage[] efectoEscudo1 = new BufferedImage[3];
     public static BufferedImage[] efectoEscudo2 = new BufferedImage[12];
     //animacion
 
@@ -113,7 +113,6 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         //fuentes
         Gfuente=CargarFuente("fuentes/kenvector_future.ttf", 42);
         Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 20);
-        
         Pixeloid=CargarFuente("fuentes/PixeloidSans-Bold.ttf", 20);
         //meteoros
 

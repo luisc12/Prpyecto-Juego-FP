@@ -32,39 +32,45 @@ import org.xml.sax.SAXException;
  * @author luis
  */
 public class XMLParserCreditos {
-    /* public static ArrayList<Creditos> LeerFichero() throws ParserConfigurationException, SAXException, IOException {
+
+    public static ArrayList<Creditos> LeerFichero() throws ParserConfigurationException, SAXException, IOException {
 
         ArrayList<Creditos> datosLista = new ArrayList<Creditos>();
-        File f = new File(Constantes.ubicacioncreditos);
 
-        if (!f.exists() || f.length() == 0) {
-            return datosLista;
+        File f = new File(Constantes.ubicacioncreditos);
+        if (!f.exists()) {
+           // System.out.println("Archivo no encontrado en: " + f.getAbsolutePath());
+            System.out.println("Directorio actual: " + System.getProperty("user.dir"));
         }
 
         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factoria.newDocumentBuilder();
         Document d = builder.parse(f);
 
-        String nombre;
-        int puntos;
-        String fecha;
-        
-        NodeList principal = d.getElementsByTagName(Constantes.Tema);
+        String tema = null;
+        String objeto = null;
+        String creador = null;
+        String licencia = null;
+        String modificacion = null;
+
+        NodeList principal = d.getElementsByTagName(Constantes.CREDITO);
         for (int i = 0; i < principal.getLength(); i++) {
             Node princ = principal.item(i);
             if (princ.getNodeType() == Node.ELEMENT_NODE) {
                 Element ele = (Element) princ;
-                nombre = ele.getElementsByTagName(Constantes.Nombres).item(0).getTextContent();
-                puntos = Integer.parseInt(ele.getElementsByTagName(Constantes.Puntos).item(0).getTextContent());
-                fecha = ele.getElementsByTagName(Constantes.fecha).item(0).getTextContent();
-                System.out.println(fecha);
-                datosLista.add(new DatosPuntaje(nombre, puntos, fecha));
+                tema = ele.getAttribute(Constantes.Tema);
+                objeto = ele.getElementsByTagName(Constantes.OBJETO).item(0).getTextContent();
+                creador = ele.getElementsByTagName(Constantes.CREADOR).item(0).getTextContent();
+
+                licencia = ele.getElementsByTagName(Constantes.LICENCIA).item(0).getTextContent();
+                modificacion = ele.getElementsByTagName(Constantes.MODIFICACION).item(0).getTextContent();
+                datosLista.add(new Creditos(tema, objeto, creador, licencia, modificacion));
             }
         }
         return datosLista;
     }
 
-    public static void escribirFichero(ArrayList<Creditos> datosLista) throws ParserConfigurationException, IOException, TransformerException {
+    /*  public static void escribirFichero(ArrayList<Creditos> datosLista) throws ParserConfigurationException, IOException, TransformerException {
         File f = new File(Constantes.ubicacion);
         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factoria.newDocumentBuilder();

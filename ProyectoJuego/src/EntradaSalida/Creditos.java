@@ -26,6 +26,51 @@ public class Creditos {
 
     public Creditos() {
     }
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
+    public String getObjeto() {
+        return objeto;
+    }
+
+    public void setObjeto(String objeto) {
+        this.objeto = objeto;
+    }
+
+    public String getCreador() {
+        return creador;
+    }
+
+    public void setCreador(String creador) {
+        this.creador = creador;
+    }
+
+    public String getLicencia() {
+        return licencia;
+    }
+
+    public void setLicencia(String licencia) {
+        this.licencia = licencia;
+    }
+
+    public String getModificacion() {
+        return modificacion;
+    }
+
+    public void setModificacion(String modificacion) {
+        this.modificacion = modificacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Creditos{" + "tema=" + tema + ", objeto=" + objeto + ", creador=" + creador + ", licencia=" + licencia + ", modificacion=" + modificacion + '}';
+    }
     
     
     

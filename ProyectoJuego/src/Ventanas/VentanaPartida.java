@@ -83,6 +83,7 @@ public class VentanaPartida extends Ventana {
     private long aparecerUfo;
     private long aparecerPowerUP;
     private BufferedImage apariencia;
+    private Planetas planeta;
 
     public VentanaPartida(String nombre, BufferedImage apariencia, ProyectoJuego p) {
         super(p);
@@ -111,8 +112,6 @@ public class VentanaPartida extends Ventana {
         aparecerPowerUP = 0;
         pausa = 500;
         AparecePlaneta = false;
-
-
         /*  aparecerUfo.Empezar(Constantes.TiempoAparecerUfo);
         System.out.println("cantidad " + Externos.cantidad);*/
     }
@@ -206,6 +205,7 @@ public class VentanaPartida extends Ventana {
                     Tamaños.GRANDE));
 
         }
+
 //        irPlaneta();
         meteoros++;
 
@@ -218,6 +218,13 @@ public class VentanaPartida extends Ventana {
                 25,
                 //le restamos a la posicion la mitad del ancho y la altura de la imagen para que asi la animacion este en el centro
                 posicion.RestaVectores(new Vectores(Externos.explosion2[0].getWidth() / 2, Externos.explosion2[0].getHeight() / 2))));
+    }
+
+    private void spawnPlaneta() {
+        BufferedImage superficie = Externos.planetas[(int) (Math.random() * Externos.grades.length)];
+        planeta = new Planetas(superficie, new Vectores(Constantes.ancho / 2 - superficie.getWidth() / 2,
+                -superficie.getHeight()), new Vectores(0, 0), 2, this);
+        objetosmoviles.add(planeta);
     }
 
     private void spawnUfo() {
@@ -476,14 +483,15 @@ public class VentanaPartida extends Ventana {
         }*/
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
-           /* int probabilidad = (int) (Math.random() * 3 + 1);
+            /* int probabilidad = (int) (Math.random() * 3 + 1);
             if (probabilidad == 3) {
                 spawnUfo();
             }
             if (probabilidad == 2) {
                 spanwEnemigo();
             }*/
-            spawnUfo();
+            //spawnUfo();
+
             aparecerUfo = 0;
         }
 
@@ -493,22 +501,29 @@ public class VentanaPartida extends Ventana {
             if (!(objetosmoviles.get(i) instanceof Jugador) && !(objetosmoviles.get(i) instanceof Meteoros)) {
                 if (objetosmoviles.get(i).getPosicion().getX() < -objetosmoviles.get(i).getImgancho() || objetosmoviles.get(i).getPosicion().getX() > Constantes.ancho + objetosmoviles.get(i).getImgancho()
                         || objetosmoviles.get(i).getPosicion().getY() < -objetosmoviles.get(i).getImgalto() || objetosmoviles.get(i).getPosicion().getY() > Constantes.alto + objetosmoviles.get(i).getImgalto()) {
-                    objetosmoviles.get(i).Destruir();
-
+                   if(!(objetosmoviles.get(i) instanceof Planetas)){
+                       objetosmoviles.get(i).Destruir();
+                   }
                 }
             }
             if (objetosmoviles.get(i) instanceof Meteoros) {
                 return;
             }
         }
+       /* spawnPlaneta();
+        while (!planeta.isMuerte()) {
+            if (planeta.isMuerte()) {
+                
+            }
 
-        empezarEntrega();
-
+        }*/
+empezarEntrega();
     }
 
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
         //mejora la vista del los objetos
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
@@ -538,15 +553,15 @@ public class VentanaPartida extends Ventana {
     }
 
     private void DibujarPuntuacion(Graphics g) {
-        Vectores pos = new Vectores(850, 25);
+        Vectores pos = new Vectores(1050, 25);
 
         String PuntajeText = Integer.toString(puntos);
 
         for (int i = 0; i < PuntajeText.length(); i++) {
-            g.drawImage(Externos.numeros[Integer.parseInt(PuntajeText.substring(i, i + 1))],
+            g.drawImage(Externos.cambiarTamaño(Externos.numeros[Integer.parseInt(PuntajeText.substring(i, i + 1))], 40),
                     (int) pos.getX(), (int) pos.getY(), null);
 
-            pos.setX(pos.getX() + 20);
+            pos.setX(pos.getX() + 50);
         }
     }
 
@@ -557,10 +572,10 @@ public class VentanaPartida extends Ventana {
         }
         Vectores posV = new Vectores(25, 25);
 
-        BufferedImage vida = Externos.cambiarTamaño(apariencia, 25);
+        BufferedImage vida = Externos.cambiarTamaño(apariencia, 50);
         g.drawImage(vida, (int) posV.getX(), (int) posV.getY(), null);
 
-        g.drawImage(Externos.numeros[10], (int) posV.getX() + 40,
+        g.drawImage(Externos.cambiarTamaño(Externos.numeros[10], 40), (int) posV.getX() + 70,
                 (int) posV.getY() + 5, null);
         //// método Integer.toString devuelve 
         //la representación de cadena del argumento es decir 
@@ -575,9 +590,9 @@ public class VentanaPartida extends Ventana {
             if (numero <= 0) {
                 break;
             }
-            g.drawImage(Externos.numeros[numero], (int) pos.getX() + 60,
+            g.drawImage(Externos.cambiarTamaño(Externos.numeros[numero], 40), (int) pos.getX() + 120,
                     (int) pos.getY() + 3, null);
-            pos.setX(pos.getX() + 20);
+            pos.setX(pos.getX() + +50);
         }
     }
 
