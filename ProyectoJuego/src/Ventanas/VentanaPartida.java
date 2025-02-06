@@ -490,7 +490,7 @@ public class VentanaPartida extends Ventana {
             if (probabilidad == 2) {
                 spanwEnemigo();
             }*/
-            //spawnUfo();
+            spawnUfo();
 
             aparecerUfo = 0;
         }

@@ -103,7 +103,7 @@ public class VentanaControl extends Ventana {
         izquierda = new Boton(izquierdaGris,
                 izquierdaVerde,
                 Constantes.ancho / 3 - izquierdaGris.getWidth() * 3,
-                Constantes.alto / 2 - izquierdaGris.getHeight(),
+                Constantes.alto / 3,
                 "", new Accion() {
             @Override
             public void hacerAccion() {
@@ -113,7 +113,7 @@ public class VentanaControl extends Ventana {
         derecha = new Boton(derechaGris,
                 derechaVerde,
                 Constantes.ancho / 3 - derechaVerde.getWidth(),
-                Constantes.alto / 2 - derechaVerde.getHeight(),
+                Constantes.alto / 3,
                 "", new Accion() {
             @Override
             public void hacerAccion() {

@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
@@ -44,7 +42,10 @@ public class VentanaCreditos extends Ventana {
         super(p);
         posicion = 0;
         System.out.println(" dentro");
-        botones = new ArrayList<>();
+        botones = new ArrayList<Boton>();
+        numPagina = 1;
+        tamPagina = 5;
+
         botones.add(new Boton(Externos.bGris,
                 Externos.bVerde,
                 Externos.bGris.getHeight(),
@@ -63,20 +64,12 @@ public class VentanaCreditos extends Ventana {
                 "anterior", new Accion() {
             @Override
             public void hacerAccion() {
-                int totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
-                if (numPagina < totalPaginas && numPagina > 1) {
-                    numPagina--;
-                    try {
-                        Ventana.cambiarVentana(new VentanaCreditos(p));
-                    } catch (ParserConfigurationException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SAXException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                if (numPagina > 1) {
+                    numPagina--; // Reducimos la página sin crear una nueva ventana
+                    repaint(); // Redibujamos la pantalla
                     System.out.println("Página actual: " + numPagina);
                 }
+
             }
         }));
         botones.add(new Boton(Externos.bGris,
@@ -87,19 +80,10 @@ public class VentanaCreditos extends Ventana {
             @Override
             public void hacerAccion() {
                 int totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
-
                 if (numPagina < totalPaginas) {
-                    numPagina++;
+                    numPagina++; // Aumentamos la página sin crear una nueva ventana
+                    repaint(); // Redibujamos la pantalla
                     System.out.println("Página actual: " + numPagina);
-                    try {
-                        Ventana.cambiarVentana(new VentanaCreditos(p));
-                    } catch (ParserConfigurationException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SAXException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(VentanaCreditos.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                 }
             }
         }));
@@ -114,10 +98,14 @@ public class VentanaCreditos extends Ventana {
 
     @Override
     public void actualizar(float dt) {
+        
         for (Boton b : botones) {
             b.actualizar();
         }
-           repaint();
+        if (rootPaneCheckingEnabled) {
+            
+        }
+        repaint();
     }
 
     @Override
@@ -127,13 +115,10 @@ public class VentanaCreditos extends Ventana {
         }
         int linea = 100; // Posición vertical inicial
         String tema = ""; // Para comparar si es el mismo tema
-        /*  Vectores posTema= new Vectores(Constantes.ancho / 2, 100);
-          Vectores posObjeto = new Vectores(Constantes.ancho / 2 - 600, 200);
-          Vectores posCreador= new Vectores(Constantes.ancho / 2- 200, 200);
-          Vectores posLicencia= new Vectores(Constantes.ancho / 2+400, 200);
-        Vectores posModificacion = new Vectores(Constantes.ancho / 2 + 600, 200);*/
-        
+
         int totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
+
+        // Asegurar que numPagina no sea mayor que totalPaginas ni menor que 1
         if (numPagina > totalPaginas) {
             numPagina = totalPaginas;
         }
@@ -141,11 +126,12 @@ public class VentanaCreditos extends Ventana {
             numPagina = 1;
         }
         System.out.println("Mostrando página: " + numPagina + " de " + totalPaginas);
+
         List<Creditos> credito = paginaList(listaDatos, numPagina, tamPagina);
         System.out.println("Elementos en esta página: " + credito.size());
-
+        linea = 90;
         // System.out.println( "Página " + pageNumber + ": " + paginatedResult);
-     /*   for (Creditos c : credito) {
+        for (Creditos c : credito) {
 
             if (!tema.equalsIgnoreCase(c.getTema())) {
 
@@ -161,27 +147,27 @@ public class VentanaCreditos extends Ventana {
 
             Texto.DibujarTexto(g,
                     c.getObjeto(),
-                    new Vectores(Constantes.ancho / 2 - 600, linea),
+                    new Vectores(Constantes.ancho / 2 - 750, linea),
                     false,
                     Color.WHITE,
                     Externos.Pixeloid);
 
             Texto.DibujarTexto(g,
                     c.getCreador(),
-                    new Vectores(Constantes.ancho / 2 - 200, linea),
+                    new Vectores(Constantes.ancho / 2 - 400, linea),
                     false,
                     Color.ORANGE,
                     Externos.Pixeloid);
 
             Texto.DibujarTexto(g,
                     c.getLicencia(),
-                    new Vectores(Constantes.ancho / 2 + 100, linea),
+                    new Vectores(Constantes.ancho / 2 + 50, linea),
                     false,
                     Color.GREEN,
                     Externos.Pixeloid);
             Texto.DibujarTexto(g,
                     c.getModificacion(),
-                    new Vectores(Constantes.ancho / 2 + 400, linea),
+                    new Vectores(Constantes.ancho / 2 + 240, linea),
                     false,
                     Color.blue,
                     Externos.Pixeloid);
@@ -194,31 +180,35 @@ public class VentanaCreditos extends Ventana {
             posicion+=40;
          //   linea += 40;
         }*/
-     linea = 100;
-for (Creditos c : credito) {
-    g.setColor(Color.YELLOW);
-    g.drawString("Tema: " + c.getTema(), 50, linea);
-    g.setColor(Color.WHITE);
-    g.drawString("Objeto: " + c.getObjeto(), 50, linea + 20);
-    g.setColor(Color.ORANGE);
-    g.drawString("Creador: " + c.getCreador(), 50, linea + 40);
-    g.setColor(Color.GREEN);
-    g.drawString("Licencia: " + c.getLicencia(), 50, linea + 60);
-    g.setColor(Color.BLUE);
-    g.drawString("Modificación: " + c.getModificacion(), 50, linea + 80);
-    
-    linea += 120; // Espaciado entre créditos
-}
+ /*
+        for (Creditos c : credito) {
+            g.setColor(Color.YELLOW);
+            g.drawString("Tema: " + c.getTema(), 50, linea);
+            g.setColor(Color.WHITE);
+            g.drawString("Objeto: " + c.getObjeto(), 50, linea + 20);
+            g.setColor(Color.ORANGE);
+            g.drawString("Creador: " + c.getCreador(), 50, linea + 40);
+            g.setColor(Color.GREEN);
+            g.drawString("Licencia: " + c.getLicencia(), 50, linea + 60);
+            g.setColor(Color.BLUE);
+            g.drawString("Modificación: " + c.getModificacion(), 50, linea + 80);
+
+            linea += 120; // Espaciado entre créditos
+        }*/
+            linea += 120;
+        }
     }
 
     public static List<Creditos> paginaList(ArrayList<Creditos> listaDatos, int numPagina, int tamPagina) {
         int desplazamiento = (numPagina - 1) * tamPagina; //ùnto de partida
 
-        if (desplazamiento >= listaDatos.size() || desplazamiento < 0) {
-            return Collections.emptyList(); // Devuelve una lista vacía si el número de página está fuera del rango
+        // Asegurar que no haya un desplazamiento fuera del rango
+        if (desplazamiento >= listaDatos.size()) {
+            return Collections.emptyList();
         }
-        int piePagina = Math.min(desplazamiento + tamPagina, listaDatos.size()); //punto final del sub conjunto de datos
 
-        return listaDatos.subList(desplazamiento, piePagina); //se utiliza para extraer los elementos entre los índices calculados.
+        int piePagina = Math.min(desplazamiento + tamPagina, listaDatos.size());
+        return listaDatos.subList(desplazamiento, piePagina);
     }
+
 }

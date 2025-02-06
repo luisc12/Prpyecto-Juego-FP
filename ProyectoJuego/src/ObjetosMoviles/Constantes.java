@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileSystemView;
 public class Constantes {
     //-----frame dimensiones-----------------
 
-    public static final int ancho = 1500, alto = 800;
+    public static final int ancho = 1500, alto = 900;
 
     //----propiedades del jugador-------------------
     //tiempo de disparo //FIRERATE

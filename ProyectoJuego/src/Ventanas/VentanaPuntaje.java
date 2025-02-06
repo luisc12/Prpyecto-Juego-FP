@@ -42,7 +42,7 @@ public class VentanaPuntaje extends Ventana {
     private DatosPuntaje[] aux;
 
     public VentanaPuntaje(ProyectoJuego p) {
-         super(p);
+        super(p);
         atras = new Boton(Externos.bGris,
                 Externos.bVerde,
                 Externos.bGris.getHeight(),
@@ -51,18 +51,20 @@ public class VentanaPuntaje extends Ventana {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
-            }});
+            }
+        });
 
         comparador = new Comparator<DatosPuntaje>() {
             @Override
             public int compare(DatosPuntaje d1, DatosPuntaje d2) {
                 return d1.getPuntaje() < d2.getPuntaje() ? -1 : d1.getPuntaje() > d2.getPuntaje()
                         ? 1 : 0;
-            } };
+            }
+        };
         datospuntajes = new PriorityQueue<DatosPuntaje>(10, comparador);
         try {
             ArrayList<DatosPuntaje> listaDatos = XMLParser.LeerFichero();
-            
+
             DatosPuntaje d = new DatosPuntaje();
             for (DatosPuntaje l : listaDatos) {
                 datospuntajes.add(l);
@@ -94,10 +96,10 @@ public class VentanaPuntaje extends Ventana {
         aux = datospuntajes.toArray(new DatosPuntaje[datospuntajes.size()]);
         //para ordenarlo
         Arrays.sort(aux, comparador);
-
-        Vectores posNombres = new Vectores(Constantes.ancho / 2 - 300, 100);
-        Vectores posPuntajes = new Vectores(Constantes.ancho / 2, 100);
-        Vectores posFechas = new Vectores(Constantes.ancho / 2 + 300, 100);
+        int linea = 100;
+        Vectores posNombres = new Vectores(Constantes.ancho / 2 - 300, linea);
+        Vectores posPuntajes = new Vectores(Constantes.ancho / 2, linea);
+        Vectores posFechas = new Vectores(Constantes.ancho / 2 + 300, linea);
 
         Texto.DibujarTexto(g,
                 Constantes.Nombres,
@@ -119,18 +121,21 @@ public class VentanaPuntaje extends Ventana {
                 true,
                 Color.yellow,
                 Externos.Gfuente);
-        posNombres.setY(posNombres.getY() + 40);
-        posPuntajes.setY(posPuntajes.getY() + 40);
-        posFechas.setY(posFechas.getY() + 40);
+
+       // linea = linea + 80;
         //iteramos el arreglo ausiliar al reves por que la cola con prioridad es de menor a mayor
         for (int i = aux.length - 1; i > -1; i--) {
             DatosPuntaje d = aux[i];
-
+            
+            linea = linea + 60;
+             posNombres = new Vectores(Constantes.ancho / 2 - 300, linea);
+            posPuntajes = new Vectores(Constantes.ancho / 2, linea);
+            posFechas = new Vectores(Constantes.ancho / 2 + 300, linea);
             Texto.DibujarTexto(g,
                     d.getNombre(),
                     posNombres,
                     true,
-                    Color.yellow,
+                    Color.CYAN,
                     Externos.Mfuente);
 
             Texto.DibujarTexto(g,
@@ -146,10 +151,8 @@ public class VentanaPuntaje extends Ventana {
                     true,
                     Color.white,
                     Externos.Mfuente);
+           
 
-            posNombres.setY(posNombres.getY() + 40);
-            posPuntajes.setY(posPuntajes.getY() + 40);
-            posFechas.setY(posFechas.getY() + 40);
         }
     }
 

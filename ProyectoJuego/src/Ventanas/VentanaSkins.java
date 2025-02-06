@@ -16,6 +16,7 @@ import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -34,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -68,7 +70,7 @@ public class VentanaSkins extends Ventana {
     //private MyCanvas canvas;
 
     public VentanaSkins(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
-         super(p);
+        super(p);
         botones = new ArrayList<Boton>();
 
         Boton atras = new Boton(Externos.bGris,
@@ -166,25 +168,39 @@ public class VentanaSkins extends Ventana {
             System.out.println(aux[j].name() + " " + aux[j].puntaje);
         }
         ////-------------ventana nombre------------
-        JFrame Pnom = new JFrame("Ingresar usuario");
+        JDialog Pnom = new JDialog((Frame) null, "Ingresar usuario", true);
+        Pnom.setSize(400, 400);
+        Pnom.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        Pnom.setLocationRelativeTo(null);
+        Pnom.setResizable(false);
+
+        panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(Color.BLACK);
+        Pnom.add(panel);
+
+// Crear campo de texto
+        textField = new JTextField();
+        textField.setBounds(100, 50, 200, 30);
+        textField.setFont(Externos.Mfuente);
+        textField.setText("Jugador 1");
+        panel.add(textField);
+
+       /* JFrame Pnom = new JFrame("Ingresar usuario");
         Pnom.setSize(400, 400);
         Pnom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Pnom.setLocationRelativeTo(null);
-       panel = new JPanel();
+        panel = new JPanel();*/
 
         panel.setLayout(null);//desactivar el diseño 
 
-        
-
         // Inicializar el Canvas y agregarlo a la capa inferior
-        
-
         // Crear el JTextField y agregarlo en una capa superior
         textField = new JTextField();
         textField.setBounds(100, 50, 200, 30); // Posicionamiento del JTextField sobre el Canvas
         textField.setFont(Externos.Mfuente);
-        
-panel.add(textField);
+
+        panel.add(textField);
         textField.setText("Jugador 1");
 
         // Acción para capturar el texto cuando se presiona Enter
@@ -205,24 +221,9 @@ panel.add(textField);
         boton1.setEnabled(true);//establecemos el encendido del boton
         boton1.setMnemonic('a');//Establecemos alt+ letra
         boton1.setForeground(Color.BLACK);//Establecemos el color de la letra de nuestro botón
-        boton1.setFont(Externos.Mfuente);//Establecemos la fuente de la letra del botton
+        boton1.setFont(Externos.Pixeloid);//Establecemos la fuente de la letra del botton
         panel.add(boton1);
 
-        // boton1.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
-        // boton1.setText("Aceptar");//establecemos un texto al boton
-        /*boton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
-               Pnom.setVisible(false);
-               String nombre2=textField.getText();
-               System.out.println(nombre);
-                Pnom.setVisible(false);
-                
-               
-            }
-            
-        });*/
         boton1.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -232,8 +233,8 @@ panel.add(textField);
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
                     System.out.println(nombre);
-                // p.pasar();
-                      Pnom.setVisible(false);
+                    // p.pasar();
+                    Pnom.setVisible(false);
 
                 }
             }
@@ -265,10 +266,10 @@ panel.add(textField);
             }
 
         });
-       
+
 //       p.impedir();
-panel.setBackground(Color.BLACK);
-Pnom.add(panel);
+        panel.setBackground(Color.BLACK);
+        Pnom.add(panel);
 
         Pnom.setIconImage(Externos.getIconImage());
         Pnom.setVisible(true);

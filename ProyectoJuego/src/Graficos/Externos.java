@@ -112,7 +112,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         
         //fuentes
         Gfuente=CargarFuente("fuentes/kenvector_future.ttf", 42);
-        Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 20);
+        Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 25);
         Pixeloid=CargarFuente("fuentes/PixeloidSans-Bold.ttf", 20);
         //meteoros
 
