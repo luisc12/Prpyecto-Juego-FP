@@ -60,7 +60,7 @@ public static final double MasaMisil = 20;//UFO_MASS
     public static final double MasaNos = 50;//UFO_MASS
     public static final int MaxVelNos = 2;//UFO_MAX_VEL
     public static final long TDisparoNos = 3000;//UFO_FIRE_RATE
-    public static final double Velocidad_lacNostromo = 3.0;
+    public static final double Velocidad_lacNostromo = 10.0;
     public static final double maxforceNos = 1.0;
     //------propiedades Botones----
     public static final String Comenzar = "Comenzar";

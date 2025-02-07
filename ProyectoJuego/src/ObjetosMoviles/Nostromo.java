@@ -95,25 +95,34 @@ public class Nostromo extends Enemigos {
         //-------------------
         Vectores posicionJ = ventanapartida.getJugador().getPosicion().RestaVectores(posicion);
         Vectores force = PursuingForce();
- if (force.Manitud() > Constantes.maxforceNos) {
+        if (force.Manitud() > Constantes.maxforceNos) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
         }
-          force= force.MultiplicarVector(1 / Constantes.MasaNos);
+        force = force.MultiplicarVector(1 / Constantes.MasaNos);
         velocidad = velocidad.SumaVectores(force);
         velocidad = velocidad.velocidadlimite(maxVel);
         posicion = posicion.SumaVectores(velocidad);
         angulo = posicionJ.NormalizarVector().getAngulo();
 
-       angulo= jugadorSurdo(posicionJ.NormalizarVector());
+        angulo = jugadorSurdo(posicionJ.NormalizarVector());
 
         // angulo = jugadorSurdo(direccion);
         if (fuego > Constantes.TDisparoNos) {
+            jugadorP =jugadorP.NormalizarVector();
+            
+             double anguloActual =  jugadorP.getAngulo();
+            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2+Constantes.RangoAnguloUfo / 4);
+             if ( jugadorP.getX() < 0) {
+                anguloActual = -anguloActual + Math.PI;
+            }
+           jugadorP=jugadorP.calcularDireccion(anguloActual);
 
-            Laser laser = new Laser(Externos.blueLaser,
+            
+                    Laser laser = new Laser(Externos.blueLaser,
                     CentroImagen(),
                     jugadorP,
                     Constantes.Velocidad_lacNostromo,
-                    angulo + Math.PI / 2,
+                    anguloActual + Math.PI / 2,
                     ventanapartida, true, 0);
 
             ventanapartida.getObjetosmoviles().add(0, laser);

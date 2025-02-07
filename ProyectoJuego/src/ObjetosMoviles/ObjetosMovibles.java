@@ -138,15 +138,15 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         if (a instanceof Meteoros && enemigos || b instanceof Meteoros && enemigos) {
             return;
         }
-        if (a instanceof Enemigos && enemigos || b instanceof Enemigos && enemigos) {
+        if (a instanceof Enemigos &&  b instanceof Enemigos  || b instanceof Enemigos && a instanceof Enemigos) {
             return;
         }
         if (a instanceof Enemigos && b instanceof Meteoros || b instanceof Enemigos && a instanceof Meteoros) {
             return;
         }
-      /*  if (a instanceof Enemigos && b instanceof Laser && !enemigos || b instanceof Enemigos && a instanceof Laser && !enemigos) {
-            
-        }*/
+       if (a instanceof Enemigos && b instanceof Laser && enemigos || b instanceof Enemigos && a instanceof Laser && enemigos) {
+            return;
+        }
         if (a instanceof Planetas && b instanceof Enemigos||b instanceof Planetas && a instanceof Enemigos||
                 a instanceof Planetas && b instanceof Disparos||b instanceof Planetas && a instanceof Disparos) {
             return;
