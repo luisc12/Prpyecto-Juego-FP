@@ -56,11 +56,11 @@ public static final double MasaMisil = 20;//UFO_MASS
     public static final int PuntosUfo = 40;//UFO_SCORE 
     public static final long TiempoAparecerUfo = 10000;//UFO_SPAWN_RATE
 
-    //------propiedades Enemigo 1----
-    public static final double MasaEnemigo1 = 50;//UFO_MASS
-    public static final int MaxVelEnemigo1 = 2;//UFO_MAX_VEL
-    public static final long TDisparoEnemigo1 = 3000;//UFO_FIRE_RATE
-    public static final double Velocidad_lacNostromo = 5.0;
+    //------propiedades Nostromo----
+    public static final double MasaNos = 50;//UFO_MASS
+    public static final int MaxVelNos = 2;//UFO_MAX_VEL
+    public static final long TDisparoNos = 3000;//UFO_FIRE_RATE
+    public static final double Velocidad_lacNostromo = 3.0;
     public static final double maxforceNos = 1.0;
     //------propiedades Botones----
     public static final String Comenzar = "Comenzar";

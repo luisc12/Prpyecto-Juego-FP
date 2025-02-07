@@ -483,14 +483,14 @@ public class VentanaPartida extends Ventana {
         }*/
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
-            /* int probabilidad = (int) (Math.random() * 3 + 1);
+           /*  int probabilidad = (int) (Math.random() * 3 + 1);
             if (probabilidad == 3) {
                 spawnUfo();
             }
             if (probabilidad == 2) {
                 spanwEnemigo();
             }*/
-            spawnUfo();
+           spanwEnemigo();
 
             aparecerUfo = 0;
         }

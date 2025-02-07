@@ -63,7 +63,7 @@ private Vectores direccion;
         angulo += Constantes.anguloBase/2;
         /* angulo=-Math.PI/2;
        direccion = posicion.calcularDireccion(angulo);
-        velocidad = direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
+        velocidad = direccion.velocidadlimite(Constantes.MaxVelNos);
         posicion = posicion.SumaVectores(velocidad);*/
         
     }

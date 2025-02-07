@@ -16,6 +16,7 @@ import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,6 +38,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -169,7 +171,7 @@ public class VentanaSkins extends Ventana {
         }
         ////-------------ventana nombre------------
         JDialog Pnom = new JDialog((Frame) null, "Ingresar usuario", true);
-        Pnom.setSize(400, 400);
+        Pnom.setSize(600, 200);
         Pnom.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         Pnom.setLocationRelativeTo(null);
         Pnom.setResizable(false);
@@ -178,10 +180,21 @@ public class VentanaSkins extends Ventana {
         panel.setLayout(null);
         panel.setBackground(Color.BLACK);
         Pnom.add(panel);
+        
+        JLabel etiqueta= new JLabel();//creamos una etiqueta de Texto
+        etiqueta.setText("Ingrese su nombre:");//establecemos el texto de la etiqueta
+        etiqueta.setBounds(50, 10, 300, 50);
+        etiqueta.setBackground(Color.DARK_GRAY);
+        etiqueta.setForeground(Color.GREEN);
+        
+        etiqueta.setFont(Externos.Pixeloid);/*establecemos la fuente del texto 0 es normal, 
+         1 es negrita, 2 es cursiba y 3 es negrita y cursiva*/
+         panel.add(etiqueta);
+        
 
 // Crear campo de texto
         textField = new JTextField();
-        textField.setBounds(100, 50, 200, 30);
+        textField.setBounds(350, 20, 200, 30);
         textField.setFont(Externos.Mfuente);
         textField.setText("Jugador 1");
         panel.add(textField);
@@ -193,15 +206,6 @@ public class VentanaSkins extends Ventana {
         panel = new JPanel();*/
 
         panel.setLayout(null);//desactivar el diseño 
-
-        // Inicializar el Canvas y agregarlo a la capa inferior
-        // Crear el JTextField y agregarlo en una capa superior
-        textField = new JTextField();
-        textField.setBounds(100, 50, 200, 30); // Posicionamiento del JTextField sobre el Canvas
-        textField.setFont(Externos.Mfuente);
-
-        panel.add(textField);
-        textField.setText("Jugador 1");
 
         // Acción para capturar el texto cuando se presiona Enter
         textField.addKeyListener(new KeyAdapter() {
@@ -215,7 +219,7 @@ public class VentanaSkins extends Ventana {
         JButton boton1 = new JButton("Aceptar");
         ImageIcon normalIcon = new ImageIcon(Externos.bGris); // Imagen por defecto
         ImageIcon hoverIcon = new ImageIcon(Externos.bVerde);   // Imagen al pasar el mouse
-        boton1.setBounds(20, 300, Externos.bGris.getWidth(), Externos.bGris.getHeight());
+        boton1.setBounds(20, 100, Externos.bGris.getWidth(), Externos.bGris.getHeight());
         boton1.setHorizontalTextPosition(JButton.CENTER);
         boton1.setVerticalTextPosition(JButton.CENTER);
         boton1.setEnabled(true);//establecemos el encendido del boton

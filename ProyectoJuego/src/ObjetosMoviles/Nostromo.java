@@ -98,7 +98,7 @@ public class Nostromo extends Enemigos {
  if (force.Manitud() > Constantes.maxforceNos) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
         }
-        //  force= force.MultiplicarVector(1 / Constantes.MasaEnemigo1);
+          force= force.MultiplicarVector(1 / Constantes.MasaNos);
         velocidad = velocidad.SumaVectores(force);
         velocidad = velocidad.velocidadlimite(maxVel);
         posicion = posicion.SumaVectores(velocidad);
@@ -107,7 +107,7 @@ public class Nostromo extends Enemigos {
        angulo= jugadorSurdo(posicionJ.NormalizarVector());
 
         // angulo = jugadorSurdo(direccion);
-        if (fuego > Constantes.TDisparoEnemigo1) {
+        if (fuego > Constantes.TDisparoNos) {
 
             Laser laser = new Laser(Externos.blueLaser,
                     CentroImagen(),
@@ -140,7 +140,6 @@ public class Nostromo extends Enemigos {
             continuar = true;
         }
         ColisonaCon();
-
     }
 
     @Override
