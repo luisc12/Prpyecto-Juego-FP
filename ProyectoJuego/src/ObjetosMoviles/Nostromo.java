@@ -118,7 +118,7 @@ public class Nostromo extends Enemigos {
            jugadorP=jugadorP.calcularDireccion(anguloActual);
 
             
-                    Laser laser = new Laser(Externos.blueLaser,
+                    Laser laser = new Laser(Externos.redLaser,
                     CentroImagen(),
                     jugadorP,
                     Constantes.Velocidad_lacNostromo,

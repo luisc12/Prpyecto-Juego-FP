@@ -7,6 +7,7 @@ package Ventanas;
 
 import Entrada.Teclado;
 import Graficos.Externos;
+import static Graficos.Externos.panelAnchoT;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
@@ -120,31 +121,34 @@ public class VentanaControl extends Ventana {
                 System.out.println("ver");
             }
         });
-        espacio = new Boton(Externos.bGris,
-                Externos.bVerde,
-                Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2 + 25),
-                Constantes.alto - Externos.bGris.getHeight() * 4,
-                "ESPACIO", new Accion() {
+        
+        BufferedImage botonDesactivado = Externos.cambiarTamaño2(Externos.bDesactivado, 192, 64);
+        
+        espacio = new Boton(botonDesactivado,
+                Constantes.botonActivo,
+                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 2 + 25),
+                Constantes.alto - Constantes.botonActivo.getHeight() * 4,
+                "ESPACIO",Color.WHITE,Color.RED, new Accion() {
             @Override
             public void hacerAccion() {
                 System.out.println("ver");
             }
         });
-        atras = new Boton(Externos.bGris,
-                Externos.bVerde,
-                Externos.bGris.getHeight(),
-                Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Atras, new Accion() {
+        atras = new Boton(Constantes.botonApagado,
+                Constantes.botonActivo,
+                Constantes.botonActivo.getHeight(),
+                Constantes.alto - Constantes.botonActivo.getHeight() * 2,
+                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
             }
         });
-        comenzar = new Boton(Externos.bGris,
-                Externos.bVerde,
-                Constantes.ancho / 2 + Externos.bGris.getWidth(),
-                Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Comenzar, new Accion() {
+        comenzar = new Boton(Constantes.botonApagado,
+                Constantes.botonActivo,
+                Constantes.ancho / 2 + Constantes.botonActivo.getWidth(),
+                Constantes.alto - Constantes.botonActivo.getHeight() * 2,
+                Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
 
@@ -239,6 +243,12 @@ public class VentanaControl extends Ventana {
 
     @Override
     public void dibujar(Graphics g) {
+         Graphics2D g2d = (Graphics2D) g;
+          BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAnchoT, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
+            AffineTransform at = AffineTransform.getTranslateInstance(
+                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
+                   0);
+             g2d.drawImage(imagenEscalada, at, null);
         for (Boton b : botones) {
             b.dibujar(g);
         }
@@ -268,7 +278,7 @@ public class VentanaControl extends Ventana {
                 Color.white,
                 Externos.Mfuente);
 
-        Graphics2D g2d = (Graphics2D) g;
+        
         /*   AffineTransform   at = AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
         //punto de rotacion : optenemos el ancho y lo dividimos entre 2        
         at.rotate(angulo, imagen.getWidth() / 2, imagen.getHeight() / 2);

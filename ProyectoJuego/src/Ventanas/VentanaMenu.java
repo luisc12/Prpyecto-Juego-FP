@@ -40,18 +40,23 @@ public class VentanaMenu extends Ventana {
     Color c;
     long cambio;
     boolean ver;
-
+BufferedImage panel;
     public VentanaMenu(ProyectoJuego p) {
         
         super(p);
+        
+        
+        System.out.println(Externos.bGris.getWidth()+" "+Externos.bGris.getHeight());
+        
+       
         botones = new ArrayList<Boton>();
 
         botones.add(
-                new Boton(Externos.bGris,
-                        Externos.bVerde,
-                        Constantes.ancho / 2 - Externos.bGris.getWidth() / 2,
-                        Constantes.alto / 2 - Externos.bGris.getHeight() * 4,
-                        Constantes.Comenzar,
+                new Boton( Constantes.botonApagado,
+                        Constantes.botonActivo,
+                        Constantes.ancho / 2 -  Constantes.botonApagado.getWidth() / 2,
+                        Constantes.alto / 2 -  Constantes.botonApagado.getHeight() * 4,
+                        Constantes.Comenzar,Externos.cEncendido,Externos.cApagado,
                         new Accion() {
                     @Override
                     public void hacerAccion() {
@@ -62,11 +67,11 @@ public class VentanaMenu extends Ventana {
                     }
                 }));
 
-        botones.add(new Boton(Externos.bGris,
-                Externos.bVerde,
-                Constantes.ancho / 2 - Externos.bGris.getWidth() / 2,
+        botones.add(new Boton( Constantes.botonApagado,
+                        Constantes.botonActivo,
+                Constantes.ancho / 2 -  Constantes.botonApagado.getWidth() / 2,
                 Constantes.alto / 2 ,
-                Constantes.Salir,
+                Constantes.Salir,Externos.cEncendido,Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
@@ -83,26 +88,27 @@ public class VentanaMenu extends Ventana {
             }
         }));
 
-        BufferedImage scaledgris = Externos.cambiarancho(Externos.bGris, 100);
+        BufferedImage scaledgris =  Externos.cambiarTamaño2(Externos.bInactivo,300, 64);
 
-        BufferedImage scaledverde = Externos.cambiarancho(Externos.bVerde, 100);
-
+        BufferedImage scaledverde = Externos.cambiarTamaño2(Externos.bActivo,300,  64);
+        
+System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
         botones.add(new Boton(scaledgris,
                 scaledverde,
                 Constantes.ancho / 2 - scaledgris.getWidth() / 2,
                 Constantes.alto / 2 - Externos.bGris.getHeight() * 2,
-                Constantes.MejoresPuntajes,
+                Constantes.MejoresPuntajes,Externos.cEncendido,Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaPuntaje(p));
             }
         }));
-        botones.add(new Boton(Externos.bGris,
-                Externos.bVerde,
-                Constantes.ancho / 2 - Externos.bGris.getWidth() / 2,
-                Constantes.alto / 2 + Externos.bGris.getHeight() * 2,
-                "Creditos",
+        botones.add(new Boton( Constantes.botonApagado,
+                        Constantes.botonActivo,
+                Constantes.ancho / 2 - Constantes.botonApagado.getWidth() / 2,
+                Constantes.alto / 2 + Constantes.botonApagado.getHeight() * 2,
+                "Creditos",Externos.cEncendido,Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
@@ -146,6 +152,7 @@ public class VentanaMenu extends Ventana {
         
         ver=false;
         c = Color.MAGENTA;
+        panel=Externos.panelMenu;
     }
 
     @Override
@@ -156,10 +163,10 @@ public class VentanaMenu extends Ventana {
         }
         if (cambio > 5000) {
             if (ver) {
-                c = Color.ORANGE;
+                c = Externos.cApagado;
                 ver=false;
             } else {
-                c = Color.MAGENTA;
+                c = Externos.cEncendido;
                 ver=true;
             }
         }
@@ -167,6 +174,13 @@ public class VentanaMenu extends Ventana {
 
     @Override
     public void dibujar(Graphics g) {
+          Graphics2D g2d = (Graphics2D) g;
+            BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho/2,  Constantes.alto-200); // Ancho: 200, Alto: 300
+            AffineTransform at = AffineTransform.getTranslateInstance(
+                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
+                    0);
+             g2d.drawImage(imagenEscalada, at, null);
+            
          g.setColor(Color.BLUE);
        //  g.setColor(Color.getHSBColor(37, 137, 41));
   Texto.DibujarTexto(g,

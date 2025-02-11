@@ -30,7 +30,8 @@ public class Boton {
     private Rectangle cuadroDelimitador;
     private String texto;
     private Accion accion;
- 
+    private Color cEncendido;
+    private Color cApagado;
 
     public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
             int x, int y, String texto, Accion accion) {
@@ -39,6 +40,19 @@ public class Boton {
         cuadroDelimitador = new Rectangle(x, y, ratonSobre.getWidth(), ratonSobre.getHeight());
         this.texto = texto;
         this.accion = accion;
+        cEncendido = Color.BLACK;
+        cApagado=Color.BLACK;
+    }
+
+    public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
+            int x, int y, String texto, Color cEncendido,Color cApagado, Accion accion) {
+        this.ratonfuera = ratonfuera;
+        this.ratonSobre = ratonSobre;
+        cuadroDelimitador = new Rectangle(x, y, ratonSobre.getWidth(), ratonSobre.getHeight());
+        this.texto = texto;
+        this.accion = accion;
+        this.cEncendido = cEncendido;
+        this.cApagado=cApagado;
     }
 
     public void actualizar() {
@@ -56,24 +70,25 @@ public class Boton {
     }
 
     public void dibujar(Graphics g) {
-         Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
         //mejora la vista del los objetos
+        Color c;
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         if (ratonDentro) {
-           
-                g2d .drawImage(ratonSobre, cuadroDelimitador.x, cuadroDelimitador.y, null);
 
+            g2d.drawImage(ratonSobre, cuadroDelimitador.x, cuadroDelimitador.y, null);
+ c=cEncendido;
         } else {
-            
-                g2d .drawImage(ratonfuera, cuadroDelimitador.x, cuadroDelimitador.y, null);
 
+            g2d.drawImage(ratonfuera, cuadroDelimitador.x, cuadroDelimitador.y, null);
+c=cApagado;
         }
         Texto.DibujarTexto(g2d,
                 texto,
                 new Vectores(cuadroDelimitador.x + cuadroDelimitador.getWidth() / 2,
                         cuadroDelimitador.y + cuadroDelimitador.getHeight()),
                 true,
-                Color.BLACK,
+                c,
                 Externos.Pixeloid);
 
     }

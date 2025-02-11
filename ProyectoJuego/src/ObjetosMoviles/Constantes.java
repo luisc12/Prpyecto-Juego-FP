@@ -5,6 +5,8 @@
  */
 package ObjetosMoviles;
 
+import Graficos.Externos;
+import java.awt.image.BufferedImage;
 import javax.swing.filechooser.FileSystemView;
 
 /**
@@ -32,12 +34,12 @@ public class Constantes {
     //----propiedades del laser-------------------
     //velocidad del laser //LASER_VEL
     public static final double Velocidad_lac = 15.0;
-    
-     //----propiedades del Misiles-------------------
+
+    //----propiedades del Misiles-------------------
     //velocidad del laser //LASER_VEL
     public static final double Velocidad_Mic = 3.0;
-public static final double maxforceMis = 2.0;
-public static final double MasaMisil = 20;//UFO_MASS
+    public static final double maxforceMis = 2.0;
+    public static final double MasaMisil = 20;//UFO_MASS
     //------propiedades meteoros-------
     public static final double Velocidad_Meteo = 2.0;
 
@@ -66,7 +68,8 @@ public static final double MasaMisil = 20;//UFO_MASS
     public static final String Comenzar = "Comenzar";
 
     public static final String Salir = "Salir";
-
+    public static BufferedImage botonApagado = Externos.cambiarTamaño2(Externos.bInactivo, 192, 64); // Ancho: 200, Alto: 300
+    public static BufferedImage botonActivo = Externos.cambiarTamaño2(Externos.bActivo, 192, 64);
     //-------propiedades de Cargar----------------------
     public static final int BarraCargaAncho = 500;//LOADING_BAR_WIDTH
     public static final int BarraCargaAlto = 50;//LOADING_BAR_HEIGHT 
@@ -81,19 +84,19 @@ public static final double MasaMisil = 20;//UFO_MASS
 
     //ubicar la carpeta en mis documentos o en el sistema operativo linix en la carpeta Home
     public static final String ubicacion = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "\\Entrega_Espacial\\RECORS.XML"; // data.xml if you use XMLParser
-public static final String ubicacioncreditos = "src/Graficos/creditos.xml";
+    public static final String ubicacioncreditos = "src/Graficos/creditos.xml";
     // This variables are required to use XMLParser
     public static final String JUGADOR = "JUGADOR";
     public static final String JUGADORES = "JUGADORES";
     //------------Creditos-----------
-    
+
     public static final String Tema = "TEMA";
     public static final String OBJETO = "OBJETO";
     public static final String CREADOR = "CREADOR";
     public static final String LICENCIA = "LICENCIA";
     public static final String MODIFICACION = "MODIFICACION";
-    public static final String CREDITOS= "CREDITOS";
-    public static final String CREDITO= "CREDITO";
+    public static final String CREDITOS = "CREDITOS";
+    public static final String CREDITO = "CREDITO";
     //-------propiedades Power Up----------------
     public static final long DuracionPU = 10000;//POWER_UP_DURATION
     public static final long TiempoAparecerPower = 8000;//POWER_UP_SPAWN_TIME

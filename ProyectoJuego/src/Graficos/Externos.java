@@ -6,10 +6,12 @@
 package Graficos;
 
 import static Graficos.Externos.efectoEscudo2;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -30,6 +32,9 @@ public class Externos {
     public static boolean cargado=false;
     public static float cantidad=0;
     public static float cantidadMax=57;
+    
+    public static Color cEncendido=new Color(88, 214, 141 );
+    public static Color cApagado=new Color(47, 153, 68 );
     //Skins
     public static BufferedImage[] jugadores = new BufferedImage[8];
     
@@ -74,9 +79,11 @@ public class Externos {
     public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
     public static Clip Ufosonido;
     //ui
-    public static BufferedImage bVerde,bGris;
+    public static BufferedImage bVerde,bGris,bActivo,bInactivo,bDesactivado;
+    
     public static BufferedImage flechaVerdeD,flechaVerdeI,flechaGrisD,flechaGrisI,
             flechaVerdeA,flechaVerdeB,flechaGrisA,flechaGrisB;
+      public static BufferedImage panelMenu,panelAncho,panelAnchoT;
     //powerUP
     public static BufferedImage doblePuntuacion,dobleGun,fuegoRapido,escudo,escudov2,estrella;
     public static BufferedImage orbe,orbFuego,orb2X,orbGun,orbVida,orbPuntuacion;
@@ -179,6 +186,10 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         //botones
         bGris=CargarImagen("ui/button_Gris.png");
         bVerde=CargarImagen("ui/button_Verde.png");
+        bActivo=CargarImagen("ui/Button Active.png");
+        bInactivo=CargarImagen("ui/Button Normal.png");
+        bDesactivado=CargarImagen("ui/Button Normal.png");
+        
         
         flechaGrisD=CargarImagen("ui/flecha_Gris_Derecha.png");
         flechaVerdeD=CargarImagen("ui/flecha_Verde_Derecha.png");
@@ -189,6 +200,10 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         flechaVerdeA=CargarImagen("ui/flecha_Verde_Arriba.png");
         flechaGrisB=CargarImagen("ui/flecha_Gris_Abajo.png");
         flechaVerdeB=CargarImagen("ui/flecha_Verde_Abajo.png");
+        
+        panelMenu=CargarImagen("ui/Card X1.png");
+        panelAncho=CargarImagen("ui/Card X3.png");
+        panelAnchoT=CargarImagen("ui/Card X2.png");
         
         //Poderes
         orbe=CargarImagen("poderes/orb.png");
@@ -244,26 +259,47 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         }
         return null;
     }
-    public static  BufferedImage cambiarTamaño(BufferedImage img, int newHeight) {
+    public static BufferedImage cambiarTamaño2(BufferedImage img, int newAncho, int newAtura) {
+    BufferedImage imagenEscalada = new BufferedImage(newAncho, newAtura, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2d = imagenEscalada.createGraphics();
     
-    double scaleFactor = (double) newHeight / img.getHeight();
-    int newWidth = (int) (img.getWidth() * scaleFactor);
+    // Activar renderizado de alta calidad
+    g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
+    // Dibujar la imagen escalada
+    g2d.drawImage(img, 0, 0, newAncho, newAtura, null);
+    g2d.dispose();
+    
+    return imagenEscalada;
+}
+    public static  BufferedImage cambiarTamaño(BufferedImage img, int newAltura) {
+    
+    double scaleFactor = (double) newAltura / img.getHeight();
+    int newAncho = (int) (img.getWidth() * scaleFactor);
 
-    BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, img.getType());
-    Graphics2D g2d = scaledImage.createGraphics();
-    g2d.drawImage(img, 0, 0, newWidth, newHeight, null);
+    BufferedImage imagenEscalada = new BufferedImage(newAncho, newAltura, img.getType());
+    Graphics2D g2d = imagenEscalada.createGraphics();
+    g2d.drawImage(img, 0, 0, newAncho, newAltura, null);
     g2d.dispose();
 
-    return scaledImage;
+    return imagenEscalada;
 }
-     public static  BufferedImage cambiarancho(BufferedImage img, int newHeight) {
+     public static  BufferedImage cambiarancho(BufferedImage img, int newAlto) {
     
-    double scaleFactor = (double) newHeight / img.getHeight();
-    int newWidth = (int) (img.getWidth() * scaleFactor);
+    double scaleFactor = (double) newAlto / img.getHeight();
+    int newAncho = (int) (img.getWidth() * scaleFactor);
 
-    BufferedImage scaledImage = new BufferedImage(newWidth, img.getHeight(), img.getType());
+    BufferedImage scaledImage = new BufferedImage(newAncho, img.getHeight(), img.getType());
     Graphics2D g2d = scaledImage.createGraphics();
-    g2d.drawImage(img, 0, 0, newWidth, img.getHeight(), null);
+    // Activar renderizado de alta calidad
+    g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
+    // Dibujar la imagen escalada
+    g2d.drawImage(img, 0, 0, newAncho, img.getHeight(), null);
     g2d.dispose();
 
     return scaledImage;

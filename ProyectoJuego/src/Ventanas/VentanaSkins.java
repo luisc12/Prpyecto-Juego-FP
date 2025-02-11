@@ -16,7 +16,6 @@ import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -61,20 +60,18 @@ public class VentanaSkins extends Ventana {
     private boolean activar;
     long permitir;
     String nombre;
-
     ///ventana nombre
     private JTextField Input = new JTextField();
     public JPanel panel;
-    // private Canvas canvas;
     private boolean ejecutando = true;
     private BufferStrategy bs;
     private JTextField textField;
-    //private MyCanvas canvas;
+   
 
     public VentanaSkins(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
         super(p);
         botones = new ArrayList<Boton>();
-
+activar=false;
         Boton atras = new Boton(Externos.bGris,
                 Externos.bVerde,
                 Constantes.ancho / 2 - Externos.bGris.getWidth() * 2,
@@ -86,7 +83,6 @@ public class VentanaSkins extends Ventana {
             }
         });
         botones.add(atras);
-
         Boton comenzar = new Boton(Externos.bGris,
                 Externos.bVerde,
                 Constantes.ancho / 2 + Externos.bGris.getWidth(),
@@ -94,17 +90,14 @@ public class VentanaSkins extends Ventana {
                 Constantes.Comenzar, new Accion() {
             @Override
             public void hacerAccion() {
-
                 Ventana.cambiarVentana(new VentanaPartida(nombre, aux[indice].textura, p));
             }
         });
         botones.add(comenzar);
-
         BufferedImage flechaderechaV = Externos.cambiarTamaño(Externos.flechaVerdeD, 150);
         BufferedImage flechaderechaG = Externos.cambiarTamaño(Externos.flechaGrisD, 150);
         BufferedImage flechaizquierdaV = Externos.cambiarTamaño(Externos.flechaVerdeI, 150);
         BufferedImage flechaizquierdaG = Externos.cambiarTamaño(Externos.flechaGrisI, 150);
-
         Boton derecha = new Boton(flechaderechaG,
                 flechaderechaV,
                 Constantes.ancho - flechaderechaG.getWidth() * 2,
@@ -113,17 +106,13 @@ public class VentanaSkins extends Ventana {
             @Override
             public void hacerAccion() {
                 if (indice + 1 < index) {
-
                     indice += 1;
                 } else {
                     indice = 0;
                 }
-
             }
         });
-
         botones.add(derecha);
-
         Boton izquierda = new Boton(flechaizquierdaG,
                 flechaizquierdaV,
                 Externos.flechaGrisI.getWidth() * 2,
@@ -147,7 +136,6 @@ public class VentanaSkins extends Ventana {
         }
         System.out.println(mejorpuntaje);
         Naves[] naves = Naves.values();
-
         int i = 0;
         for (int j = 0; j < naves.length; j++) {
             if (mejorpuntaje >= naves[j].puntaje) {
@@ -163,15 +151,14 @@ public class VentanaSkins extends Ventana {
                 aux[i] = naves[i];
                 System.out.println(i);
             }
-
         }
         System.out.println("i: " + i);
         for (int j = 0; j < aux.length; j++) {
             System.out.println(aux[j].name() + " " + aux[j].puntaje);
         }
         ////-------------ventana nombre------------
-        JDialog Pnom = new JDialog((Frame) null, "Ingresar usuario", true);
-        Pnom.setSize(600, 200);
+        JFrame Pnom = new JFrame("Ingresar usuario");
+        Pnom.setSize(600, 300);
         Pnom.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         Pnom.setLocationRelativeTo(null);
         Pnom.setResizable(false);
@@ -180,17 +167,15 @@ public class VentanaSkins extends Ventana {
         panel.setLayout(null);
         panel.setBackground(Color.BLACK);
         Pnom.add(panel);
-        
-        JLabel etiqueta= new JLabel();//creamos una etiqueta de Texto
+        JLabel etiqueta = new JLabel();//creamos una etiqueta de Texto
         etiqueta.setText("Ingrese su nombre:");//establecemos el texto de la etiqueta
         etiqueta.setBounds(50, 10, 300, 50);
         etiqueta.setBackground(Color.DARK_GRAY);
         etiqueta.setForeground(Color.GREEN);
-        
+
         etiqueta.setFont(Externos.Pixeloid);/*establecemos la fuente del texto 0 es normal, 
          1 es negrita, 2 es cursiba y 3 es negrita y cursiva*/
-         panel.add(etiqueta);
-        
+        panel.add(etiqueta);
 
 // Crear campo de texto
         textField = new JTextField();
@@ -199,14 +184,13 @@ public class VentanaSkins extends Ventana {
         textField.setText("Jugador 1");
         panel.add(textField);
 
-       /* JFrame Pnom = new JFrame("Ingresar usuario");
+
+        /* JFrame Pnom = new JFrame("Ingresar usuario");
         Pnom.setSize(400, 400);
         Pnom.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Pnom.setLocationRelativeTo(null);
+       panel = new JPanel();
         panel = new JPanel();*/
-
-        panel.setLayout(null);//desactivar el diseño 
-
         // Acción para capturar el texto cuando se presiona Enter
         textField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -215,19 +199,34 @@ public class VentanaSkins extends Ventana {
                 }
             }
         });
-
         JButton boton1 = new JButton("Aceptar");
         ImageIcon normalIcon = new ImageIcon(Externos.bGris); // Imagen por defecto
         ImageIcon hoverIcon = new ImageIcon(Externos.bVerde);   // Imagen al pasar el mouse
-        boton1.setBounds(20, 100, Externos.bGris.getWidth(), Externos.bGris.getHeight());
+        boton1.setBounds(20, 200, Externos.bGris.getWidth(), Externos.bGris.getHeight());
         boton1.setHorizontalTextPosition(JButton.CENTER);
         boton1.setVerticalTextPosition(JButton.CENTER);
         boton1.setEnabled(true);//establecemos el encendido del boton
         boton1.setMnemonic('a');//Establecemos alt+ letra
         boton1.setForeground(Color.BLACK);//Establecemos el color de la letra de nuestro botón
+        boton1.setFont(Externos.Mfuente);//Establecemos la fuente de la letra del botton
         boton1.setFont(Externos.Pixeloid);//Establecemos la fuente de la letra del botton
         panel.add(boton1);
 
+        // boton1.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+        // boton1.setText("Aceptar");//establecemos un texto al boton
+        /*boton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
+               Pnom.setVisible(false);
+               String nombre2=textField.getText();
+               System.out.println(nombre);
+                Pnom.setVisible(false);
+                
+               
+            }
+            
+        });*/
         boton1.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -237,7 +236,7 @@ public class VentanaSkins extends Ventana {
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
                     System.out.println(nombre);
-                    // p.pasar();
+                    activar=true;
                     Pnom.setVisible(false);
 
                 }
@@ -271,26 +270,28 @@ public class VentanaSkins extends Ventana {
 
         });
 
-//       p.impedir();
+        panel.setBackground(Color.BLACK);
+        Pnom.add(panel);
         panel.setBackground(Color.BLACK);
         Pnom.add(panel);
 
         Pnom.setIconImage(Externos.getIconImage());
         Pnom.setVisible(true);
+        Pnom.setAlwaysOnTop(true);
     }
 
     @Override
     public void actualizar(float dt) {
-
         permitir += dt;
-        if (permitir > 100) {
+        if (activar) {
+             if (permitir > 100) {
             for (Boton b : botones) {
-
                 b.actualizar();
             }
             permitir = 0;
         }
-
+        }
+       
     }
 
     @Override
@@ -299,34 +300,28 @@ public class VentanaSkins extends Ventana {
             b.dibujar(g);
         }
         Graphics2D g2d = (Graphics2D) g;
-
         Texto.DibujarTexto(g,
                 "Seleccione la Skin",
                 new Vectores(Constantes.ancho / 2 - aux[indice].nombre.length(), 100),
                 true,
                 Color.YELLOW,
                 Externos.Gfuente);
-
         Texto.DibujarTexto(g,
                 aux[indice].nombre,
                 new Vectores(Constantes.ancho / 2 - aux[indice].nombre.length(), Constantes.alto / 1.2),
                 true,
                 Color.MAGENTA,
                 Externos.Gfuente);
-
         BufferedImage muestra = Externos.cambiarTamaño(aux[indice].textura, 200);
         Vectores PosicionInicial
                 = new Vectores(Constantes.ancho / 2 - muestra.getWidth() / 2,
                         Constantes.alto / 2 - muestra.getHeight() / 2);
-
         AffineTransform at = AffineTransform.getTranslateInstance(PosicionInicial.getX(),
                 PosicionInicial.getY());
-
         /*    public static final Vectores PosicionInicial
             = new Vectores(Constantes.ancho / 2 - Externos.jugador.getWidth() / 2,
                     Constantes.alto / 2 - Externos.jugador.getHeight() / 2);*/
         at.rotate(0, muestra.getWidth() / 2, muestra.getWidth() / 2);
         g2d.drawImage(muestra, at, null);
     }
-
 }

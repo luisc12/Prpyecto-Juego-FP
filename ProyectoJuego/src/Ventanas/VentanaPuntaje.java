@@ -16,6 +16,9 @@ import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,11 +46,13 @@ public class VentanaPuntaje extends Ventana {
 
     public VentanaPuntaje(ProyectoJuego p) {
         super(p);
-        atras = new Boton(Externos.bGris,
-                Externos.bVerde,
+          BufferedImage botonApagado = Externos.cambiarTamaño2(Externos.bInactivo,192,  64); // Ancho: 200, Alto: 300
+         BufferedImage botonActivo = Externos.cambiarTamaño2(Externos.bActivo,192,  64);
+        atras = new Boton(botonApagado,
+                botonActivo,
                 Externos.bGris.getHeight(),
-                Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Atras, new Accion() {
+                Constantes.alto - botonApagado.getHeight() * 2,
+                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
@@ -91,6 +96,13 @@ public class VentanaPuntaje extends Ventana {
 
     @Override
     public void dibujar(Graphics g) {
+          Graphics2D g2d = (Graphics2D) g;
+            BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho/2+200,  Constantes.alto-100); // Ancho: 200, Alto: 300
+            AffineTransform at = AffineTransform.getTranslateInstance(
+                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
+                    0);
+             g2d.drawImage(imagenEscalada, at, null);
+        
         atras.dibujar(g);
         //paso mi cola con prioridad a un arreglo normal
         aux = datospuntajes.toArray(new DatosPuntaje[datospuntajes.size()]);
@@ -105,21 +117,21 @@ public class VentanaPuntaje extends Ventana {
                 Constantes.Nombres,
                 posNombres,
                 true,
-                Color.yellow,
+                Externos.cEncendido,
                 Externos.Gfuente);
 
         Texto.DibujarTexto(g,
                 Constantes.Puntos,
                 posPuntajes,
                 true,
-                Color.yellow,
+                Externos.cEncendido,
                 Externos.Gfuente);
 
         Texto.DibujarTexto(g,
                 Constantes.fecha,
                 posFechas,
                 true,
-                Color.yellow,
+                Externos.cEncendido,
                 Externos.Gfuente);
 
        // linea = linea + 80;
@@ -135,7 +147,7 @@ public class VentanaPuntaje extends Ventana {
                     d.getNombre(),
                     posNombres,
                     true,
-                    Color.CYAN,
+                    Color.WHITE,
                     Externos.Mfuente);
 
             Texto.DibujarTexto(g,

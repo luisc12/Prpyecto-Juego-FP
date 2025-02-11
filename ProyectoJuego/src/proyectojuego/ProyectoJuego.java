@@ -115,15 +115,7 @@ public Color c;
 
     }
 
-    /*
-public void impedir(){
-     this.setFocusableWindowState(false);
-        this.setEnabled(false);
-}
-public void  pasar(){
-     this.setFocusableWindowState(true);
-        this.setEnabled(true);
-}*/
+  
     public void Ingresarusuario() {
         //ventana nombre
         JFrame Pnom = new JFrame("Ingresar usuario");
@@ -225,25 +217,7 @@ public void  pasar(){
             }
 
         }
-        /*  long dt=0;
-        Thread hiloCarga=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(!Teclado.pausa||dt>500){
-                   if (Teclado.pausa&&dt>500) {
-              hilo.resume();
-          } 
-                }
-            }
-        });
-      //  Ventana.cambiarVentana(new VentanaPausa(hiloCarga,this));
-
-              pausa = true;
-        p.detener();
-        teclado.resetearTeclas();
-        VentanaPausa p = new VentanaPausa(this);
-        p.setVisible(true);*/
-
+       
     }
     public void continuar() {
          hilo.resume();
@@ -306,3 +280,12 @@ public void  pasar(){
     }
 
 }
+  /*
+public void impedir(){
+     this.setFocusableWindowState(false);
+        this.setEnabled(false);
+}
+public void  pasar(){
+     this.setFocusableWindowState(true);
+        this.setEnabled(true);
+}*/
