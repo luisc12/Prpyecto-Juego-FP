@@ -72,22 +72,22 @@ public class VentanaSkins extends Ventana {
         super(p);
         botones = new ArrayList<Boton>();
 activar=false;
-        Boton atras = new Boton(Externos.bGris,
-                Externos.bVerde,
+        Boton atras = new Boton(Constantes.botonApagado,
+                        Constantes.botonActivo,
                 Constantes.ancho / 2 - Externos.bGris.getWidth() * 2,
                 Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Atras, new Accion() {
+                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
             }
         });
         botones.add(atras);
-        Boton comenzar = new Boton(Externos.bGris,
-                Externos.bVerde,
+        Boton comenzar = new Boton(Constantes.botonApagado,
+                        Constantes.botonActivo,
                 Constantes.ancho / 2 + Externos.bGris.getWidth(),
                 Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Comenzar, new Accion() {
+                Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaPartida(nombre, aux[indice].textura, p));

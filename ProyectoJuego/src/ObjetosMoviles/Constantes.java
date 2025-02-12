@@ -97,7 +97,7 @@ public class Constantes {
     public static final String MODIFICACION = "MODIFICACION";
     public static final String CREDITOS = "CREDITOS";
     public static final String CREDITO = "CREDITO";
-     public static final long TCambioPag= 9000;
+     public static final long TCambioPag= 11000;
     //-------propiedades Power Up----------------
     public static final long DuracionUP = 10000;//POWER_UP_DURATION
     public static final long TiempoAparecerPower = 8000;//POWER_UP_SPAWN_TIME

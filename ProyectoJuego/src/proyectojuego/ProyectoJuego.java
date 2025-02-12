@@ -115,50 +115,6 @@ public Color c;
 
     }
 
-  
-    public void Ingresarusuario() {
-        //ventana nombre
-        JFrame Pnom = new JFrame("Ingresar usuario");
-        Pnom.setIconImage(getIconImage());
-        Pnom.setSize(300, 200);
-        Pnom.setResizable(true);
-        Pnom.setLocationRelativeTo(null);
-
-        panel = new JPanel();
-        panel.setLayout(null);//desactivar el diseño 
-
-        Pnom.add(panel);//agregamos el panel a la ventana
-
-        //etiqueta
-        JLabel etiqueta = new JLabel();//creamos una etiqueta de Texto
-        etiqueta.setText("Nombre del Jugador");//establecemos el texto de la etiqueta
-        etiqueta.setBounds(20, 10, 180, 30);
-        etiqueta.setHorizontalAlignment(SwingConstants.LEFT);//establecemos la aniliacion del texto
-        etiqueta.setVisible(true);
-        panel.add(etiqueta);
-
-        //caja de texto
-        JTextField cajaTexto = new JTextField();
-        cajaTexto.setBounds(170, 10, 80, 30);
-        cajaTexto.setText("Jugador 1");
-        cajaTexto.setVisible(true);
-        panel.add(cajaTexto);
-
-        //caja de boton
-        JButton boton1 = new JButton();
-        //JButton boton1=new JButton("Click");
-        boton1.setText("Aceptar");//establecemos un texto al boton
-        boton1.setBounds(20, 100, 80, 30);
-        boton1.setEnabled(true);//establecemos el encendido del boton
-        boton1.setMnemonic('a');//Establecemos alt+ letra
-        boton1.setForeground(Color.BLACK);//Establecemos el color de la letra de nuestro botón
-        //boton1.setFont(new Font("arial",, 20));//Establecemos la fuente de la letra del botton
-        panel.add(boton1);
-
-        Pnom.setVisible(true);
-
-    }
-
     private void actualizar(float dt) {
 
         //this.setVisibles(ventanan.isEjecutando());

@@ -23,8 +23,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
 import static Ventanas.VentanaCreditos.paginaList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -50,11 +48,11 @@ public class VentanaCreditos extends Ventana {
         totalPaginas=0;
         cambio=0;
 
-        botones.add(new Boton(Externos.bGris,
-                Externos.bVerde,
+        botones.add(new Boton(Constantes.botonApagado,
+                Constantes.botonApagado,
                 Externos.bGris.getHeight(),
-                Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Atras, new Accion() {
+                Constantes.alto - Constantes.botonApagado.getHeight() * 2,
+                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
