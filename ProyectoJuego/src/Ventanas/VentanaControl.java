@@ -7,6 +7,7 @@ package Ventanas;
 
 import Entrada.Teclado;
 import Graficos.Externos;
+import static Graficos.Externos.panelAncho;
 import static Graficos.Externos.panelAnchoT;
 import Graficos.Texto;
 import Matematicas.Vectores;
@@ -146,7 +147,7 @@ public class VentanaControl extends Ventana {
         });
         comenzar = new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
-                Constantes.ancho / 2 + Constantes.botonActivo.getWidth(),
+                Constantes.ancho / 2 + Constantes.botonActivo.getWidth()*3,
                 Constantes.alto - Constantes.botonActivo.getHeight() * 2,
                 Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
@@ -244,7 +245,7 @@ public class VentanaControl extends Ventana {
     @Override
     public void dibujar(Graphics g) {
          Graphics2D g2d = (Graphics2D) g;
-          BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAnchoT, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
+          BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
             AffineTransform at = AffineTransform.getTranslateInstance(
                     Constantes.ancho / 2-imagenEscalada.getWidth()/2,
                    0);

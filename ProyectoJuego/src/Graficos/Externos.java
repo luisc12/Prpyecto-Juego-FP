@@ -31,7 +31,7 @@ public class Externos {
     //barra de carga
     public static boolean cargado=false;
     public static float cantidad=0;
-    public static float cantidadMax=57;
+    public static float cantidadMax=113;
     
     public static Color cEncendido=new Color(88, 214, 141 );
     public static Color cApagado=new Color(47, 153, 68 );
@@ -77,7 +77,7 @@ public class Externos {
     public static Font Pixeloid;
     //Sonidos
     public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
-    public static Clip Ufosonido;
+    public static Clip Ufosonido,disparoNostromo;
     //ui
     public static BufferedImage bVerde,bGris,bActivo,bInactivo,bDesactivado;
     
@@ -180,6 +180,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         PerdidaJugador=CargarMusica("sonidos/playerLoose.wav");
         DisparoJugador=CargarMusica("sonidos/ShotgunShot001V2.wav");
         DisparoUfo=CargarMusica("sonidos/ufoShoot.wav");
+        disparoNostromo=CargarMusica("sonidos/Sniper_Shot-004V2.wav");
         PowerUP=CargarMusica("sonidos/powerUp.wav");
         Ufosonido=CargarMusica("sonidos/GrapplingHook_Reel(Loop).wav");
         
@@ -222,7 +223,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         escudov2=CargarImagen("poderes/escudov2.png");
         //--------------------------------------------------------
         cargado=true;
-        System.out.println(cantidad);
+        System.out.println("cantidad de recursos: "+cantidad);
        
     }
 

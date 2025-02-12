@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Enemigos;
 
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Jugador;
+import ObjetosMoviles.Jugador;
+import ObjetosMoviles.ObjetosMovibles;
 import ObjetosMoviles.ObjetosMovibles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;

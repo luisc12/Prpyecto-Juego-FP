@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Enemigos;
 
+import ObjetosMoviles.Enemigos.Enemigos;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Laser;
 import ObjetosMoviles.Laser;
 import Ventanas.VentanaPartida;
 import java.awt.Color;

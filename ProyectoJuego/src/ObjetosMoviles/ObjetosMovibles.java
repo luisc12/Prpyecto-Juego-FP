@@ -5,6 +5,7 @@
  */
 package ObjetosMoviles;
 
+import ObjetosMoviles.Enemigos.Enemigos;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;

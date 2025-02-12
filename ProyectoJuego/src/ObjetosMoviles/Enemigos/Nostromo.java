@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Enemigos;
 
-import ObjetosMoviles.Enemigos;
+import ObjetosMoviles.Enemigos.Enemigos;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Constantes;
+import ObjetosMoviles.Laser;
 import ObjetosMoviles.Laser;
 import ObjetosMoviles.Laser;
 import Ventanas.VentanaPartida;
@@ -45,7 +47,8 @@ public class Nostromo extends Enemigos {
         indice = 0;
         continuar = true;
         fuego = 0;
-        Sdisparar = new Sonido(Externos.DisparoUfo);
+        Sdisparar = new Sonido(Externos.disparoNostromo);
+        Sdisparar.cambiarVolumen(-10.0f);
         vida = 100;
     }
 
@@ -111,7 +114,7 @@ public class Nostromo extends Enemigos {
             jugadorP =jugadorP.NormalizarVector();
             
              double anguloActual =  jugadorP.getAngulo();
-            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2+Constantes.RangoAnguloUfo / 4);
+            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2+Constantes.RangoAnguloUfo / 5);
              if ( jugadorP.getX() < 0) {
                 anguloActual = -anguloActual + Math.PI;
             }
@@ -130,7 +133,9 @@ public class Nostromo extends Enemigos {
             fuego = 0;
             Sdisparar.play();
         }
-
+if (Sdisparar.getFramePsition() >100000) {
+            Sdisparar.parar();
+        }
         if (posicion.getX() > Constantes.ancho) {
             posicion.setX(0);
             continuar = true;

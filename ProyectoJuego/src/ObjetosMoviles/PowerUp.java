@@ -55,7 +55,7 @@ public class PowerUp extends ObjetosMovibles{
     public void actualizar(float dt) {
       angulo+=0.1;
       duracion+=dt;
-        if (duracion>Constantes.DuracionPU) {
+        if (duracion>Constantes.DuracionUP) {
             this.Destruir();
         }
         ColisonaCon();

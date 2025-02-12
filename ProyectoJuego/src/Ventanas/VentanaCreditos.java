@@ -36,15 +36,19 @@ public class VentanaCreditos extends Ventana {
     ArrayList<Creditos> listaDatos;
     int numPagina;
     int tamPagina;
+    int totalPaginas;
     int posicion;
+    long cambio;
 
     public VentanaCreditos(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
         super(p);
         posicion = 0;
-        System.out.println(" dentro");
+        
         botones = new ArrayList<Boton>();
         numPagina = 1;
         tamPagina = 5;
+        totalPaginas=0;
+        cambio=0;
 
         botones.add(new Boton(Externos.bGris,
                 Externos.bVerde,
@@ -68,6 +72,7 @@ public class VentanaCreditos extends Ventana {
                     numPagina--; // Reducimos la página sin crear una nueva ventana
                     repaint(); // Redibujamos la pantalla
                     System.out.println("Página actual: " + numPagina);
+                    cambio=0;
                 }
 
             }
@@ -84,6 +89,7 @@ public class VentanaCreditos extends Ventana {
                     numPagina++; // Aumentamos la página sin crear una nueva ventana
                     repaint(); // Redibujamos la pantalla
                     System.out.println("Página actual: " + numPagina);
+                    cambio=0;
                 }
             }
         }));
@@ -98,12 +104,18 @@ public class VentanaCreditos extends Ventana {
 
     @Override
     public void actualizar(float dt) {
-        
+        totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
+         cambio+=dt;
         for (Boton b : botones) {
             b.actualizar();
         }
-        if (rootPaneCheckingEnabled) {
-            
+        if (cambio>Constantes.TCambioPag) {
+             if (numPagina < totalPaginas) {
+                    numPagina++; // Aumentamos la página sin crear una nueva ventana
+                    repaint(); // Redibujamos la pantalla
+                    System.out.println("Página actual: " + numPagina);
+                    cambio=0;
+                }
         }
         repaint();
     }
@@ -116,7 +128,7 @@ public class VentanaCreditos extends Ventana {
         int linea = 100; // Posición vertical inicial
         String tema = ""; // Para comparar si es el mismo tema
 
-        int totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
+        
 
         // Asegurar que numPagina no sea mayor que totalPaginas ni menor que 1
         if (numPagina > totalPaginas) {

@@ -14,14 +14,8 @@
   <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO>
  
-<!--spritesrecursos utilizados.-->
-<!--escudo.-->     
- <CREDITO TEMA="SPRITE">
-  <OBJETO>shieldV2.png(1 a 12)</OBJETO>
-  <CREADOR>Baldur</CREADOR>
-  <LICENCIA>CC0</LICENCIA>
-  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
- </CREDITO>
+<!--sprites recursos utilizados.-->
+
  
  <!--Orbes.-->  
  
@@ -58,11 +52,18 @@
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO> 
-
- <CREDITO TEMA="SPRITE">
-  <OBJETO>square_explosion.png(1 a 16)</OBJETO>
+<!--Animaciones utilizados.-->
+ <CREDITO TEMA="ANIMACIÓN">
+  <OBJETO>square_explosion.png(1-16)</OBJETO>
   <CREADOR>Tiao Ferreira</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>tamaño de las imagenes</MODIFICACION>
- </CREDITO>  
+ </CREDITO> 
+ <!--escudo.-->     
+ <CREDITO TEMA="ANIMACIÓN">
+  <OBJETO>shieldV2.png(1-12)</OBJETO>
+  <CREADOR>Baldur</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
 </CREDITOS>

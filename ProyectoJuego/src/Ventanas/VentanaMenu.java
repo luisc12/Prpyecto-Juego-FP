@@ -6,6 +6,7 @@
 package Ventanas;
 
 import Graficos.Externos;
+import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
@@ -41,14 +42,11 @@ public class VentanaMenu extends Ventana {
     long cambio;
     boolean ver;
 BufferedImage panel;
+ private Sonido musicaFondo;
     public VentanaMenu(ProyectoJuego p) {
-        
         super(p);
-        
-        
-        System.out.println(Externos.bGris.getWidth()+" "+Externos.bGris.getHeight());
-        
-       
+    musicaFondo=new Sonido(Externos.MusicaFondo);
+    musicaFondo.MusicaFondo();
         botones = new ArrayList<Boton>();
 
         botones.add(
@@ -60,7 +58,7 @@ BufferedImage panel;
                         new Accion() {
                     @Override
                     public void hacerAccion() {
-
+musicaFondo.parar();
                         //Ventana.cambiarVentana(new VentanaControl());
                         Ventana.cambiarVentana(new VentanaControl(p));
 
@@ -75,16 +73,10 @@ BufferedImage panel;
                 new Accion() {
             @Override
             public void hacerAccion() {
-                try {
-                    // System.exit(0);
-                    Ventana.cambiarVentana(new VentanaCreditos(p));
-                } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SAXException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
+                    musicaFondo.parar();
+                    System.exit(0);
+                    
             }
         }));
 
@@ -101,6 +93,7 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
                 new Accion() {
             @Override
             public void hacerAccion() {
+               // musicaFondo.parar();
                 Ventana.cambiarVentana(new VentanaPuntaje(p));
             }
         }));
@@ -114,6 +107,7 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
             public void hacerAccion() {
                 try {
                     // System.exit(0);
+                    musicaFondo.parar();
                     Ventana.cambiarVentana(new VentanaCreditos(p));
                 } catch (ParserConfigurationException ex) {
                     Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,7 +118,8 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
                 }
             }
         }));
-        int randio = (int) (Math.random() * 2);
+        
+      /*  int randio = (int) (Math.random() * 2);
 
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
         double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
@@ -148,7 +143,7 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
         //sector inferior derecho
         posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
         posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
+        caminos.add(new Vectores(posX, posY));*/
         
         ver=false;
         c = Color.MAGENTA;
@@ -181,7 +176,6 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
                     0);
              g2d.drawImage(imagenEscalada, at, null);
             
-         g.setColor(Color.BLUE);
        //  g.setColor(Color.getHSBColor(37, 137, 41));
   Texto.DibujarTexto(g,
                 "Entrega Espacial",

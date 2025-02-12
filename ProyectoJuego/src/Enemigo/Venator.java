@@ -9,7 +9,7 @@ import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Enemigos;
+import ObjetosMoviles.Enemigos.Enemigos;
 import ObjetosMoviles.Misiles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;

@@ -15,7 +15,7 @@ import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Nostromo;
+import ObjetosMoviles.Enemigos.Nostromo;
 import ObjetosMoviles.Jugador;
 import ObjetosMoviles.Mensaje;
 import ObjetosMoviles.Meteoros;
@@ -24,7 +24,7 @@ import ObjetosMoviles.Planetas;
 import ObjetosMoviles.PowerUp;
 import ObjetosMoviles.Tamaños;
 import ObjetosMoviles.TiposPowerUP;
-import ObjetosMoviles.Ufo;
+import ObjetosMoviles.Enemigos.Ufo;
 import Ui.Accion;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -490,7 +490,7 @@ public class VentanaPartida extends Ventana {
             if (probabilidad == 2) {
                 spanwEnemigo();
             }*/
-         //  spanwEnemigo();
+           spanwEnemigo();
 
             aparecerUfo = 0;
         }
@@ -517,6 +517,10 @@ public class VentanaPartida extends Ventana {
             }
 
         }*/
+          if (TGameOver > Constantes.TiempoFinal) {
+              
+          }
+   
 empezarEntrega();
     }
 
