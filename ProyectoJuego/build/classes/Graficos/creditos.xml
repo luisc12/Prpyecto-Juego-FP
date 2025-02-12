@@ -14,6 +14,13 @@
   <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO>
  
+ <CREDITO TEMA="MUSICA">
+  <OBJETO>Sniper_Shot-004V2.wav</OBJETO>
+  <CREADOR>LMGLolo</CREADOR>
+  <LICENCIA>CC BY-ND 4.0</LICENCIA>
+  <MODIFICACION>formato estandar de window</MODIFICACION>
+ </CREDITO>
+ 
 <!--sprites recursos utilizados.-->
 
  
@@ -49,6 +56,27 @@
  <CREDITO TEMA="SPRITE">
   <OBJETO>orbVida.png/orbVida.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+ 
+ 
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>ufo.png(1-3)</OBJETO>
+  <CREADOR>Kenney Vleugels</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+ 
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>nostromo.png</OBJETO>
+  <CREADOR>Kenney Vleugels</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO>
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>venator.png</OBJETO>
+  <CREADOR>Wisedawn</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO> 

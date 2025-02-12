@@ -147,7 +147,7 @@ public class VentanaControl extends Ventana {
         });
         comenzar = new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
-                Constantes.ancho / 2 + Constantes.botonActivo.getWidth()*3,
+                Constantes.ancho / 2 + Constantes.botonActivo.getWidth()*2,
                 Constantes.alto - Constantes.botonActivo.getHeight() * 2,
                 Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override

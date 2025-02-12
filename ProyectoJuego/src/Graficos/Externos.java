@@ -76,6 +76,7 @@ public class Externos {
     public static Font Gfuente;
     public static Font Mfuente;
     public static Font Pixeloid;
+     public static Font creditos;
     //Sonidos
     public static Clip MusicaFondo,Sonidoexplosion,PerdidaJugador,DisparoJugador,DisparoUfo,PowerUP;
     public static Clip Ufosonido,disparoNostromo;
@@ -122,6 +123,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         Gfuente=CargarFuente("fuentes/kenvector_future.ttf", 42);
         Mfuente=CargarFuente("fuentes/kenvector_future.ttf", 25);
         Pixeloid=CargarFuente("fuentes/PixeloidSans-Bold.ttf", 20);
+        creditos=CargarFuente("fuentes/PixeloidSans-Bold.ttf", 18);
         //meteoros
 
         
@@ -158,7 +160,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             Ufo[i] = CargarImagen("enemigos/ufo" + (i + 1) + ".png");
 
         }
-        nostromo=CargarImagen("enemigos/enemigo2.png");
+        nostromo=CargarImagen("enemigos/nostromo.png");
         venator=CargarImagen("enemigos/venator.png");
         
         

@@ -23,6 +23,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
 import static Ventanas.VentanaCreditos.paginaList;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -37,9 +40,12 @@ public class VentanaCreditos extends Ventana {
     int totalPaginas;
     int posicion;
     long cambio;
+private long tiempoAnterior;
 
     public VentanaCreditos(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
         super(p);
+          tiempoAnterior = System.nanoTime();
+        
         posicion = 0;
         
         botones = new ArrayList<Boton>();
@@ -102,24 +108,34 @@ public class VentanaCreditos extends Ventana {
 
     @Override
     public void actualizar(float dt) {
-        totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
-         cambio+=dt;
         for (Boton b : botones) {
             b.actualizar();
         }
-        if (cambio>Constantes.TCambioPag) {
-             if (numPagina < totalPaginas) {
-                    numPagina++; // Aumentamos la página sin crear una nueva ventana
-                    repaint(); // Redibujamos la pantalla
-                    System.out.println("Página actual: " + numPagina);
-                    cambio=0;
-                }
+        totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
+        System.out.println("dt: " + dt + ", cambio: " + cambio);
+         cambio+=dt;
+          long ahora = System.nanoTime();
+    long diferencia = (ahora - tiempoAnterior) / 1_000_000; // Convertir a milisegundos
+
+    if (diferencia > Constantes.TCambioPag/2) {
+        if (numPagina < totalPaginas) {
+            numPagina++;
+            repaint();
+            System.out.println("Página actual: " + numPagina);
         }
-        repaint();
+        tiempoAnterior = ahora; // Reiniciar el tiempo de referencia
     }
+}
+       
 
     @Override
     public void dibujar(Graphics g) {
+          Graphics2D g2d = (Graphics2D) g;
+          BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho,  Constantes.alto); // Ancho: 200, Alto: 300
+            AffineTransform at = AffineTransform.getTranslateInstance(
+                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
+                   0);
+             g2d.drawImage(imagenEscalada, at, null);
         for (Boton b : botones) {
             b.dibujar(g);
         }
@@ -156,31 +172,31 @@ public class VentanaCreditos extends Ventana {
             }
 
             Texto.DibujarTexto(g,
-                    c.getObjeto(),
-                    new Vectores(Constantes.ancho / 2 - 750, linea),
+                   "|"+ c.getObjeto(),
+                    new Vectores(Constantes.ancho / 2 - 680, linea),
                     false,
                     Color.WHITE,
-                    Externos.Pixeloid);
+                    Externos.creditos);
 
             Texto.DibujarTexto(g,
-                    c.getCreador(),
-                    new Vectores(Constantes.ancho / 2 - 400, linea),
+                    "|"+c.getCreador(),
+                    new Vectores(Constantes.ancho / 2 - 340, linea),
                     false,
                     Color.ORANGE,
-                    Externos.Pixeloid);
+                    Externos.creditos);
 
             Texto.DibujarTexto(g,
-                    c.getLicencia(),
+                    "|"+c.getLicencia(),
                     new Vectores(Constantes.ancho / 2 + 50, linea),
                     false,
                     Color.GREEN,
-                    Externos.Pixeloid);
+                    Externos.creditos);
             Texto.DibujarTexto(g,
-                    c.getModificacion(),
+                    "|"+c.getModificacion(),
                     new Vectores(Constantes.ancho / 2 + 240, linea),
                     false,
                     Color.blue,
-                    Externos.Pixeloid);
+                    Externos.creditos);
 
            
             linea += 120;
