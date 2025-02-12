@@ -24,7 +24,7 @@ public class Constantes {
     //constante de aceleracion;
     public static final double ACC = 0.2;
     //angulo base//DELTAANGLE 
-    public static final double anguloBase = 0.1;
+    public static final double anguloBase = 0.05;
     //maxima velocidad del jugador//PLAYER_MAX_VEL
     public static final double Jugador_Max_Vel = 0.7;
     public static final long TiempoParpadeo = 200;//milisegundos
@@ -58,13 +58,23 @@ public class Constantes {
     public static final int PuntosUfo = 40;//UFO_SCORE 
     public static final long TiempoAparecerUfo = 10000;//UFO_SPAWN_RATE
 
-    //------propiedades Nostromo----
+    //------propiedades nostromo----
     public static final double MasaNos = 50;//UFO_MASS
     public static final int MaxVelNos = 2;//UFO_MAX_VEL
     public static final long TDisparoNos = 3000;//UFO_FIRE_RATE
     public static final double Velocidad_lacNostromo = 10.0;
     public static final double maxforceNos = 1.0;
+    
+     //------propiedades Ven----;
+     public static final double MasaVen = 50;//UFO_MASS
+    public static final int MaxVelVen = 2;//UFO_MAX_VEL
+    public static final long TDisparoVen = 9000;
+    public static final double Velocidad_lacVen = 9.0;
+    public static final double maxforceVen= 1.0;
     //------propiedades Botones----
+    
+    
+    
     public static final String Comenzar = "Comenzar";
 
     public static final String Salir = "Salir";
@@ -108,5 +118,6 @@ public class Constantes {
     public static final long TiempoDobleGun = 12000;//DOUBLE_GUN_TIME
 
     public static final int GranPuntuacion = 1000;//SCORE_STACK 
+    
 
 }

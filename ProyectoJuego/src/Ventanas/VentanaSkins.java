@@ -66,17 +66,18 @@ public class VentanaSkins extends Ventana {
     private boolean ejecutando = true;
     private BufferStrategy bs;
     private JTextField textField;
-   
-
+BufferedImage imagenEscalada; // Ancho: 200, Alto: 300  
     public VentanaSkins(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
         super(p);
         botones = new ArrayList<Boton>();
-activar=false;
+        activar = false;
+        
+       imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); 
         Boton atras = new Boton(Constantes.botonApagado,
-                        Constantes.botonActivo,
+                Constantes.botonActivo,
                 Constantes.ancho / 2 - Externos.bGris.getWidth() * 2,
                 Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
+                Constantes.Atras, Externos.cEncendido, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
@@ -84,10 +85,10 @@ activar=false;
         });
         botones.add(atras);
         Boton comenzar = new Boton(Constantes.botonApagado,
-                        Constantes.botonActivo,
+                Constantes.botonActivo,
                 Constantes.ancho / 2 + Externos.bGris.getWidth(),
                 Constantes.alto - Externos.bVerde.getHeight() * 2,
-                Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
+                Constantes.Comenzar, Externos.cEncendido, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaPartida(nombre, aux[indice].textura, p));
@@ -211,22 +212,6 @@ activar=false;
         boton1.setFont(Externos.Mfuente);//Establecemos la fuente de la letra del botton
         boton1.setFont(Externos.Pixeloid);//Establecemos la fuente de la letra del botton
         panel.add(boton1);
-
-        // boton1.setIcon(new ImageIcon(clicAqui.getImage().getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
-        // boton1.setText("Aceptar");//establecemos un texto al boton
-        /*boton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               boton1.setIcon(new ImageIcon(Externos.bVerde.getScaledInstance(boton1.getWidth(), boton1.getHeight(), Image.SCALE_REPLICATE)));
-               Pnom.setVisible(false);
-               String nombre2=textField.getText();
-               System.out.println(nombre);
-                Pnom.setVisible(false);
-                
-               
-            }
-            
-        });*/
         boton1.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -236,7 +221,7 @@ activar=false;
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
                     System.out.println(nombre);
-                    activar=true;
+                    activar = true;
                     Pnom.setVisible(false);
 
                 }
@@ -284,22 +269,28 @@ activar=false;
     public void actualizar(float dt) {
         permitir += dt;
         if (activar) {
-             if (permitir > 100) {
-            for (Boton b : botones) {
-                b.actualizar();
+            if (permitir > 100) {
+                for (Boton b : botones) {
+                    b.actualizar();
+                }
+                permitir = 0;
             }
-            permitir = 0;
         }
-        }
-       
+
     }
 
     @Override
     public void dibujar(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+       /* BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); // Ancho: 200, Alto: 300  
+
+        AffineTransform ati = AffineTransform.getTranslateInstance(
+                Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
+                0);
+        g2d.drawImage(imagenEscalada, ati, null);*/
         for (Boton b : botones) {
             b.dibujar(g);
         }
-        Graphics2D g2d = (Graphics2D) g;
         Texto.DibujarTexto(g,
                 "Seleccione la Skin",
                 new Vectores(Constantes.ancho / 2 - aux[indice].nombre.length(), 100),

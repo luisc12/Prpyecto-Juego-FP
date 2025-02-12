@@ -25,6 +25,7 @@ import ObjetosMoviles.PowerUp;
 import ObjetosMoviles.Tamaños;
 import ObjetosMoviles.TiposPowerUP;
 import ObjetosMoviles.Enemigos.Ufo;
+import ObjetosMoviles.Enemigos.Venator;
 import Ui.Accion;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -255,16 +256,22 @@ public class VentanaPartida extends Ventana {
         posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
         caminos.add(new Vectores(posX, posY));
 
-        objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
+       /* objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
                 new Vectores(x, y),
                 new Vectores(),
                 Constantes.MaxVelUfo,
+                this,
+                caminos));*/
+       objetosmoviles.add(new Venator(Externos.venator,
+                new Vectores(x, y),
+                new Vectores(),
+                Constantes.MaxVelVen,
                 this,
                 caminos));
 
     }
 
-    private void spanwEnemigo() {
+    private void spanwNostromo() {
         int randio = (int) (Math.random() * 2);
 
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
@@ -278,7 +285,7 @@ public class VentanaPartida extends Ventana {
         posY = Math.random() * getJugador().getPosicion().getY();
         Vectores v=new Vectores(posX,posY);
         caminos.add(v);*/
-        objetosmoviles.add(new Nostromo(Externos.enemigo1,
+        objetosmoviles.add(new Nostromo(Externos.nostromo,
                 new Vectores(x, y),
                 new Vectores(),
                 Constantes.MaxVelUfo,
@@ -488,10 +495,10 @@ public class VentanaPartida extends Ventana {
                 spawnUfo();
             }
             if (probabilidad == 2) {
-                spanwEnemigo();
+                spanwNostromo();
             }*/
-           spanwEnemigo();
-
+          // spanwNostromo();
+spawnUfo();
             aparecerUfo = 0;
         }
 

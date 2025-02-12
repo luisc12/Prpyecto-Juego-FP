@@ -59,6 +59,9 @@ public class Ufo extends Enemigos {
     sonidoufo.cambiarVolumen(-10.0f);
     sonidoufo.play();
     vida=100;
+     for (int i = 0; i < this.camino.size(); i++) {
+            System.out.println(camino.get(i).getX()+" "+camino.get(i).getY());
+        }
     }
 
 /*
@@ -87,14 +90,14 @@ public class Ufo extends Enemigos {
         return SeekForce(nodoActual);
     }
 
-    private Vectores SeekForce(Vectores objetivo) {
+ /*   private Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo
         Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
         //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
         velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
         //
         return velocidadDeseada.RestaVectores(velocidad);
-    }
+    }*/
 
     @Override
     public void actualizar(float dt) {

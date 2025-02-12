@@ -182,29 +182,7 @@ public class VentanaCreditos extends Ventana {
                     Color.blue,
                     Externos.Pixeloid);
 
-            /*  posTema.setY(posTema.getY() + posicion);
-            posObjeto.setY(posObjeto.getY() + 40);
-            posCreador.setY(posCreador.getY() + 40);
-            posLicencia.setY(posLicencia.getY() + 40);
-            posModificacion.setY(posModificacion.getY() + 40);
-            posicion+=40;
-         //   linea += 40;
-        }*/
- /*
-        for (Creditos c : credito) {
-            g.setColor(Color.YELLOW);
-            g.drawString("Tema: " + c.getTema(), 50, linea);
-            g.setColor(Color.WHITE);
-            g.drawString("Objeto: " + c.getObjeto(), 50, linea + 20);
-            g.setColor(Color.ORANGE);
-            g.drawString("Creador: " + c.getCreador(), 50, linea + 40);
-            g.setColor(Color.GREEN);
-            g.drawString("Licencia: " + c.getLicencia(), 50, linea + 60);
-            g.setColor(Color.BLUE);
-            g.drawString("Modificación: " + c.getModificacion(), 50, linea + 80);
-
-            linea += 120; // Espaciado entre créditos
-        }*/
+           
             linea += 120;
         }
     }

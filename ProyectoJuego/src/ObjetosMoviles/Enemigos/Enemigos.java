@@ -35,7 +35,7 @@ Jugador jugador=ventanapartida.getJugador();
     //private Cronometro fuego;
     long fuego;
     
-    private Sonido Sdisparar;
+    Sonido Sdisparar;
 
     public Enemigos(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel,
             VentanaPartida ventanapartida) {
@@ -48,7 +48,7 @@ Jugador jugador=ventanapartida.getJugador();
     }
 
 
-    private Vectores SeekForce(Vectores objetivo) {
+    protected Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo
         Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
         //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo

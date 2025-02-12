@@ -64,7 +64,8 @@ public class Externos {
     
     //enemigos
     public static BufferedImage[] Ufo = new BufferedImage[2];
-    public static BufferedImage enemigo1;
+    public static BufferedImage nostromo;
+    public static BufferedImage venator;
 
     //numeros
     public static BufferedImage[] numeros = new BufferedImage[11];
@@ -157,7 +158,10 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
             Ufo[i] = CargarImagen("enemigos/ufo" + (i + 1) + ".png");
 
         }
-        enemigo1=CargarImagen("enemigos/enemigo2.png");
+        nostromo=CargarImagen("enemigos/enemigo2.png");
+        venator=CargarImagen("enemigos/venator.png");
+        
+        
         //ui
         for (int i = 0; i < numeros.length; i++) {
 
@@ -261,6 +265,7 @@ jugadorDobleGun=CargarImagen("skins/doubleGunPlayer2.png");
         return null;
     }
     public static BufferedImage cambiarTamaño2(BufferedImage img, int newAncho, int newAtura) {
+        
     BufferedImage imagenEscalada = new BufferedImage(newAncho, newAtura, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = imagenEscalada.createGraphics();
     

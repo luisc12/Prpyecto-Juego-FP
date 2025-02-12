@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Enemigo;
+package ObjetosMoviles.Enemigos;
 
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Enemigos.Enemigos;
 import ObjetosMoviles.Misiles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
@@ -17,6 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 
 /**
  *
@@ -35,6 +35,8 @@ public class Venator extends Enemigos {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
         Sdisparar = new Sonido(Externos.DisparoUfo);
+        continuar = true;
+     
         
     }
 
@@ -71,7 +73,7 @@ public class Venator extends Enemigos {
 angulo=posicion.getAngulo();
 angulo=jugadorSurdo(siguindo);
 
-        if (fuego>Constantes.TDisparoVen) {
+        if (fuego>Constantes.TDisparoVen/2) {
           //   Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
           //    posicionJ = posicionJ.NormalizarVector();
             
