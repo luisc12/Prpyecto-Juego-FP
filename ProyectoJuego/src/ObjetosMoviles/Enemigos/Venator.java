@@ -96,7 +96,10 @@ angulo=jugadorSurdo(siguindo);
 
         ColisonaCon();
     }
-
+    @Override
+ public Vectores CentroImagen() {
+        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho );
+    }
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

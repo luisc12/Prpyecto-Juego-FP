@@ -83,6 +83,7 @@ Jugador jugador=ventanapartida.getJugador();
             }
         return angulo;
     }
+ @Override
     public abstract void actualizar(float dt);
 
     @Override

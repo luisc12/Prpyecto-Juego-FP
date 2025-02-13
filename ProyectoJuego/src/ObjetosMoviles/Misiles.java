@@ -16,65 +16,71 @@ import java.awt.image.BufferedImage;
  *
  * @author luis
  */
-public class Misiles  extends Disparos  {
-private Vectores jugadorP;
- private Vectores direccion;
+public class Misiles extends Disparos {
+
+    private Vectores jugadorP;
+    private Vectores direccion;
 
     public Misiles(BufferedImage textura, Vectores posicion, Vectores velocidad,
             double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo, int daño) {
-        super(textura, posicion, velocidad, maxVel,angulo, ventanapartida, enemigo, daño);
+        super(textura, posicion, velocidad, maxVel, angulo, ventanapartida, enemigo, daño);
         direccion = new Vectores(0, 1);
-          this.angulo = angulo;
+        this.angulo = angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
         this.velocidad = velocidad.MultiplicarVector(maxVel);
         this.enemigo = enemigo;
         this.daño = daño;
-        
-    }
 
-    
-    
+    }
 
     @Override
     public void actualizar(float dt) {
-         
 
-       jugadorP = ventanapartida.getJugador().CentroImagen();
+        jugadorP = ventanapartida.getJugador().CentroImagen();
 
-        Vectores force=SeekForce(jugadorP);
-        force=force.MultiplicarVector(1/Constantes.MasaMisil);
-         // Limitar la fuerza máxima
-   /*     if (force.Manitud() > Constantes.maxforceMis) {
+        int jugadorDistancia = (int) jugadorP.RestaVectores(CentroImagen()).Manitud();
+        if (jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
+            if (ventanapartida.getJugador().isEscudoActivo()) {
+                Destruir();
+
+            }
+        }
+
+        Vectores force = SeekForce(jugadorP);
+        force = force.MultiplicarVector(1 / Constantes.MasaMisil);
+        // Limitar la fuerza máxima
+        /*     if (force.Manitud() > Constantes.maxforceMis) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceMis);
         }*/
-      //  angulo = jugadorP.NormalizarVector().getAngulo2();
-      //  direccion = jugadorP.calcularDireccion(jugadorP.getAngulo());
+        //  angulo = jugadorP.NormalizarVector().getAngulo2();
+        //  direccion = jugadorP.calcularDireccion(jugadorP.getAngulo());
 
         //System.out.println(this.angulo + "------" + Math.atan2(direccion.getY(), direccion.getX()));
         //velocidad.velocidadlimite(Constantes.MaxVelUfo);
-        velocidad=velocidad.SumaVectores(force);
-       
+        velocidad = velocidad.SumaVectores(force);
+
         if (velocidad.Manitud() > Constantes.Velocidad_Mic) {
-              velocidad = velocidad.velocidadlimite(Constantes.Velocidad_Mic);
+            velocidad = velocidad.velocidadlimite(Constantes.Velocidad_Mic);
         }
-      
+
         posicion = posicion.SumaVectores(velocidad);
-         angulo=velocidad.getAngulo2()+ Math.PI / 2;
+        angulo = velocidad.getAngulo2() + Math.PI / 2;
         //  angulo = jugadorP.NormalizarVector().getAngulo();
 
-      // angulo= jugadorSurdo(jugadorP.NormalizarVector());
-       // angulo= jugadorSurdo(posicion);
-       
+        // angulo= jugadorSurdo(jugadorP.NormalizarVector());
+        // angulo= jugadorSurdo(posicion);
         ColisonaCon();
     }
- @Override
-    public void Destruir(){
+
+    @Override
+    public void Destruir() {
         ventanapartida.Explotar(posicion);
         super.Destruir();
     }
+
     @Override
     public void dibujar(Graphics g) {
-         Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
 
         at = AffineTransform.getTranslateInstance(posicion.getX() - imgancho / 2, posicion.getY());
         //le sumamos el ancho de la imagen al angulo para que asi siga rotando al rededor de su centro
@@ -83,5 +89,4 @@ private Vectores jugadorP;
         g2d.drawImage(textura, at, null);
     }
 
-    
 }

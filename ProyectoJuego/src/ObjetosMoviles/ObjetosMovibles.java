@@ -102,7 +102,6 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
             }
         }
     }
-
     public Vectores fuerzaHuida() {
         Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
         velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));

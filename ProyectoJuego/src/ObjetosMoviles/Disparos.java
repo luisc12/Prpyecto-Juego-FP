@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  *
  * @author luis
  */
-public class Disparos extends ObjetosMovibles{
+public abstract class Disparos extends ObjetosMovibles{
    public boolean enemigo;
     public int daño;
     public Disparos(BufferedImage textura, Vectores posicion, Vectores velocidad,
@@ -51,16 +51,14 @@ public class Disparos extends ObjetosMovibles{
         return enemigo;
     }
     @Override
-    public void actualizar(float dt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract void actualizar(float dt);
 
-    @Override
-    public void dibujar(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
      @Override
+    public abstract void dibujar(Graphics g);
+
+ 
+    /* @Override
     public Vectores CentroImagen() {
         return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho / 2);
-    }
+    }*/
 }
