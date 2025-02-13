@@ -186,10 +186,8 @@ public class VentanaControl extends Ventana {
 
         } else if (Teclado.derecha) {
             derecha.setRatonDentro(true);
-            angulo += Constantes.anguloBase;
         } else if (Teclado.izquierda) {
             izquierda.setRatonDentro(true);
-            angulo -= Constantes.anguloBase;
         } else if (Teclado.disparar) {
             espacio.setRatonDentro(true);
         } else {
@@ -231,14 +229,7 @@ public class VentanaControl extends Ventana {
             posicion.setY(alturaRectanguloMinimo);
             j.setPosicion(posicion);
         }
-        /*     if (j.getDireccion().Manitud() >= this.maxVel) {
-            Vectores velocidadInvertida = new Vectores(-getDireccion().getX(), -velocidad.getY());
-            velocidad = velocidad.SumaVectores(velocidadInvertida.velocidadlimite(0.01f));
-
-        }
-        velocidad = velocidad.velocidadlimite(Constantes.Velocidad_lac);
-        
-        posicion = posicion.SumaVectores(velocidad);*/
+       
 
     }
 
