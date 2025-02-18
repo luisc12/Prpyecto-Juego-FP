@@ -27,7 +27,7 @@ public abstract class Disparos extends ObjetosMovibles{
         this.enemigo = enemigo;
         this.daño = daño;
     }
-
+/*
     protected double jugadorSurdo( Vectores jugadorP){
          if (jugadorP.getX() < 0) {
                 angulo = -angulo + Math.PI;

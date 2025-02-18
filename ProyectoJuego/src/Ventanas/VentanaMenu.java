@@ -40,12 +40,24 @@ public class VentanaMenu extends Ventana {
     long cambio;
     boolean ver;
 BufferedImage panel;
- private Sonido musicaFondo;
+ private static Sonido musicaFondo;
+
+    public static Sonido getMusicaFondo() {
+        return musicaFondo;
+    }
+
+    public static void setMusicaFondo(Sonido musicaFondo) {
+        VentanaMenu.musicaFondo = musicaFondo;
+    }
+ 
     public VentanaMenu(ProyectoJuego p) {
         super(p);
-    musicaFondo=new Sonido(Externos.MusicaFondo);
+        if (  musicaFondo==null) {
+            musicaFondo=new Sonido(Externos.menuMusica);
     musicaFondo.MusicaFondo();
     musicaFondo.cambiarVolumen(-10.0f);
+        }
+    
         botones = new ArrayList<Boton>();
 
         botones.add(
@@ -57,7 +69,7 @@ BufferedImage panel;
                         new Accion() {
                     @Override
                     public void hacerAccion() {
-musicaFondo.parar();
+//musicaFondo.parar();
                         //Ventana.cambiarVentana(new VentanaControl());
                         Ventana.cambiarVentana(new VentanaControl(p));
 
@@ -73,7 +85,7 @@ musicaFondo.parar();
             @Override
             public void hacerAccion() {
                 
-                    musicaFondo.parar();
+          //          musicaFondo.parar();
                     System.exit(0);
                     
             }
@@ -106,7 +118,7 @@ musicaFondo.parar();
             public void hacerAccion() {
                 try {
                     // System.exit(0);
-                    musicaFondo.parar();
+          //          musicaFondo.parar();
                     Ventana.cambiarVentana(new VentanaCreditos(p));
                 } catch (ParserConfigurationException ex) {
                     Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);

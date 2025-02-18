@@ -66,25 +66,6 @@ Jugador jugador=ventanapartida.getJugador();
         //
         return velocidadDeseada.RestaVectores(velocidad);
     }*/
-    protected Vectores PursuingForce(Vectores vjp){
-      //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
-      // Calcular distancia al jugador
-   //   Vectores vjp=jugador.getPosicion();
-      //Vectores vjv=jugador.JugadorgetVelocidad();
-      Vectores posicionJ=vjp.RestaVectores(posicion);
-      
-      double distancia=posicionJ.Manitud();
-      
-        // Estimar el tiempo de intercepción
-      double prediccion=distancia/maxVel;
-      
-       // Calcular la posición futura del jugador
-      Vectores futuraPosicion = vjp.SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(prediccion));
-      // Aplicar Seek hacia la posición futura
-      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(1);
-      
-      return force ;
-    }
 
     protected double jugadorSurdo( Vectores jugadorP){
          if (jugadorP.getX() < 0) {

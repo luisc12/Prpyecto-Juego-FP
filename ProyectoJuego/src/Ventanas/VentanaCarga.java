@@ -7,6 +7,8 @@ package Ventanas;
 
 import Graficos.Externos;
 import static Graficos.Externos.CargarImagen;
+import static Graficos.Externos.CargarMusica;
+import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 
@@ -20,6 +22,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.Clip;
 import proyectojuego.ProyectoJuego;
 
 /**
@@ -31,12 +34,18 @@ public class VentanaCarga extends Ventana{
     private Thread cargarHilo;
     private Font fuente;
     BufferedImage imagenEscalada;
+     private Sonido musicaFondo;
     public VentanaCarga(Thread cargarHilo,ProyectoJuego p) {
         super(p);
         this.cargarHilo=cargarHilo;
         this.cargarHilo.start();
         fuente=Externos.CargarFuente("fuentes/kenvector_future.ttf", 58);
         imagenEscalada = Externos.cambiarTamaño(CargarImagen("ui/Card X2.png"), Constantes.ancho -Constantes.ancho/5, Constantes.alto- Constantes.alto/4); 
+      
+         musicaFondo = new Sonido( Externos.CargarMusica("sonidos/TremLoadinglooplV2.wav") );
+        musicaFondo.MusicaFondo();
+       // musicaFondo.cambiarVolumen(-10.0f);
+        musicaFondo.play();
     }
     
     
@@ -44,6 +53,7 @@ public class VentanaCarga extends Ventana{
     @Override
     public void actualizar(float dt) {
         if (Externos.cargado) {
+            musicaFondo.parar();
             Ventana.cambiarVentana(new VentanaMenu(p));
             try {
                 cargarHilo.join();

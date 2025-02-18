@@ -65,7 +65,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         imgancho = textura.getWidth();
         imgalto = textura.getHeight();
         explosion = new Sonido(Externos.Sonidoexplosion);
-        explosion.cambiarVolumen(-10.0f);
+        explosion.cambiarVolumen(-9.0f);
         muerte = false;
 
     }
@@ -210,7 +210,28 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
         //
         return velocidadDeseada.RestaVectores(velocidad);
-    }/*
+    }
+    
+    protected Vectores PursuingForce(Vectores vjp){
+      //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
+      // Calcular distancia al jugador
+   //   Vectores vjp=jugador.getPosicion();
+      //Vectores vjv=jugador.JugadorgetVelocidad();
+      Vectores posicionJ=vjp.RestaVectores(posicion);
+      
+      double distancia=posicionJ.Manitud();
+      
+        // Estimar el tiempo de intercepción
+      double prediccion=distancia/maxVel;
+      
+       // Calcular la posición futura del jugador
+      Vectores futuraPosicion = vjp.SumaVectores(ventanapartida.getJugador().JugadorgetVelocidad().MultiplicarVector(prediccion));
+      // Aplicar Seek hacia la posición futura
+      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(1);
+      
+      return force ;
+    }
+    /*
   protected Vectores PursuingForce(){
       //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
       // Calcular distancia al jugador

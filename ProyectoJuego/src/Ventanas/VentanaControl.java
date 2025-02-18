@@ -86,7 +86,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 arribaVerde,
                 Constantes.ancho / 3 - arribaGris.getWidth() * 2,
                 Constantes.alto / 3 - arribaGris.getHeight(),
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -95,7 +95,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 abajoVerde,
                 Constantes.ancho / 3 - arribaGris.getWidth() * 2,
                 Constantes.alto / 3,
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -104,7 +104,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 izquierdaVerde,
                 Constantes.ancho / 3 - izquierdaGris.getWidth() * 3,
                 Constantes.alto / 3,
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -113,7 +113,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 derechaVerde,
                 Constantes.ancho / 3 - derechaVerde.getWidth(),
                 Constantes.alto / 3,
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -130,11 +130,13 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
             public void hacerAccion() {
             }
         });
-        escape= new Boton(botonDesactivado,
-                Constantes.botonActivo,
+         BufferedImage botonZDes = Externos.cambiarTamaño(Externos.bInactivo, 64, 64); // Ancho: 200, Alto: 300
+    BufferedImage botonZAct = Externos.cambiarTamaño(Externos.bActivo, 64, 64);
+        escape= new Boton(botonZDes,
+                botonZAct,
                 Constantes.ancho / 2 - (Constantes.botonActivo.getWidth()  ),
                 Constantes.alto - Constantes.botonActivo.getHeight() * 6,
-                "Z",Color.WHITE,Color.RED, new Accion() {
+                "Z",Color.WHITE,Color.RED,Externos.GPixeloid, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -287,8 +289,8 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
  Texto.DibujarTexto(g,
                 "Salir",
                 new Vectores(  Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2+25 )+300,
-                Constantes.alto - Externos.bGris.getHeight() * 5+100),
-                false,
+                Constantes.alto - Constantes.botonActivo.getHeight() * 6),
+                true,
                Externos.cEncendido,
                 Externos.Mfuente);
         

@@ -75,11 +75,11 @@ public class Externos {
     //fuentes
     public static Font Gfuente;
     public static Font Mfuente;
-    public static Font Pixeloid;
+    public static Font Pixeloid,GPixeloid;
     public static Font creditos;
     //Sonidos
     public static Clip MusicaFondo, Sonidoexplosion, PerdidaJugador, DisparoJugador,
-            DisparoUfo, PowerUP,clickBoton,sodidoMasPuntos;
+            DisparoUfo, PowerUP, clickBoton, sodidoMasPuntos, MusicaCarga, menuMusica;
     public static Clip Ufosonido, disparoNostromo;
     //ui
     public static BufferedImage bVerde, bGris, bActivo, bInactivo, bDesactivado;
@@ -126,6 +126,7 @@ public class Externos {
         Gfuente = CargarFuente("fuentes/kenvector_future.ttf", 42);
         Mfuente = CargarFuente("fuentes/kenvector_future.ttf", 25);
         Pixeloid = CargarFuente("fuentes/PixeloidSans-Bold.ttf", 20);
+        GPixeloid = CargarFuente("fuentes/PixeloidSans-Bold.ttf", 40);
         creditos = CargarFuente("fuentes/PixeloidSans-Bold.ttf", 18);
         //meteoros
 
@@ -181,6 +182,7 @@ public class Externos {
             planetas[i] = CargarImagen("otros/Planeta" + (i + 1) + ".png");
         }
 
+        MusicaCarga = CargarMusica("sonidos/TremLoadingloopl.wav");
         MusicaFondo = CargarMusica("sonidos/space_quest_looped_section.wav");
         //Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         Sonidoexplosion = CargarMusica("sonidos/Explosion4.wav");
@@ -190,8 +192,10 @@ public class Externos {
         disparoNostromo = CargarMusica("sonidos/Sniper_Shot-004V2.wav");
         PowerUP = CargarMusica("sonidos/powerUp.wav");
         Ufosonido = CargarMusica("sonidos/GrapplingHook_Reel(Loop).wav");
-        clickBoton= CargarMusica("sonidos/vgmenuselect.wav");
-sodidoMasPuntos= CargarMusica("sonidos/1up4.wav");
+        clickBoton = CargarMusica("sonidos/vgmenuselect.wav");
+        sodidoMasPuntos = CargarMusica("sonidos/1up4.wav");
+        menuMusica = CargarMusica("sonidos/_overworldmenuV2.wav");
+
         //botones
         bGris = CargarImagen("ui/button_Gris.png");
         bVerde = CargarImagen("ui/button_Verde.png");
@@ -228,6 +232,9 @@ sodidoMasPuntos= CargarMusica("sonidos/1up4.wav");
         escudo = CargarImagen("poderes/shield.png");
         escudov2 = CargarImagen("poderes/escudov2.png");
         //--------------------------------------------------------
+        /*while (!cargado) {
+            
+        }*/
         cargado = true;
         //  System.out.println("cantidad de recursos: "+cantidad);
 

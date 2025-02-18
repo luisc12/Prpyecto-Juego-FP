@@ -59,13 +59,14 @@ public class VentanaSkins extends Ventana {
     private boolean ejecutando = true;
     private BufferStrategy bs;
     private JTextField textField;
+    private VentanaMenu vm;
 BufferedImage imagenEscalada; // Ancho: 200, Alto: 300  
     public VentanaSkins(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
         super(p);
         botones = new ArrayList<Boton>();
         activar = false;
         indice=0;
-        
+        vm.getMusicaFondo().parar();
        imagenEscalada = Externos.cambiarTamaño(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); 
         Boton atras = new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
@@ -97,7 +98,7 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
                 flechaderechaV,
                 Constantes.ancho - flechaderechaG.getWidth() * 2,
                 Constantes.alto / 2 - flechaderechaG.getHeight() / 2,
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 if (indice + 1 < index) {
@@ -112,7 +113,7 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
                 flechaizquierdaV,
                 Externos.flechaGrisI.getWidth() * 2,
                 Constantes.alto / 2 - flechaizquierdaG.getHeight() / 2,
-                "", new Accion() {
+                "",Externos.cApagado,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 if (indice > 1) {

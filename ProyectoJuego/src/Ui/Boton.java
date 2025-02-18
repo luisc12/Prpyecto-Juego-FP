@@ -11,6 +11,7 @@ import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -34,6 +35,22 @@ public class Boton {
     private Color cEncendido;
     private Color cApagado;
     private Sonido click;
+    private Font fuente;
+
+
+    public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
+            int x, int y, String texto, Color cEncendido,Color cApagado,Font fuente, Accion accion) {
+        this.ratonfuera = ratonfuera;
+        this.ratonSobre = ratonSobre;
+        cuadroDelimitador = new Rectangle(x, y, ratonSobre.getWidth(), ratonSobre.getHeight());
+        this.texto = texto;
+        this.accion = accion;
+        this.cEncendido = cEncendido;
+        this.cApagado=cApagado;
+        this.fuente=fuente;
+        click= new Sonido(Externos.clickBoton);
+          click.cambiarVolumen(-10.0f);
+    }
 
     public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
             int x, int y, String texto, Accion accion) {
@@ -46,6 +63,7 @@ public class Boton {
         cApagado=Color.BLACK;
          click= new Sonido(Externos.DisparoUfo);
           click.cambiarVolumen(-10.0f);
+           fuente=  Externos.Pixeloid;
     }
    
 
@@ -60,6 +78,7 @@ public class Boton {
         this.cApagado=cApagado;
         click= new Sonido(Externos.clickBoton);
           click.cambiarVolumen(-10.0f);
+        fuente=  Externos.Pixeloid;
     }
 
     public void actualizar() {
@@ -98,7 +117,7 @@ c=cApagado;
                         cuadroDelimitador.y + cuadroDelimitador.getHeight()),
                 true,
                 c,
-                Externos.Pixeloid);
+                fuente);
 
     }
 
