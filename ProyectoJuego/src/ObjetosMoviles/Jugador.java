@@ -5,13 +5,14 @@
  */
 package ObjetosMoviles;
 
+import ObjetosMoviles.Disparos.Laser;
 import Entrada.Teclado;
 import Graficos.Animacion;
 import Graficos.Externos;
+import static Graficos.Externos.purpuraLaser;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import Ventanas.VentanaPartida;
-import com.sun.webkit.dom.KeyboardEventImpl;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -41,7 +42,7 @@ public class Jugador extends ObjetosMovibles {
     //sonido
     private Sonido Sdisparar, SPerdida;
 
-    private boolean escudoActivo, doblePuntajeActivo, fuegoRapidoActivo, dobleGunActivo;
+    private boolean escudoActivo, doblePuntajeActivo, fuegoRapidoActivo, dobleGunActivo, ganarPuntos;
 
     private Animacion efectoEscudo;
 
@@ -71,8 +72,17 @@ public class Jugador extends ObjetosMovibles {
         efectoEscudo = new Animacion(Externos.efectoEscudo2, 80, null);
 
         visible = true;
-
+        ganarPuntos = true;
     }
+
+    public boolean isGanarPuntos() {
+        return ganarPuntos;
+    }
+
+    public void setGanarPuntos(boolean ganarPuntos) {
+        this.ganarPuntos = ganarPuntos;
+    }
+
     @Override
     public void actualizar(float dt) {
 
@@ -115,7 +125,6 @@ public class Jugador extends ObjetosMovibles {
         }
 
         if (aparecer) {
-
             Tparpadeo += dt;
             TAparecer += dt;
             //si es verdadero "visible pasa a false y viseversa obteniendo el efecto parpadeo
@@ -123,7 +132,7 @@ public class Jugador extends ObjetosMovibles {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador) {
+            if (TAparecer > Constantes.TiempoAparecerJugador*3) {
                 aparecer = false;
                 visible = true;
             }
@@ -142,42 +151,42 @@ public class Jugador extends ObjetosMovibles {
                 temp = temp.calcularDireccion(angulo - 1.9f);
                 gunDerecho = gunDerecho.SumaVectores(temp);
 
-                Laser d = new Laser(Externos.redLaser,
+                Laser d = new Laser(Externos.gunLaser,
                         gunDerecho,
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
-                        ventanapartida,false,50);
+                        ventanapartida, false, 50);
 
-                Laser i = new Laser(Externos.redLaser,
+                Laser i = new Laser(Externos.gunLaser,
                         gunIzquierdo,
                         direccion,
                         Constantes.Velocidad_lac,
                         angulo,
-                        ventanapartida,false,50);
+                        ventanapartida, false, 50);
                 //el cero antes de introducir un nuevo laser significa que el laser se va a agregar primero y no al final  
                 ventanapartida.getObjetosmoviles().add(0, d);
                 ventanapartida.getObjetosmoviles().add(0, i);
 
             } else {
-                if (ventanapartida!=null) {
-                     ventanapartida.getObjetosmoviles().add(0, new Laser(
-                        Externos.greenLaser,
-                        CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                        direccion,
-                        Constantes.Velocidad_lac,
-                        angulo,
-                        ventanapartida,false,50));
-                }else{
-                   Laser l= new Laser(
-                        Externos.greenLaser,
-                        CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                        direccion,
-                        Constantes.Velocidad_lac,
-                        angulo,
-                        null,false,50);
+                if (ventanapartida != null) {
+                    ventanapartida.getObjetosmoviles().add(0, new Laser(
+                            Externos.greenLaser,
+                            CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
+                            direccion,
+                            Constantes.Velocidad_lac,
+                            angulo,
+                            ventanapartida, false, 50));
+                } else {
+                    Laser l = new Laser(
+                            Externos.greenLaser,
+                            CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
+                            direccion,
+                            Constantes.Velocidad_lac,
+                            angulo,
+                            null, false, 50);
                 }
-               
+
             }
             fuego = 0;
             Sdisparar.play();
@@ -236,10 +245,10 @@ public class Jugador extends ObjetosMovibles {
         if (escudoActivo) {
             efectoEscudo.actualizar(dt);
         }
-        if (ventanapartida!=null) {
-             ColisonaCon();
+        if (ventanapartida != null) {
+            ColisonaCon();
         }
-       
+
     }
 
     public boolean isEscudoActivo() {
@@ -292,7 +301,7 @@ public class Jugador extends ObjetosMovibles {
 
         aparecer = true;
         ventanapartida.Explotar(posicion);
-        TAparecer=0;
+        TAparecer = 0;
         SPerdida.play();
         if (!ventanapartida.RestarVidas(posicion)) {
             ventanapartida.gameOver();
@@ -319,8 +328,8 @@ public class Jugador extends ObjetosMovibles {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        AffineTransform at1 = AffineTransform.getTranslateInstance(posicion.getX()
-                + imgancho / 2 + 5, posicion.getY() + imgalto / 2 + 10);
+        AffineTransform at1 = AffineTransform.getTranslateInstance(posicion.getX() + imgancho / 2 + 5,
+                posicion.getY() + imgalto / 2 + 10);
 
         //divujamos a partir de la exquina superior izquierda
         AffineTransform at2 = AffineTransform.getTranslateInstance(posicion.getX() + 5,
@@ -353,11 +362,23 @@ public class Jugador extends ObjetosMovibles {
         at.rotate(angulo, imgancho / 2, imgalto / 2);
 
         if (dobleGunActivo) {
-            g2d.drawImage(Externos.jugadorDobleGun, at, null);
-        } else {
-            g2d.drawImage(textura, at, null);
-        }
+             AffineTransform atGunI = AffineTransform.getTranslateInstance(posicion.getX() + imgancho / 2 + 5,
+                posicion.getY() + imgalto / 2 -5);
 
+        //divujamos a partir de la exquina superior izquierda
+        AffineTransform atGunD = AffineTransform.getTranslateInstance(posicion.getX() + 1,
+                posicion.getY() + imgalto / 2-5);
+
+        atGunI.rotate(angulo+Math.PI, -5, 5);
+        //lo trasla damos al medio por eso dividimos x entre 2
+        atGunD.rotate(angulo+Math.PI, imgancho / 2 - 1, 5);
+            
+            g2d.drawImage(Externos.gun, atGunD, null);
+            g2d.drawImage(Externos.gun, atGunI, null);
+        } else {
+           
+        }
+ g2d.drawImage(textura, at, null);
     }
 
     public boolean isAparecer() {

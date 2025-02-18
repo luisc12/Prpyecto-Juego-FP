@@ -20,7 +20,12 @@
   <LICENCIA>CC BY-ND 4.0</LICENCIA>
   <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO>
- 
+ <CREDITO TEMA="MUSICA">
+  <OBJETO>vgmenuselect.wav</OBJETO>
+  <CREADOR>Fupí</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION></MODIFICACION>
+ </CREDITO> 
 <!--sprites recursos utilizados.-->
 
  

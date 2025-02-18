@@ -12,9 +12,9 @@ import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Laser;
-import ObjetosMoviles.Laser;
-import ObjetosMoviles.Laser;
+import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Laser;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,11 +31,7 @@ public class Nostromo extends Enemigos {
     private Vectores direccion;
     private int indice;
     private int vida;
-
-    private boolean continuar;
-    private Vectores jugadorP;
-
-    //private Cronometro fuego;
+    private Vectores jugadorP, posicionAnteriro;
     long fuego;
 
     private Sonido Sdisparar;
@@ -45,113 +41,89 @@ public class Nostromo extends Enemigos {
 
         direccion = new Vectores(0, 1);
         indice = 0;
-        continuar = true;
+        // continuar = true;
         fuego = 0;
         Sdisparar = new Sonido(Externos.disparoNostromo);
         Sdisparar.cambiarVolumen(-10.0f);
         vida = 100;
+        posicionAnteriro=new Vectores();
     }
 
-    /*
-    private Vectores SeguirCamino() {
-        nodoActual = camino.get(indice);
-
-        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Manitud();
-
-        if (distanciaAlNodo < Constantes.RadiusNodo) {
-            indice++;
-            if (indice >= camino.size()) {
-                continuar = false;
-            }
-        }
-        return PursuingForce(nodoActual,3);
-    }
-    /*
-    private Vectores SeekForce(Vectores objetivo) {
-        //velocidad deseada vector desde el UFO hacia el objetivo
-        Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
-        //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
-        velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
-        //
-        return velocidadDeseada.RestaVectores(velocidad);
-    }
-    
-    private Vectores PursuingForce(Vectores objetivo, int tiempo){
-        Vectores FuturePosicion=posicion.SumaVectores(velocidad.MultiplicarVector(tiempo));
-        return SeekForce(FuturePosicion);
-    }
-     */
     @Override
     public void actualizar(float dt) {
 
         fuego += dt;
+        choqueEscudo();
+      
 
-        jugadorP = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-//-------------------------
-
-        continuar = false;
-        /*  angulo = jugadorP.NormalizarVector().getAngulo();
-       angulo=jugadorSurdo(jugadorP);
-        direccion = jugadorP.calcularDireccion(angulo);
-        velocidad = direccion.velocidadlimite(Constantes.MaxVelEnemigo1);
-        posicion = posicion.SumaVectores(velocidad);*/
-        //-------------------
-        Vectores posicionJ = ventanapartida.getJugador().getPosicion().RestaVectores(posicion);
-        Vectores force = PursuingForce();
-        if (force.Manitud() > Constantes.maxforceNos) {
+       
+         Vectores force;
+        if (!ventanapartida.getJugador().isAparecer()) {
+            
+         jugadorP = new Vectores(ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen()));
+         force = PursuingForce(jugadorP);
+        posicionAnteriro=jugadorP;
+         }else{
+          force = PursuingForce(posicionAnteriro);
+        }
+         if (force.Manitud() > Constantes.maxforceNos) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
         }
-        force = force.MultiplicarVector(1 / Constantes.MasaNos);
+        force = force.MultiplicarVector(1 / (Constantes.MasaNos/2));
         velocidad = velocidad.SumaVectores(force);
         velocidad = velocidad.velocidadlimite(maxVel);
         posicion = posicion.SumaVectores(velocidad);
-        angulo = posicionJ.NormalizarVector().getAngulo();
+        angulo = posicionAnteriro.NormalizarVector().getAngulo();
 
-        angulo = jugadorSurdo(posicionJ.NormalizarVector());
-
+        // angulo = jugadorSurdo(jugadorP.NormalizarVector());
         // angulo = jugadorSurdo(direccion);
         if (fuego > Constantes.TDisparoNos) {
-            jugadorP =jugadorP.NormalizarVector();
-            
-             double anguloActual =  jugadorP.getAngulo();
-            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2+Constantes.RangoAnguloUfo / 5);
-             if ( jugadorP.getX() < 0) {
-                anguloActual = -anguloActual + Math.PI;
-            }
-           jugadorP=jugadorP.calcularDireccion(anguloActual);
+            posicionAnteriro = posicionAnteriro.NormalizarVector();
 
-            
-                    Laser laser = new Laser(Externos.redLaser,
+            // Obtenemos el ángulo correcto usando el método corregido getAngulo()
+            double anguloActual = posicionAnteriro.getAngulo();
+
+            // Introduce variación en el ángulo de disparo
+            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2);
+
+            // Ajustamos la dirección del disparo usando la función calcularDireccion() de la clase Vectores
+            posicionAnteriro = posicionAnteriro.calcularDireccion(anguloActual);
+
+            Laser laser = new Laser(
+                    Externos.redLaser,
                     CentroImagen(),
-                    jugadorP,
+                    posicionAnteriro, // Ahora la dirección está correctamente ajustada
                     Constantes.Velocidad_lacNostromo,
                     anguloActual + Math.PI / 2,
-                    ventanapartida, true, 0);
+                    ventanapartida, true, 0
+            );
 
             ventanapartida.getObjetosmoviles().add(0, laser);
 
             fuego = 0;
             Sdisparar.play();
         }
-if (Sdisparar.getFramePsition() >100000) {
+        
+        
+        if (Sdisparar.getFramePsition() > 100000) {
             Sdisparar.parar();
         }
         if (posicion.getX() > Constantes.ancho) {
             posicion.setX(0);
-            continuar = true;
+
         }
         if (posicion.getY() > Constantes.alto) {
             posicion.setY(0);
-            continuar = true;
+            ;
         }
 
         if (posicion.getX() < 0) {
             posicion.setX(Constantes.ancho);
-            continuar = true;
+
         }
         if (posicion.getY() < 0) {
             posicion.setY(Constantes.alto);
-            continuar = true;
+
         }
         ColisonaCon();
     }

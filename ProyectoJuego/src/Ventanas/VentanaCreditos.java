@@ -76,8 +76,7 @@ private long tiempoAnterior;
                  if (cambio > 10000) {
                   if (numPagina > 1) {
                     numPagina--; // Reducimos la página sin crear una nueva ventana
-                    repaint(); // Redibujamos la vnetana
-                    System.out.println("Página actual: " + numPagina);
+                    repaint(); // Redibujamos la ventana
                     
                 }
                 cambio = 0;
@@ -98,7 +97,7 @@ private long tiempoAnterior;
                 if (numPagina < totalPaginas) {
                     numPagina++; // Aumentamos la página sin crear una nueva ventana
                     repaint(); // Redibujamos la ventana
-                    System.out.println("Página actual: " + numPagina);
+                 
                     
                 }
                 cambio = 0;
@@ -130,7 +129,6 @@ private long tiempoAnterior;
             if (numPagina < totalPaginas) {
                 numPagina++;
                 repaint();
-                System.out.println("Página actual: " + numPagina);
             } else {
                 numPagina = 0;
                 repaint();
@@ -143,7 +141,7 @@ private long tiempoAnterior;
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho, Constantes.alto); // Ancho: 200, Alto: 300
+        BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho, Constantes.ancho, Constantes.alto); // Ancho: 200, Alto: 300
         AffineTransform at = AffineTransform.getTranslateInstance(
                 Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
                 -20);
@@ -161,10 +159,8 @@ private long tiempoAnterior;
         if (numPagina < 1) {
             numPagina = 1;
         }
-        System.out.println("Mostrando página: " + numPagina + " de " + totalPaginas);
 
         List<Creditos> credito = paginaList(listaDatos, numPagina, tamPagina);
-        System.out.println("Elementos en esta página: " + credito.size());
         linea = 90;
         // System.out.println( "Página " + pageNumber + ": " + paginatedResult);
         for (Creditos c : credito) {

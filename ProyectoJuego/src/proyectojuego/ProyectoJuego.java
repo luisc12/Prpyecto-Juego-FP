@@ -29,6 +29,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -90,13 +92,8 @@ public class ProyectoJuego extends JFrame implements Runnable {
         canvas.addMouseListener(raton);
         //con este nos aseguramos que resiva los eventos de los botones cuando se mueva
         canvas.addMouseMotionListener(raton);
-        // canvas.setBounds(alto, alto, WIDTH, HEIGHT);
-        //
-
-        //
         Image img = Externos.getIconImage();
         setIconImage(img);
-        // Ingresarusuario();
 //boolean v=ventanan.isEjecutando();
         setVisible(true);
     }
@@ -119,9 +116,9 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
         //this.setVisibles(ventanan.isEjecutando());
         teclado.actualizar();
-        if (!pausa) {
+        
             Ventana.getVentanaActual().actualizar(dt);
-        }
+        
     }
 
     private void dibujar() {
@@ -165,56 +162,53 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
     public void pausar() {
         pausa = true;
-        hilo.suspend();
-        while (pausa) {
-            if (Teclado.reanudar) {
-                continuar();
-            }
-
-        }
-
     }
 
     public void continuar() {
-        hilo.resume();
         pausa = false;
+        TTrans=0;
     }
 
     @Override
     public void run() {
+       
+            long ahora = 0;
+            long TPasado = System.nanoTime();//hora actual del sistema en nano segundos
+            int frames = 0;
+            long tiempo = 0;
 
-        long ahora = 0;
-        long TPasado = System.nanoTime();//hora actual del sistema en nano segundos
-        int frames = 0;
-        long tiempo = 0;
+            inicio();
 
-        inicio();
+            // usamos un ciclo while que actualizara todos los objetos del juego
+            while (ejecutando) {
+                
+                if (!pausa) {
+                    ahora = System.nanoTime();
+                    TTrans += (ahora - TPasado) / objT;
+                    tiempo += (ahora - TPasado);
+                    TPasado = ahora;
+                    if (TTrans >= 1) {
+                        //paso el tiempo entre fotogramas multiplicando TTrans por objT y luego convertirlo en milisegundos
 
-        // usamos un ciclo while que actualizara todos los objetos del juego
-        while (ejecutando) {
-            if (!pausa) {
-                ahora = System.nanoTime();
-                TTrans += (ahora - TPasado) / objT;
-                tiempo += (ahora - TPasado);
-                TPasado = ahora;
-                if (TTrans >= 1) {
-                    //paso el tiempo entre fotogramas multiplicando TTrans por objT y luego convertirlo en milisegundos
-                    actualizar((float) (TTrans * objT * 0.000001f));
+                        actualizar((float) (TTrans * objT * 0.000001f));
+                        dibujar();
+                        TTrans--;
+                        frames++;
+
+                    }
+                    if (tiempo >= 1000000000) {
+                        PROFPS = frames;
+                        frames = 0;
+                        tiempo = 0;
+
+                    }
+
+                }else{
                     dibujar();
-                    TTrans--;
-                    frames++;
-
                 }
-                if (tiempo >= 1000000000) {
-                    PROFPS = frames;
-                    frames = 0;
-                    tiempo = 0;
-
-                }
-
             }
-        }
-        stop();
+            stop();
+        
     }
 
     private void start() {
@@ -235,8 +229,16 @@ public class ProyectoJuego extends JFrame implements Runnable {
         }
     }
 
+    public boolean isPausa() {
+        return pausa;
+    }
+
+    public void setPausa(boolean pausa) {
+        this.pausa = pausa;
+    }
+
 }
-  /*
+/*
 public void impedir(){
      this.setFocusableWindowState(false);
         this.setEnabled(false);

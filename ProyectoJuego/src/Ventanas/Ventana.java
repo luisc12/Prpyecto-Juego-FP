@@ -17,7 +17,7 @@ public abstract class Ventana extends JFrame{//extends JFrame
     private static Ventana ventanaActual=null;
 ProyectoJuego p;
     public Ventana(ProyectoJuego p) {
-        p=this.p;
+        this.p=p;
     }
 
     public static Ventana getVentanaActual() {

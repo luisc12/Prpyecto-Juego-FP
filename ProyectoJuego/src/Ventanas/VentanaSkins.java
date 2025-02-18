@@ -41,6 +41,7 @@ import proyectojuego.ProyectoJuego;
  *
  * @author luis
  */
+
 public class VentanaSkins extends Ventana {
 
     public BufferedImage apariencia;
@@ -63,8 +64,9 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
         super(p);
         botones = new ArrayList<Boton>();
         activar = false;
+        indice=0;
         
-       imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); 
+       imagenEscalada = Externos.cambiarTamaño(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); 
         Boton atras = new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
                 Constantes.ancho / 2 - Externos.bGris.getWidth() * 2,
@@ -87,10 +89,10 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
             }
         });
         botones.add(comenzar);
-        BufferedImage flechaderechaV = Externos.cambiarTamaño(Externos.flechaVerdeD, 150);
-        BufferedImage flechaderechaG = Externos.cambiarTamaño(Externos.flechaGrisD, 150);
-        BufferedImage flechaizquierdaV = Externos.cambiarTamaño(Externos.flechaVerdeI, 150);
-        BufferedImage flechaizquierdaG = Externos.cambiarTamaño(Externos.flechaGrisI, 150);
+        BufferedImage flechaderechaV = Externos.cambiarTamaño(Externos.flechaVerdeD, 150,150);
+        BufferedImage flechaderechaG = Externos.cambiarTamaño(Externos.flechaGrisD, 150,150);
+        BufferedImage flechaizquierdaV = Externos.cambiarTamaño(Externos.flechaVerdeI, 150,150);
+        BufferedImage flechaizquierdaG = Externos.cambiarTamaño(Externos.flechaGrisI, 150,150);
         Boton derecha = new Boton(flechaderechaG,
                 flechaderechaV,
                 Constantes.ancho - flechaderechaG.getWidth() * 2,
@@ -274,7 +276,7 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-       /* BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); // Ancho: 200, Alto: 300  
+       /* BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelMenu, Constantes.ancho / 2, Constantes.alto - 200); // Ancho: 200, Alto: 300  
 
         AffineTransform ati = AffineTransform.getTranslateInstance(
                 Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
@@ -295,7 +297,7 @@ BufferedImage imagenEscalada; // Ancho: 200, Alto: 300
                 true,
                 Color.MAGENTA,
                 Externos.Gfuente);
-        BufferedImage muestra = Externos.cambiarTamaño(aux[indice].textura, 200);
+        BufferedImage muestra = Externos.cambiarTamaño(aux[indice].textura, 200,200);
         Vectores PosicionInicial
                 = new Vectores(Constantes.ancho / 2 - muestra.getWidth() / 2,
                         Constantes.alto / 2 - muestra.getHeight() / 2);

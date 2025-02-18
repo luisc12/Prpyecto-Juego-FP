@@ -19,7 +19,7 @@ public class Teclado implements KeyListener {
     //para agregar cualquier tecla usamos 256
     private boolean[] keys = new boolean[256];
     
-    public static boolean arriba, derecha, izquierda, abajo, disparar,pausa,reanudar;
+    public static boolean arriba, derecha, izquierda, abajo, disparar,pausa,salir;
 
     public Teclado() {
         arriba = false;
@@ -28,7 +28,7 @@ public class Teclado implements KeyListener {
         abajo = false;
         disparar = false;
         pausa=false;
-        reanudar=false;
+        salir=false;
 
     }
 //
@@ -40,7 +40,7 @@ public class Teclado implements KeyListener {
         abajo=keys[KeyEvent.VK_DOWN];
         disparar=keys[KeyEvent.VK_SPACE];
         pausa=keys[KeyEvent.VK_P];
-        reanudar=keys[KeyEvent.VK_O];
+        salir=keys[KeyEvent.VK_Z];
 
     }
  // Método para resetear el estado de las teclas

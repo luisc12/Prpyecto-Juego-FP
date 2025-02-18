@@ -78,8 +78,8 @@ public class Constantes {
     public static final String Comenzar = "Comenzar";
 
     public static final String Salir = "Salir";
-    public static BufferedImage botonApagado = Externos.cambiarTamaño2(Externos.bInactivo, 192, 64); // Ancho: 200, Alto: 300
-    public static BufferedImage botonActivo = Externos.cambiarTamaño2(Externos.bActivo, 192, 64);
+    public static BufferedImage botonApagado = Externos.cambiarTamaño(Externos.bInactivo, 192, 64); // Ancho: 200, Alto: 300
+    public static BufferedImage botonActivo = Externos.cambiarTamaño(Externos.bActivo, 192, 64);
     //-------propiedades de Cargar----------------------
     public static final int BarraCargaAncho = 500;//LOADING_BAR_WIDTH
     public static final int BarraCargaAlto = 50;//LOADING_BAR_HEIGHT 

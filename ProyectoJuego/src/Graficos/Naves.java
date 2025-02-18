@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  */
 public enum Naves {
     
-    JUGADOR1("cartero",Externos.jugadores[0],250),
+    JUGADOR1("cartero",Externos.jugadores[0],0),
     CRAB("CRAB",Externos.jugadores[1],350),
     MAC_1("MAC-1",Externos.jugadores[2],450),
     SPORTS_SHIP("SPORTS SHIP",Externos.jugadores[3],550),

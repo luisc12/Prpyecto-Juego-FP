@@ -41,7 +41,7 @@ public class VentanaControl extends Ventana {
     BufferedImage derechaGris, derechaVerde, izquierdaGris, izquierdaVerde, arribaGris, arribaVerde, abajoGris, abajoVerde;
     double angulo;
     ArrayList<Boton> botones;
-    Boton arriba, abajo, derecha, izquierda, espacio, atras, comenzar;
+    Boton arriba, abajo, derecha, izquierda, espacio,escape, atras, comenzar;
     boolean existe;
     Vectores posicion;
 
@@ -63,24 +63,24 @@ public class VentanaControl extends Ventana {
         //-------------------
         int tamaño = 100;
         //------------fecha derecha-------
-        BufferedImage derechaGris = Externos.cambiarTamaño(Externos.flechaGrisD, tamaño);
+        derechaGris = Externos.cambiarTamaño(Externos.flechaGrisD, tamaño,tamaño);
 
-        BufferedImage derechaVerde = Externos.cambiarTamaño(Externos.flechaVerdeD, tamaño);
+        derechaVerde = Externos.cambiarTamaño(Externos.flechaVerdeD, tamaño,tamaño);
 
         //------------flecha izquierda------
-        izquierdaGris = Externos.cambiarTamaño(Externos.flechaGrisI, tamaño);
+        izquierdaGris = Externos.cambiarTamaño(Externos.flechaGrisI, tamaño,tamaño);
 
-        izquierdaVerde = Externos.cambiarTamaño(Externos.flechaVerdeI, tamaño);
-
+        izquierdaVerde = Externos.cambiarTamaño(Externos.flechaVerdeI, tamaño,tamaño);
+System.out.println(izquierdaGris.getWidth()+" abajo "+izquierdaGris.getHeight());
         //------------flecha Arriba----------
-        arribaGris = Externos.cambiarTamaño(Externos.flechaGrisA, tamaño);
+        arribaGris = Externos.cambiarTamaño(Externos.flechaGrisA, tamaño,tamaño);
 
-        arribaVerde = Externos.cambiarTamaño(Externos.flechaVerdeA, tamaño);
-
-        //------------flecha Arriba----------
-        abajoGris = Externos.cambiarTamaño(Externos.flechaGrisB, tamaño);
-
-        abajoVerde = Externos.cambiarTamaño(Externos.flechaVerdeB, tamaño);
+        arribaVerde = Externos.cambiarTamaño(Externos.flechaVerdeA, tamaño,tamaño);
+System.out.println(arribaGris.getWidth()+" arriba "+arribaGris.getHeight());
+        //------------flecha Abajo----------
+        abajoGris = Externos.cambiarTamaño(Externos.flechaGrisB, tamaño,tamaño);
+System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
+        abajoVerde = Externos.cambiarTamaño(Externos.flechaVerdeB, tamaño,tamaño);
 
         arriba = new Boton(arribaGris,
                 arribaVerde,
@@ -89,7 +89,6 @@ public class VentanaControl extends Ventana {
                 "", new Accion() {
             @Override
             public void hacerAccion() {
-                System.out.println("ver");
             }
         });
         abajo = new Boton(abajoGris,
@@ -99,7 +98,6 @@ public class VentanaControl extends Ventana {
                 "", new Accion() {
             @Override
             public void hacerAccion() {
-                System.out.println("ver");
             }
         });
         izquierda = new Boton(izquierdaGris,
@@ -109,7 +107,6 @@ public class VentanaControl extends Ventana {
                 "", new Accion() {
             @Override
             public void hacerAccion() {
-                System.out.println("ver");
             }
         });
         derecha = new Boton(derechaGris,
@@ -119,20 +116,27 @@ public class VentanaControl extends Ventana {
                 "", new Accion() {
             @Override
             public void hacerAccion() {
-                System.out.println("ver");
             }
         });
         
-        BufferedImage botonDesactivado = Externos.cambiarTamaño2(Externos.bDesactivado, 192, 64);
+        BufferedImage botonDesactivado = Externos.cambiarTamaño(Externos.bDesactivado, 192, 64);
         
         espacio = new Boton(botonDesactivado,
                 Constantes.botonActivo,
-                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 2 + 25),
-                Constantes.alto - Constantes.botonActivo.getHeight() * 4,
+                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 3 ),
+                Constantes.alto - Constantes.botonActivo.getHeight() * 6,
                 "ESPACIO",Color.WHITE,Color.RED, new Accion() {
             @Override
             public void hacerAccion() {
-                System.out.println("ver");
+            }
+        });
+        escape= new Boton(botonDesactivado,
+                Constantes.botonActivo,
+                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth()  ),
+                Constantes.alto - Constantes.botonActivo.getHeight() * 6,
+                "Z",Color.WHITE,Color.RED, new Accion() {
+            @Override
+            public void hacerAccion() {
             }
         });
         atras = new Boton(Constantes.botonApagado,
@@ -170,6 +174,7 @@ public class VentanaControl extends Ventana {
         botones.add(izquierda);
         botones.add(derecha);
         botones.add(espacio);
+         botones.add(escape);
         botones.add(atras);
 
     }
@@ -190,12 +195,15 @@ public class VentanaControl extends Ventana {
             izquierda.setRatonDentro(true);
         } else if (Teclado.disparar) {
             espacio.setRatonDentro(true);
-        } else {
+        } else if (Teclado.salir) {
+            escape.setRatonDentro(true);
+        }else {
             arriba.setRatonDentro(false);
             abajo.setRatonDentro(false);
             derecha.setRatonDentro(false);
             izquierda.setRatonDentro(false);
             espacio.setRatonDentro(false);
+            escape.setRatonDentro(false);
         }
 
         j.actualizar(dt);
@@ -236,7 +244,7 @@ public class VentanaControl extends Ventana {
     @Override
     public void dibujar(Graphics g) {
          Graphics2D g2d = (Graphics2D) g;
-          BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
+          BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
             AffineTransform at = AffineTransform.getTranslateInstance(
                     Constantes.ancho / 2-imagenEscalada.getWidth()/2,
                    0);
@@ -257,19 +265,32 @@ public class VentanaControl extends Ventana {
                 Externos.Gfuente);
         Texto.DibujarTexto(g,
                 "Flechas del Teclado",
-                new Vectores(Constantes.ancho / 3 - arribaGris.getWidth() * 2+150,
-                        Constantes.alto / 3+100 - arribaGris.getHeight()),
-                false,
+                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() +50),
+                        Constantes.alto / 3+arribaGris.getWidth()+40),
+                true,
                 Color.white,
                 Externos.Mfuente);
+        Texto.DibujarTexto(g,
+                "Movimiento",
+                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() +50),
+                        Constantes.ancho / 3 - (arribaGris.getWidth() *3)),
+                true,
+                Color.white,
+                Externos.Pixeloid);
           Texto.DibujarTexto(g,
                 "Disparar",
+                new Vectores(   Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 3 -100),
+                Constantes.alto - (Externos.bGris.getHeight() * 6)),
+                true,
+                Externos.cEncendido,
+                Externos.Mfuente);
+ Texto.DibujarTexto(g,
+                "Salir",
                 new Vectores(  Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2+25 )+300,
                 Constantes.alto - Externos.bGris.getHeight() * 5+100),
                 false,
-                Color.white,
+               Externos.cEncendido,
                 Externos.Mfuente);
-
         
         /*   AffineTransform   at = AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
         //punto de rotacion : optenemos el ancho y lo dividimos entre 2        

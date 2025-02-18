@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import proyectojuego.ProyectoJuego;
@@ -47,6 +45,7 @@ BufferedImage panel;
         super(p);
     musicaFondo=new Sonido(Externos.MusicaFondo);
     musicaFondo.MusicaFondo();
+    musicaFondo.cambiarVolumen(-10.0f);
         botones = new ArrayList<Boton>();
 
         botones.add(
@@ -80,11 +79,11 @@ musicaFondo.parar();
             }
         }));
 
-        BufferedImage scaledgris =  Externos.cambiarTamaño2(Externos.bInactivo,300, 64);
+        BufferedImage scaledgris =  Externos.cambiarTamaño(Externos.bInactivo,300, 64);
 
-        BufferedImage scaledverde = Externos.cambiarTamaño2(Externos.bActivo,300,  64);
+        BufferedImage scaledverde = Externos.cambiarTamaño(Externos.bActivo,300,  64);
         
-System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
+
         botones.add(new Boton(scaledgris,
                 scaledverde,
                 Constantes.ancho / 2 - scaledgris.getWidth() / 2,
@@ -119,32 +118,6 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
             }
         }));
         
-      /*  int randio = (int) (Math.random() * 2);
-
-        double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
-        double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
-
-        ArrayList<Vectores> caminos = new ArrayList<Vectores>();
-
-        double posX, posY;
-        //sector superior izquierdo
-
-        posX = Math.random() * Constantes.ancho / 2;
-        posY = Math.random() * Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector superior derecho
-        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
-        posY = Math.random() * Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector inferior izquierdo
-        posX = Math.random() * Constantes.ancho / 2;
-        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector inferior derecho
-        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
-        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));*/
-        
         ver=false;
         c = Color.MAGENTA;
         panel=Externos.panelMenu;
@@ -170,7 +143,7 @@ System.out.println(scaledverde.getWidth()+" "+scaledverde.getHeight());
     @Override
     public void dibujar(Graphics g) {
           Graphics2D g2d = (Graphics2D) g;
-            BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelMenu, Constantes.ancho/2,  Constantes.alto-200); // Ancho: 200, Alto: 300
+            BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelMenu, Constantes.ancho/2,  Constantes.alto-200); // Ancho: 200, Alto: 300
             AffineTransform at = AffineTransform.getTranslateInstance(
                     Constantes.ancho / 2-imagenEscalada.getWidth()/2,
                     0);

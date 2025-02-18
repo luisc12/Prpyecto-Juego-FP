@@ -46,8 +46,8 @@ public class VentanaPuntaje extends Ventana {
 
     public VentanaPuntaje(ProyectoJuego p) {
         super(p);
-          BufferedImage botonApagado = Externos.cambiarTamaño2(Externos.bInactivo,192,  64); // Ancho: 200, Alto: 300
-         BufferedImage botonActivo = Externos.cambiarTamaño2(Externos.bActivo,192,  64);
+          BufferedImage botonApagado = Externos.cambiarTamaño(Externos.bInactivo,192,  64); // Ancho: 200, Alto: 300
+         BufferedImage botonActivo = Externos.cambiarTamaño(Externos.bActivo,192,  64);
         atras = new Boton(botonApagado,
                 botonActivo,
                 Externos.bGris.getHeight(),
@@ -97,7 +97,7 @@ public class VentanaPuntaje extends Ventana {
     @Override
     public void dibujar(Graphics g) {
           Graphics2D g2d = (Graphics2D) g;
-            BufferedImage imagenEscalada = Externos.cambiarTamaño2(Externos.panelAncho, Constantes.ancho/2+200,  Constantes.alto-100); // Ancho: 200, Alto: 300
+            BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho, Constantes.ancho/2+200,  Constantes.alto-100); // Ancho: 200, Alto: 300
             AffineTransform at = AffineTransform.getTranslateInstance(
                     Constantes.ancho / 2-imagenEscalada.getWidth()/2,
                     0);

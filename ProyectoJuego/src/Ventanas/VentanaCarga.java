@@ -6,6 +6,7 @@
 package Ventanas;
 
 import Graficos.Externos;
+import static Graficos.Externos.CargarImagen;
 import Graficos.Texto;
 import Matematicas.Vectores;
 
@@ -15,6 +16,8 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import proyectojuego.ProyectoJuego;
@@ -27,12 +30,13 @@ public class VentanaCarga extends Ventana{
 
     private Thread cargarHilo;
     private Font fuente;
-    
+    BufferedImage imagenEscalada;
     public VentanaCarga(Thread cargarHilo,ProyectoJuego p) {
         super(p);
         this.cargarHilo=cargarHilo;
         this.cargarHilo.start();
-        fuente=Externos.CargarFuente("fuentes/kenvector_future.ttf", 38);
+        fuente=Externos.CargarFuente("fuentes/kenvector_future.ttf", 58);
+        imagenEscalada = Externos.cambiarTamaño(CargarImagen("ui/Card X2.png"), Constantes.ancho -Constantes.ancho/5, Constantes.alto- Constantes.alto/4); 
     }
     
     
@@ -55,35 +59,40 @@ public class VentanaCarga extends Ventana{
         GradientPaint gp=new GradientPaint(
                 Constantes.ancho/2-Constantes.BarraCargaAncho/2,
                 Constantes.alto/2-Constantes.BarraCargaAlto/2,
-                Color.BLUE,
+                Externos.cApagado,
                 Constantes.ancho/2+Constantes.BarraCargaAncho/2,
                 Constantes.alto/2+Constantes.BarraCargaAlto/2,
-                Color.GREEN);
+                Externos.cEncendido);
         
         Graphics2D g2d=(Graphics2D)g;
+     
+        AffineTransform ati = AffineTransform.getTranslateInstance(
+                Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
+                 Constantes.alto / 2 - imagenEscalada.getHeight() / 2);
+        g2d.drawImage(imagenEscalada, ati, null);
         
         g2d.setPaint(gp);
         
         float porcentaje=Externos.cantidad/Externos.cantidadMax;
+        int cuadx=Constantes.ancho/2-Constantes.BarraCargaAncho/2;
+        int cuady=Constantes.alto/2+100;
         //aqui reyeno
         g2d.fillRect(
-                Constantes.ancho/2-Constantes.BarraCargaAncho/2,
-                Constantes.alto/2-Constantes.BarraCargaAlto/2,
+                 cuadx,cuady,
                 (int)(Constantes.BarraCargaAncho*porcentaje),
                 Constantes.BarraCargaAlto);
         //aqui dibujo el marco
         g2d.drawRect(
-                Constantes.ancho/2-Constantes.BarraCargaAncho/2,
-                Constantes.alto/2-Constantes.BarraCargaAlto/2,
+                cuadx,cuady,
                 Constantes.BarraCargaAncho,
                 Constantes.BarraCargaAlto);
         
         Texto.DibujarTexto(
                 g2d,
                 "PREPARANDO ENTREGA",
-                new Vectores(Constantes.ancho/2, Constantes.alto/2 -50),
+                new Vectores(Constantes.ancho/2, Constantes.alto/2 -100),
                 true,
-                Color.white,
+                Externos.cEncendido,
                 fuente);
         
          Texto.DibujarTexto(
@@ -91,7 +100,7 @@ public class VentanaCarga extends Ventana{
                 "CARGANDO..",
                 new Vectores(Constantes.ancho/2, Constantes.alto/2 +50),
                 true,
-                Color.white,
+                Externos.cEncendido,
                 fuente);
     }
     

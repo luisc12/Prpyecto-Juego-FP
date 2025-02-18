@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Disparos;
 
 import Matematicas.Vectores;
+import ObjetosMoviles.ObjetosMovibles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,7 @@ public abstract class Disparos extends ObjetosMovibles{
                 return angulo;
             }
         return angulo;
-    }
+    }/*
     protected Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo
         Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
@@ -41,7 +42,7 @@ public abstract class Disparos extends ObjetosMovibles{
         velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
         //
         return velocidadDeseada.RestaVectores(velocidad);
-    }
+    }*/
 
     public int getDaño() {
         return daño;

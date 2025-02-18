@@ -11,8 +11,8 @@ import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Laser;
-import ObjetosMoviles.Laser;
+import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Laser;
 import Ventanas.VentanaPartida;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -76,6 +76,7 @@ public class Ufo extends Enemigos {
     vida=100;
     }
      */
+    /*
     private Vectores SeguirCamino() {
         nodoActual = camino.get(indice);
 
@@ -88,7 +89,7 @@ public class Ufo extends Enemigos {
             }
         }
         return SeekForce(nodoActual);
-    }
+    }*/
 
  /*   private Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo
@@ -104,16 +105,17 @@ public class Ufo extends Enemigos {
          
         fuego+=dt;
         Vectores siguindo;
-          Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
+        choqueEscudo();
+        /*  Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
         int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
 if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
                Destruir();
                 
             }
-        }
-        if (continuar) {
-            siguindo = SeguirCamino();
+        }*/
+        if (isContinuar()) {
+            siguindo = SeguirCamino(camino);
         } else {
             siguindo = new Vectores();
         }
@@ -138,12 +140,12 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             //pi es 180 grados
             anguloActual += Math.random() * Constantes.RangoAnguloUfo - Constantes.RangoAnguloUfo / 2;
 
-            if (posicionJ.getX() < 0) {
+           /* if (posicionJ.getX() < 0) {
                 anguloActual = -anguloActual + Math.PI;
-            }
+            }*/
             posicionJ=posicionJ.calcularDireccion(anguloActual);
 
-            Laser laser = new Laser(Externos.blueLaser,
+            Laser laser = new Laser(Externos.purpuraLaser,
                     CentroImagen().SumaVectores(posicionJ.MultiplicarVector(imgancho)),
                     posicionJ,
                     Constantes.Velocidad_lac,

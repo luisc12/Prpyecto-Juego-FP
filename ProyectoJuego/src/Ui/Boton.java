@@ -7,6 +7,7 @@ package Ui;
 
 import Entrada.RatonEntrada;
 import Graficos.Externos;
+import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import java.awt.Color;
@@ -32,6 +33,7 @@ public class Boton {
     private Accion accion;
     private Color cEncendido;
     private Color cApagado;
+    private Sonido click;
 
     public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
             int x, int y, String texto, Accion accion) {
@@ -42,7 +44,10 @@ public class Boton {
         this.accion = accion;
         cEncendido = Color.BLACK;
         cApagado=Color.BLACK;
+         click= new Sonido(Externos.DisparoUfo);
+          click.cambiarVolumen(-10.0f);
     }
+   
 
     public Boton(BufferedImage ratonfuera, BufferedImage ratonSobre,
             int x, int y, String texto, Color cEncendido,Color cApagado, Accion accion) {
@@ -53,6 +58,8 @@ public class Boton {
         this.accion = accion;
         this.cEncendido = cEncendido;
         this.cApagado=cApagado;
+        click= new Sonido(Externos.clickBoton);
+          click.cambiarVolumen(-10.0f);
     }
 
     public void actualizar() {
@@ -64,6 +71,7 @@ public class Boton {
             ratonDentro = false;
         }
         if (ratonDentro && RatonEntrada.salidaRaton) {
+            click.play();
             accion.hacerAccion();
         }
 
@@ -78,6 +86,7 @@ public class Boton {
 
             g2d.drawImage(ratonSobre, cuadroDelimitador.x, cuadroDelimitador.y, null);
  c=cEncendido;
+   
         } else {
 
             g2d.drawImage(ratonfuera, cuadroDelimitador.x, cuadroDelimitador.y, null);

@@ -10,7 +10,6 @@ import EntradaSalida.DatosPuntaje;
 import EntradaSalida.XMLParser;
 import Graficos.Animacion;
 import Graficos.Externos;
-import static Graficos.Externos.Ufo;
 import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
@@ -49,7 +48,6 @@ import proyectojuego.ProyectoJuego;
  */
 public class VentanaPartida extends Ventana {
 
-    ProyectoJuego proyecto;
     VentanaPausa ventanaPausa;
     public static final Vectores PosicionInicial
             = new Vectores(Constantes.ancho / 2 - Externos.jugadores[0].getWidth() / 2,
@@ -66,13 +64,13 @@ public class VentanaPartida extends Ventana {
     private ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 
     private int puntos = 0;
-    private int vidas = 99;
+    private int vidas = 3;
 
     //numero de meteoros por partida
     private int meteoros;
     private int entregas = 1;
 
-    private Sonido musicaFondo;
+    private Sonido musicaFondo, sumarP;
     //private Cronometro TGameOver;
     private long TGameOver;
     private boolean finJuego;
@@ -84,7 +82,6 @@ public class VentanaPartida extends Ventana {
     private long aparecerUfo;
     private long aparecerPowerUP;
     private BufferedImage apariencia;
-    private Planetas planeta;
 
     public VentanaPartida(String nombre, BufferedImage apariencia, ProyectoJuego p) {
         super(p);
@@ -96,7 +93,6 @@ public class VentanaPartida extends Ventana {
                         Constantes.alto / 2 - apariencia.getHeight() / 2),
                 new Vectores(0, 0), 7, this);
 
-        // TGameOver = new Cronometro();
         finJuego = false;
 
         objetosmoviles.add(jugador);
@@ -108,13 +104,13 @@ public class VentanaPartida extends Ventana {
         musicaFondo.MusicaFondo();
         musicaFondo.cambiarVolumen(-10.0f);
 
+        sumarP = new Sonido(Externos.sodidoMasPuntos);
+        sumarP.cambiarVolumen(-10.0f);
+
         TGameOver = 0;
         aparecerUfo = 0;
         aparecerPowerUP = 0;
         pausa = 500;
-        AparecePlaneta = false;
-        /*  aparecerUfo.Empezar(Constantes.TiempoAparecerUfo);
-        System.out.println("cantidad " + Externos.cantidad);*/
     }
 
     public VentanaPartida(ProyectoJuego p) {
@@ -122,26 +118,30 @@ public class VentanaPartida extends Ventana {
     }
 
     public void SumarPuntos(int valor, Vectores posicion) {
-        puntos += valor;
-        Color c = Color.WHITE;
+        if (jugador.isGanarPuntos()) {
 
-        String texto = "+" + valor + " Puntos";
+            puntos += valor;
+            Color c = Color.WHITE;
 
-        if (jugador.isDoblePuntajeActivo()) {
-            c = Color.GREEN;
-            valor = valor * 2;
-            texto = "+" + valor * 2 + " Puntos";
+            String texto = "+" + valor + " Puntos";
+
+            if (jugador.isDoblePuntajeActivo()) {
+                c = Color.GREEN;
+                valor = valor * 2;
+                texto = "+" + valor * 2 + " Puntos";
+            }
+            puntos += valor;
+            sumarP.play();
+            mensajes.add(new Mensaje(
+                    texto,
+                    posicion,
+                    c,
+                    false,
+                    true,
+                    Externos.Mfuente));
+        } else {
+            jugador.setGanarPuntos(true);
         }
-        puntos += valor;
-
-        mensajes.add(new Mensaje(
-                texto,
-                posicion,
-                c,
-                false,
-                true,
-                Externos.Mfuente));
-
     }
 
     public void DividirMeteoro(Meteoros m) {
@@ -206,8 +206,6 @@ public class VentanaPartida extends Ventana {
                     Tamaños.GRANDE));
 
         }
-
-//        irPlaneta();
         meteoros++;
 
         entregas++;
@@ -221,56 +219,63 @@ public class VentanaPartida extends Ventana {
                 posicion.RestaVectores(new Vectores(Externos.explosion2[0].getWidth() / 2, Externos.explosion2[0].getHeight() / 2))));
     }
 
-    private void spawnPlaneta() {
-        BufferedImage superficie = Externos.planetas[(int) (Math.random() * Externos.grades.length)];
-        planeta = new Planetas(superficie, new Vectores(Constantes.ancho / 2 - superficie.getWidth() / 2,
-                -superficie.getHeight()), new Vectores(0, 0), 2, this);
-        objetosmoviles.add(planeta);
-    }
-
-    private void spawnUfo() {
-
+    private void spawnEnemigo() {
+        //int probabilidad = (int) (Math.random() * 4 + 1);
+        int probabilidad = 2;
         int randio = (int) (Math.random() * 2);
 
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
         double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
 
-        ArrayList<Vectores> caminos = new ArrayList<Vectores>();
+        if (probabilidad == 3 || probabilidad == 4) {
+            ArrayList<Vectores> caminos = new ArrayList<Vectores>();
 
-        double posX, posY;
-        //sector superior izquierdo
+            double posX, posY;
+            //sector superior izquierdo
 
-        posX = Math.random() * Constantes.ancho / 2;
-        posY = Math.random() * Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector superior derecho
-        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
-        posY = Math.random() * Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector inferior izquierdo
-        posX = Math.random() * Constantes.ancho / 2;
-        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
-        //sector inferior derecho
-        posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
-        posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
-        caminos.add(new Vectores(posX, posY));
+            posX = Math.random() * Constantes.ancho / 2;
+            posY = Math.random() * Constantes.alto / 2;
+            caminos.add(new Vectores(posX, posY));
+            //sector superior derecho
+            posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
+            posY = Math.random() * Constantes.alto / 2;
+            caminos.add(new Vectores(posX, posY));
+            //sector inferior izquierdo
+            posX = Math.random() * Constantes.ancho / 2;
+            posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
+            caminos.add(new Vectores(posX, posY));
+            //sector inferior derecho
+            posX = Math.random() * (Constantes.ancho / 2) + Constantes.ancho / 2;
+            posY = Math.random() * (Constantes.alto / 2) + Constantes.alto / 2;
+            caminos.add(new Vectores(posX, posY));
+            if (probabilidad == 3) {
+                objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
+                        new Vectores(x, y),
+                        new Vectores(),
+                        Constantes.MaxVelUfo,
+                        this,
+                        caminos));
+            } else {
+                objetosmoviles.add(new Venator(Externos.venator,
+                        new Vectores(x, y),
+                        new Vectores(),
+                        Constantes.MaxVelVen,
+                        this,
+                        caminos));
+            }
 
-       /* objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
-                new Vectores(x, y),
-                new Vectores(),
-                Constantes.MaxVelUfo,
-                this,
-                caminos));*/
-       objetosmoviles.add(new Venator(Externos.venator,
-                new Vectores(x, y),
-                new Vectores(),
-                Constantes.MaxVelVen,
-                this,
-                caminos));
+        } else if (probabilidad == 2) {
+            objetosmoviles.add(new Nostromo(Externos.nostromo,
+                    new Vectores(x, y),
+                    new Vectores(),
+                    Constantes.MaxVelUfo,
+                    this));
+        }
 
+        /*  */
     }
 
+    /*
     private void spanwNostromo() {
         int randio = (int) (Math.random() * 2);
 
@@ -278,19 +283,8 @@ public class VentanaPartida extends Ventana {
         double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
 
         //  ArrayList<Vectores> caminos = new ArrayList<Vectores>();
-        double posX, posY;
-        //sector superior izquierdo
-
-        /*posX = Math.random() *getJugador().getPosicion().getX();
-        posY = Math.random() * getJugador().getPosicion().getY();
-        Vectores v=new Vectores(posX,posY);
-        caminos.add(v);*/
-        objetosmoviles.add(new Nostromo(Externos.nostromo,
-                new Vectores(x, y),
-                new Vectores(),
-                Constantes.MaxVelUfo,
-                this));
-    }
+      
+    }*/
 //aqui espera al ibjeto pausa lock
 /*
     private void esperarSiPausado() {
@@ -419,48 +413,50 @@ public class VentanaPartida extends Ventana {
 
     @Override
     public void actualizar(float dt) {
-        angulo += Constantes.anguloBase / 2;
-        pausa += dt;
 
         if (Teclado.pausa) {
-            if (pausa > 500) {
-                System.out.println("p1");
+
+            if (p.isPausa()) {
+                p.continuar();
+            } else {
+                dt = 0;
                 p.pausar();
-
-                System.out.println("return");
-                //return;
-                //pausa=0;
             }
-
+            p.setPausa(!p.isPausa());
         }
+        //  angulo += Constantes.anguloBase / 2;
+        pausa += dt;
         if (finJuego) {
             TGameOver += dt;
 
         }
-
-        aparecerPowerUP += dt;
+        if (Teclado.salir) {
+            gameOver();
+        }
         aparecerUfo += dt;
+        if (!p.isPausa()) {
 
-        //actualisamos los objetos moviles
-        for (int i = 0; i < objetosmoviles.size(); i++) {
-            ObjetosMovibles ob = objetosmoviles.get(i);
-            ob.actualizar(dt);
-            //si esta muerto lo borra y se le resta a la i debido a que al borrar
-            //un objeto todos los de su derecha avansan un paso a la izquierda
-            //y el ultimo puesto de la derecha a hora basio lo elimina
-            if (ob.isMuerte()) {
-                objetosmoviles.remove(i);
-                i--;
+            //actualisamos los objetos moviles
+            for (int i = 0; i < objetosmoviles.size(); i++) {
+                ObjetosMovibles ob = objetosmoviles.get(i);
+                ob.actualizar(dt);
+                //si esta muerto lo borra y se le resta a la i debido a que al borrar
+                //un objeto todos los de su derecha avansan un paso a la izquierda
+                //y el ultimo puesto de la derecha a hora basio lo elimina
+                if (ob.isMuerte()) {
+                    objetosmoviles.remove(i);
+                    i--;
+                }
+
             }
 
-        }
-
-        for (int i = 0; i < explosiones.size(); i++) {
-            Animacion animacion = explosiones.get(i);
-            animacion.actualizar(dt);
-            //si la animacion no esta ejecutando la elimino
-            if (!animacion.isEjecutando()) {
-                explosiones.remove(i);
+            for (int i = 0; i < explosiones.size(); i++) {
+                Animacion animacion = explosiones.get(i);
+                animacion.actualizar(dt);
+                //si la animacion no esta ejecutando la elimino
+                if (!animacion.isEjecutando()) {
+                    explosiones.remove(i);
+                }
             }
         }
         if (TGameOver > Constantes.TiempoFinal) {
@@ -484,21 +480,9 @@ public class VentanaPartida extends Ventana {
 
             Ventana.cambiarVentana(new VentanaMenu(p));
         }
-        /* if (aparecerPowerUP > Constantes.TiempoAparecerPower) {
-            spawnPowerUp();
-            aparecerPowerUP = 0;
-        }*/
 
         if (aparecerUfo > Constantes.TiempoAparecerUfo) {
-           /*  int probabilidad = (int) (Math.random() * 3 + 1);
-            if (probabilidad == 3) {
-                spawnUfo();
-            }
-            if (probabilidad == 2) {
-                spanwNostromo();
-            }*/
-          // spanwNostromo();
-spawnUfo();
+            spawnEnemigo();
             aparecerUfo = 0;
         }
 
@@ -508,35 +492,39 @@ spawnUfo();
             if (!(objetosmoviles.get(i) instanceof Jugador) && !(objetosmoviles.get(i) instanceof Meteoros)) {
                 if (objetosmoviles.get(i).getPosicion().getX() < -objetosmoviles.get(i).getImgancho() || objetosmoviles.get(i).getPosicion().getX() > Constantes.ancho + objetosmoviles.get(i).getImgancho()
                         || objetosmoviles.get(i).getPosicion().getY() < -objetosmoviles.get(i).getImgalto() || objetosmoviles.get(i).getPosicion().getY() > Constantes.alto + objetosmoviles.get(i).getImgalto()) {
-                   if(!(objetosmoviles.get(i) instanceof Planetas)){
-                       objetosmoviles.get(i).Destruir();
-                   }
+                    if (!(objetosmoviles.get(i) instanceof Planetas)) {
+                        objetosmoviles.get(i).Destruir();
+                    }
                 }
             }
             if (objetosmoviles.get(i) instanceof Meteoros) {
                 return;
             }
         }
-       /* spawnPlaneta();
-        while (!planeta.isMuerte()) {
-            if (planeta.isMuerte()) {
-                
-            }
 
-        }*/
-          if (TGameOver > Constantes.TiempoFinal) {
-              
-          }
-   
-empezarEntrega();
+        if (TGameOver > Constantes.TiempoFinal) {
+
+        }
+
+        empezarEntrega();
     }
 
     @Override
     public void dibujar(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
 
         //mejora la vista del los objetos
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        if (p.isPausa()) {
+            Texto.DibujarTexto(g,
+                    "Seleccione la Skin",
+                    new Vectores(Constantes.ancho / 2 - apariencia.getWidth() / 2,
+                            Constantes.alto / 2 - apariencia.getHeight() / 2),
+                    true,
+                    Color.YELLOW,
+                    Externos.Gfuente);
+        }
 
         for (int i = 0; i < mensajes.size(); i++) {
             mensajes.get(i).dibujar(g2d);
@@ -569,7 +557,7 @@ empezarEntrega();
         String PuntajeText = Integer.toString(puntos);
 
         for (int i = 0; i < PuntajeText.length(); i++) {
-            g.drawImage(Externos.cambiarTamaño(Externos.numeros[Integer.parseInt(PuntajeText.substring(i, i + 1))], 40),
+            g.drawImage(Externos.cambiarTamaño(Externos.numeros[Integer.parseInt(PuntajeText.substring(i, i + 1))], 40, 40),
                     (int) pos.getX(), (int) pos.getY(), null);
 
             pos.setX(pos.getX() + 50);
@@ -583,10 +571,10 @@ empezarEntrega();
         }
         Vectores posV = new Vectores(25, 25);
 
-        BufferedImage vida = Externos.cambiarTamaño(apariencia, 50);
+        BufferedImage vida = Externos.cambiarTamaño(apariencia, 50, 50);
         g.drawImage(vida, (int) posV.getX(), (int) posV.getY(), null);
 
-        g.drawImage(Externos.cambiarTamaño(Externos.numeros[10], 40), (int) posV.getX() + 70,
+        g.drawImage(Externos.cambiarTamaño(Externos.numeros[10], 40, 40), (int) posV.getX() + 70,
                 (int) posV.getY() + 5, null);
         //// método Integer.toString devuelve 
         //la representación de cadena del argumento es decir 
@@ -601,7 +589,7 @@ empezarEntrega();
             if (numero <= 0) {
                 break;
             }
-            g.drawImage(Externos.cambiarTamaño(Externos.numeros[numero], 40), (int) pos.getX() + 120,
+            g.drawImage(Externos.cambiarTamaño(Externos.numeros[numero], 40, 40), (int) pos.getX() + 120,
                     (int) pos.getY() + 3, null);
             pos.setX(pos.getX() + +50);
         }
@@ -651,8 +639,4 @@ empezarEntrega();
         finJuego = true;
 
     }
-
-    /*  private void irPlaneta() {
-       Planetas planeta=new Planetas(apariencia, PosicionInicial, PosicionInicial, angulo, this)
-    }*/
 }

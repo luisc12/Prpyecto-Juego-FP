@@ -76,12 +76,12 @@ public class Vectores {
         return new Vectores(x, y);
 
     }
-
+/*
     public double getAngulo() {
         return Math.asin(y / Manitud());
         
-    }
-    public double getAngulo2() {
+    }*/
+    public double getAngulo() {
         return Math.atan2(y, x);
         
     }

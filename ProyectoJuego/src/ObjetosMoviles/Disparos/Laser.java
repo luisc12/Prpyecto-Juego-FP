@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Disparos;
 
+import ObjetosMoviles.Disparos.Disparos;
 import Matematicas.Vectores;
+import ObjetosMoviles.Constantes;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

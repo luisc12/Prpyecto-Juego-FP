@@ -9,7 +9,7 @@ import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Misiles;
+import ObjetosMoviles.Disparos.Misiles;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -39,7 +39,7 @@ public class Venator extends Enemigos {
      
         
     }
-
+/*
     private Vectores SeguirCamino() {
         nodoActual = camino.get(indice);
 
@@ -52,14 +52,15 @@ public class Venator extends Enemigos {
             }
         }
         return SeekForce(nodoActual);
-    }
+    }*/
 
     @Override
     public void actualizar(float dt) {
         fuego += dt;
+        choqueEscudo();
         Vectores siguindo;
-        if (continuar) {
-            siguindo = SeguirCamino();
+        if (isContinuar()) {
+            siguindo = SeguirCamino(camino);
         } else {
             siguindo = new Vectores();
         }
@@ -70,8 +71,8 @@ public class Venator extends Enemigos {
         velocidad = velocidad.velocidadlimite(maxVel);
 
         posicion = posicion.SumaVectores(velocidad);
-angulo=posicion.getAngulo();
-angulo=jugadorSurdo(siguindo);
+angulo=posicion.NormalizarVector().getAngulo();
+//angulo=jugadorSurdo(siguindo);
 
         if (fuego>Constantes.TDisparoVen/2) {
           //   Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
@@ -92,7 +93,7 @@ angulo=jugadorSurdo(siguindo);
           if (Sdisparar.getFramePsition() > 8500) {
             Sdisparar.parar();
         }
-        angulo += 0.05;
+       // angulo += 0.05;
 
         ColisonaCon();
     }

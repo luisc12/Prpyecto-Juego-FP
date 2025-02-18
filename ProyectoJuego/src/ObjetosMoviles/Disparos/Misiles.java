@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetosMoviles;
+package ObjetosMoviles.Disparos;
 
 import Matematicas.Vectores;
+import ObjetosMoviles.Constantes;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,16 +38,22 @@ public class Misiles extends Disparos {
     public void actualizar(float dt) {
 
         jugadorP = ventanapartida.getJugador().CentroImagen();
-
-        int jugadorDistancia = (int) jugadorP.RestaVectores(CentroImagen()).Manitud();
+choqueEscudo();
+      /*  int jugadorDistancia = (int) jugadorP.RestaVectores(CentroImagen()).Manitud();
         if (jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
                 Destruir();
 
             }
+        }*/
+      Vectores force;
+        if (!ventanapartida.getJugador().isAparecer()) {
+            
+       
+        force = SeekForce(jugadorP);
+         }else{
+          force = SeekForce(new Vectores());
         }
-
-        Vectores force = SeekForce(jugadorP);
         force = force.MultiplicarVector(1 / Constantes.MasaMisil);
         // Limitar la fuerza máxima
         /*     if (force.Manitud() > Constantes.maxforceMis) {
@@ -64,11 +71,12 @@ public class Misiles extends Disparos {
         }
 
         posicion = posicion.SumaVectores(velocidad);
-        angulo = velocidad.getAngulo2() + Math.PI / 2;
+        angulo = velocidad.getAngulo() + Math.PI / 2;
         //  angulo = jugadorP.NormalizarVector().getAngulo();
 
         // angulo= jugadorSurdo(jugadorP.NormalizarVector());
         // angulo= jugadorSurdo(posicion);
+        
         ColisonaCon();
     }
 

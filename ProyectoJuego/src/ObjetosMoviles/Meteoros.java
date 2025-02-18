@@ -80,6 +80,7 @@ public class Meteoros extends ObjetosMovibles {
     public void Destruir(){
     ventanapartida.DividirMeteoro(this);
     ventanapartida.Explotar(posicion);
+    
     ventanapartida.SumarPuntos(Constantes.PuntosMeteoros,posicion);
     
     super.Destruir();
