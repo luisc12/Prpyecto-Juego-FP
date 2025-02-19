@@ -17,7 +17,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author luis
@@ -31,28 +30,13 @@ public class Venator extends Enemigos {
 
     private boolean continuar;
 
-    public Venator(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida,ArrayList<Vectores> camino) {
+    public Venator(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
         Sdisparar = new Sonido(Externos.DisparoUfo);
         continuar = true;
-     
-        
+
     }
-/*
-    private Vectores SeguirCamino() {
-        nodoActual = camino.get(indice);
-
-        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Manitud();
-
-        if (distanciaAlNodo < Constantes.RadiusNodo) {
-            indice++;
-            if (indice >= camino.size()) {
-                continuar = false;
-            }
-        }
-        return SeekForce(nodoActual);
-    }*/
 
     @Override
     public void actualizar(float dt) {
@@ -64,43 +48,44 @@ public class Venator extends Enemigos {
         } else {
             siguindo = new Vectores();
         }
- siguindo = siguindo.MultiplicarVector(1 / Constantes.MasaVen);
+        siguindo = siguindo.MultiplicarVector(1 / Constantes.MasaVen);
 
         velocidad = velocidad.SumaVectores(siguindo);
 
         velocidad = velocidad.velocidadlimite(maxVel);
 
         posicion = posicion.SumaVectores(velocidad);
-angulo=posicion.NormalizarVector().getAngulo();
-//angulo=jugadorSurdo(siguindo);
+           
+//angulo=siguindo.getAngulo();
+       // if (velocidad.Manitud() > 0) {
+            angulo = velocidad.getAngulo();
+      //  }
 
-        if (fuego>Constantes.TDisparoVen/2) {
-          //   Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-          //    posicionJ = posicionJ.NormalizarVector();
-            
-            
-            Misiles misil=new Misiles(Externos.blueMisil,
+        if (fuego > Constantes.TDisparoVen / 2) {
+
+            Misiles misil = new Misiles(Externos.blueMisil,
                     CentroImagen(),
                     velocidad.NormalizarVector(),
                     Constantes.Velocidad_Mic,
                     angulo,
-                    ventanapartida,true,0);
+                    ventanapartida, true);
             ventanapartida.getObjetosmoviles().add(0, misil);
-             fuego = 0;
+            fuego = 0;
 
             Sdisparar.play();
         }
-          if (Sdisparar.getFramePsition() > 8500) {
+        if (Sdisparar.getFramePsition() > 8500) {
             Sdisparar.parar();
         }
-       // angulo += 0.05;
 
-        ColisonaCon();
+        ColisionaCon();
     }
+
     @Override
- public Vectores CentroImagen() {
-        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho );
+    public Vectores CentroImagen() {
+        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho);
     }
+
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

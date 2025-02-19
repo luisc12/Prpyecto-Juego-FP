@@ -58,7 +58,7 @@ public class PowerUp extends ObjetosMovibles{
         if (duracion>Constantes.DuracionUP) {
             this.Destruir();
         }
-        ColisonaCon();
+        ColisionaCon();
     }
 
     @Override

@@ -30,11 +30,13 @@ public class Meteoros extends ObjetosMovibles {
 
     @Override
     public void actualizar(float dt) {
-      //  posicion = posicion.SumaVectores(velocidad);
+      //posicion del jugador 
       Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
-      
+       //distacia del jugador con respecto al objeto movible
       int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
-      
+         /*si la distancia entre el jugador es menor que la mitad del ancho + la 
+        Constante de la distancia del escudo y ademas el escudo es ta activo,
+        el objeto rebota*/
         if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
                 Vectores fuerzaHuida=fuerzaHuida();
@@ -42,10 +44,9 @@ public class Meteoros extends ObjetosMovibles {
                 
             }
         }
-        
         if (velocidad.Manitud()>=this.maxVel) {
             Vectores velocidadInvertida=new Vectores(-velocidad.getX(),-velocidad.getY());
-            velocidad=velocidad.SumaVectores(velocidadInvertida.NormalizarVector().MultiplicarVector(0.01f));
+            velocidad=velocidad.SumaVectores(velocidadInvertida.velocidadlimite(0.01f));
             
         }
         velocidad=velocidad.velocidadlimite(Constantes.MaxVelocidadMeteor);
@@ -69,13 +70,6 @@ public class Meteoros extends ObjetosMovibles {
         angulo += Constantes.anguloBase/2;
 
     }
-    /*
-    public Vectores fuerzaHuida(){
-        Vectores velocidadDeseada=ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-        velocidadDeseada=(velocidadDeseada.NormalizarVector()).MultiplicarVector(Constantes.MaxVelocidadMeteor);
-        Vectores v=new Vectores(velocidad);
-        return v.RestaVectores(velocidadDeseada);
-    }*/
     @Override
     public void Destruir(){
     ventanapartida.DividirMeteoro(this);

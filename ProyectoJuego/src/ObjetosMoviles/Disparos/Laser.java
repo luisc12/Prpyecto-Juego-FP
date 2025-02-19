@@ -20,12 +20,10 @@ import java.awt.image.BufferedImage;
  */
 public class Laser extends Disparos{
 
-    public boolean enemigo;
-    public int daño;
     public boolean cambiardireccion=false;
 
-    public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo, int daño) {
-        super(textura, posicion, velocidad, maxVel, angulo, ventanapartida, enemigo, daño);
+    public Laser(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo) {
+        super(textura, posicion, velocidad, maxVel, angulo, ventanapartida, enemigo);
     }
 
     //le pasamos el angulo del jugador 
@@ -68,15 +66,15 @@ cambiardireccion=true;
         velocidad = velocidad.velocidadlimite(Constantes.Velocidad_lac);
         
         posicion = posicion.SumaVectores(velocidad);
-        if (cambiardireccion) {
-            angulo=posicion.NormalizarVector().getAngulo()+Math.PI/2;
-        }
+    //    if (cambiardireccion) {
+            angulo=velocidad.getAngulo()+Math.PI/2;
+    //    }
         
         if (posicion.getX() < 0 || posicion.getX() > Constantes.ancho
                 || posicion.getY() < 0 || posicion.getY() > Constantes.alto) {
             Destruir();
         }
-        ColisonaCon();
+        ColisionaCon();
     }
 
     @Override

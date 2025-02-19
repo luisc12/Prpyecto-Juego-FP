@@ -95,8 +95,7 @@ public class Nostromo extends Enemigos {
                     posicionAnteriro, // Ahora la dirección está correctamente ajustada
                     Constantes.Velocidad_lacNostromo,
                     anguloActual + Math.PI / 2,
-                    ventanapartida, true, 0
-            );
+                    ventanapartida, true);
 
             ventanapartida.getObjetosmoviles().add(0, laser);
 
@@ -125,7 +124,7 @@ public class Nostromo extends Enemigos {
             posicion.setY(Constantes.alto);
 
         }
-        ColisonaCon();
+        ColisionaCon();
     }
 
     @Override

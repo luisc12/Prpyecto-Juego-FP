@@ -19,13 +19,12 @@ public abstract class Disparos extends ObjetosMovibles{
    public boolean enemigo;
     public int daño;
     public Disparos(BufferedImage textura, Vectores posicion, Vectores velocidad,
-            double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo, int daño) {
+            double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.angulo = angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
         this.velocidad = velocidad.MultiplicarVector(maxVel);
         this.enemigo = enemigo;
-        this.daño = daño;
     }
 /*
     protected double jugadorSurdo( Vectores jugadorP){

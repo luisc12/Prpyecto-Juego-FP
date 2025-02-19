@@ -86,9 +86,8 @@ public class Jugador extends ObjetosMovibles {
     @Override
     public void actualizar(float dt) {
 
-        //tiempo+=System.currentTimeMillis()-TPasado;
-        // TPasado=System.currentTimeMillis();
         fuego += dt;
+        //------------duracion de los poderes al ser activados
         if (escudoActivo) {
             TEscudo += dt;
         }
@@ -105,7 +104,7 @@ public class Jugador extends ObjetosMovibles {
         if (dobleGunActivo) {
             TDobleGun += dt;
         }
-        //parar los efectos
+        //-----------------parar los efectos
         if (TEscudo > Constantes.TiempoEscudo) {
             escudoActivo = false;
             TEscudo = 0;
@@ -123,7 +122,7 @@ public class Jugador extends ObjetosMovibles {
             dobleGunActivo = false;
             TDobleGun = 0;
         }
-
+//aparecer despues de perder una vida
         if (aparecer) {
             Tparpadeo += dt;
             TAparecer += dt;
@@ -132,11 +131,12 @@ public class Jugador extends ObjetosMovibles {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador*3) {
+            if (TAparecer > Constantes.TiempoAparecerJugador * 3) {
                 aparecer = false;
                 visible = true;
             }
         }
+        //-----------disparar
         if (Teclado.disparar && fuego > velocidadFuego & !aparecer) {
             if (dobleGunActivo) {
                 Vectores gunDerecho = CentroImagen();
@@ -151,19 +151,13 @@ public class Jugador extends ObjetosMovibles {
                 temp = temp.calcularDireccion(angulo - 1.9f);
                 gunDerecho = gunDerecho.SumaVectores(temp);
 
-                Laser d = new Laser(Externos.gunLaser,
-                        gunDerecho,
-                        direccion,
-                        Constantes.Velocidad_lac,
-                        angulo,
-                        ventanapartida, false, 50);
+                Laser d = new Laser(Externos.gunLaser,gunDerecho,
+                        direccion,Constantes.Velocidad_lac,angulo,
+                        ventanapartida, false);
 
-                Laser i = new Laser(Externos.gunLaser,
-                        gunIzquierdo,
-                        direccion,
-                        Constantes.Velocidad_lac,
-                        angulo,
-                        ventanapartida, false, 50);
+                Laser i = new Laser(Externos.gunLaser,gunIzquierdo,
+                        direccion, Constantes.Velocidad_lac, angulo,
+                        ventanapartida, false);
                 //el cero antes de introducir un nuevo laser significa que el laser se va a agregar primero y no al final  
                 ventanapartida.getObjetosmoviles().add(0, d);
                 ventanapartida.getObjetosmoviles().add(0, i);
@@ -173,23 +167,17 @@ public class Jugador extends ObjetosMovibles {
                     ventanapartida.getObjetosmoviles().add(0, new Laser(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                            direccion,
-                            Constantes.Velocidad_lac,
-                            angulo,
-                            ventanapartida, false, 50));
+                            direccion,Constantes.Velocidad_lac,
+                            angulo,ventanapartida, false));
                 } else {
                     Laser l = new Laser(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                            direccion,
-                            Constantes.Velocidad_lac,
-                            angulo,
-                            null, false, 50);
+                            direccion, Constantes.Velocidad_lac,angulo,
+                            null, false);
                 }
-
             }
-            fuego = 0;
-            Sdisparar.play();
+            fuego = 0;Sdisparar.play();
         }
         if (Sdisparar.getFramePsition() > 8500) {
             Sdisparar.parar();
@@ -202,30 +190,31 @@ public class Jugador extends ObjetosMovibles {
             angulo -= Constantes.anguloBase;
         }
         if (Teclado.arriba) {
-
             aceleracion = direccion.MultiplicarVector(Constantes.ACC);
             avansado = true;
         } else if (Teclado.abajo) {
             aceleracion = direccion.MultiplicarVector(-Constantes.ACC);
             avansado = false;
         } else {
-            //igualar la aceleracion a un vector opuesto a la velocidad pero con magnitud igual a la constante aceleracion
+            /*igualar la aceleracion a un vector opuesto a la velocidad pero 
+            con magnitud igual a la constante aceleracion*/
             if (velocidad.Manitud() != 0) {
-                aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector()).MultiplicarVector(Constantes.ACC / 2);
+                aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector())
+                        .MultiplicarVector(Constantes.ACC / 2);
                 avansado = false;
             }
         }
 
         //la aceleracion representara el cambio de velocidad con respecto al tiempo
         velocidad = velocidad.SumaVectores(aceleracion);
-
         velocidad = velocidad.velocidadlimite(maxVel);
-
-        //para que la nave comiense de frete restamos 90 grados es decir PI ya que java trabaja en radianes
+        //para que la nave comiense de frete restamos 90 grados es decir PI
+        //ya que java trabaja en radianes
         direccion = direccion.calcularDireccion(angulo - Math.PI / 2);
 
-        /*la velocidad es representada como el cambio de posicion con respecto al tiempo 
-       por lo tanto cada fotograma le sumariamos el vetor velocidad al vector posicion*/
+        /*la velocidad es representada como el cambio de posicion con respecto
+        al tiempo por lo tanto cada fotograma le sumariamos el vetor velocidad 
+        al vector posicion*/
         posicion = posicion.SumaVectores(velocidad);
 
         //evitamos que el jugador salga de la pantalla
@@ -246,7 +235,7 @@ public class Jugador extends ObjetosMovibles {
             efectoEscudo.actualizar(dt);
         }
         if (ventanapartida != null) {
-            ColisonaCon();
+            ColisionaCon();
         }
 
     }
@@ -308,7 +297,6 @@ public class Jugador extends ObjetosMovibles {
             super.Destruir();
         }
         ReiniciarValor();
-        //ventanapartida.RestarVidas();
     }
 
     private void ReiniciarValor() {
@@ -319,66 +307,47 @@ public class Jugador extends ObjetosMovibles {
 
     @Override
     public void dibujar(Graphics g) {
-        //dibujamos el jugador en su posicion con observador null
-        //  g.drawImage(textura, (int)posicion.getX(), (int)posicion.getY(), null); 
-
         if (!visible) {
             return;
         }
-
         Graphics2D g2d = (Graphics2D) g;
-
+        //-----------------Propulsion----------
         AffineTransform at1 = AffineTransform.getTranslateInstance(posicion.getX() + imgancho / 2 + 5,
                 posicion.getY() + imgalto / 2 + 10);
-
-        //divujamos a partir de la exquina superior izquierda
+        //dibujamos a partir de la exquina superior izquierda
         AffineTransform at2 = AffineTransform.getTranslateInstance(posicion.getX() + 5,
                 posicion.getY() + imgalto / 2 + 10);
-
         at1.rotate(angulo, -5, -10);
         //lo trasla damos al medio por eso dividimos x entre 2
         at2.rotate(angulo, imgancho / 2 - 5, -10);
-
         if (avansado) {
             g2d.drawImage(Externos.propulsion, at1, null);
             g2d.drawImage(Externos.propulsion, at2, null);
         }
-
+        //----------------Escudo----------------
         if (escudoActivo) {
             BufferedImage frameActual = efectoEscudo.getFrameActual();
-
             AffineTransform at3 = AffineTransform.getTranslateInstance(
                     posicion.getX() - frameActual.getWidth() / 2 + imgancho / 2,
                     posicion.getY() - frameActual.getHeight() / 2 + imgalto / 2);
-
             at3.rotate(angulo, frameActual.getWidth() / 2, frameActual.getHeight() / 2);
-
             g2d.drawImage(efectoEscudo.getFrameActual(), at3, null);
-
         }
-
+        //-----------------jugador y Guns---------------
         at = AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
         //punto de rotacion : optenemos el ancho y lo dividimos entre 2        
         at.rotate(angulo, imgancho / 2, imgalto / 2);
-
         if (dobleGunActivo) {
-             AffineTransform atGunI = AffineTransform.getTranslateInstance(posicion.getX() + imgancho / 2 + 5,
-                posicion.getY() + imgalto / 2 -5);
-
-        //divujamos a partir de la exquina superior izquierda
-        AffineTransform atGunD = AffineTransform.getTranslateInstance(posicion.getX() + 1,
-                posicion.getY() + imgalto / 2-5);
-
-        atGunI.rotate(angulo+Math.PI, -5, 5);
-        //lo trasla damos al medio por eso dividimos x entre 2
-        atGunD.rotate(angulo+Math.PI, imgancho / 2 - 1, 5);
-            
+            AffineTransform atGunI = AffineTransform.getTranslateInstance(posicion.getX() + imgancho / 2 + 5,
+                    posicion.getY() + imgalto / 2 - 5);
+            AffineTransform atGunD = AffineTransform.getTranslateInstance(posicion.getX() + 1,
+                    posicion.getY() + imgalto / 2 - 5);
+            atGunI.rotate(angulo + Math.PI, -5, 5);
+            atGunD.rotate(angulo + Math.PI, imgancho / 2 - 1, 5);
             g2d.drawImage(Externos.gun, atGunD, null);
             g2d.drawImage(Externos.gun, atGunI, null);
-        } else {
-           
         }
- g2d.drawImage(textura, at, null);
+        g2d.drawImage(textura, at, null);
     }
 
     public boolean isAparecer() {

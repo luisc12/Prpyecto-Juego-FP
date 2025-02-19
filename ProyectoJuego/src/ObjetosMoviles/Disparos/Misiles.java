@@ -23,14 +23,13 @@ public class Misiles extends Disparos {
     private Vectores direccion;
 
     public Misiles(BufferedImage textura, Vectores posicion, Vectores velocidad,
-            double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo, int daño) {
-        super(textura, posicion, velocidad, maxVel, angulo, ventanapartida, enemigo, daño);
+            double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo) {
+        super(textura, posicion, velocidad, maxVel, angulo, ventanapartida, enemigo);
         direccion = new Vectores(0, 1);
         this.angulo = angulo;
         //la velocidad seria la direcion multipicado por la velocidad maxima
         this.velocidad = velocidad.MultiplicarVector(maxVel);
         this.enemigo = enemigo;
-        this.daño = daño;
 
     }
 
@@ -55,15 +54,7 @@ choqueEscudo();
           force = SeekForce(new Vectores());
         }
         force = force.MultiplicarVector(1 / Constantes.MasaMisil);
-        // Limitar la fuerza máxima
-        /*     if (force.Manitud() > Constantes.maxforceMis) {
-            force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceMis);
-        }*/
-        //  angulo = jugadorP.NormalizarVector().getAngulo2();
-        //  direccion = jugadorP.calcularDireccion(jugadorP.getAngulo());
-
-        //System.out.println(this.angulo + "------" + Math.atan2(direccion.getY(), direccion.getX()));
-        //velocidad.velocidadlimite(Constantes.MaxVelUfo);
+       
         velocidad = velocidad.SumaVectores(force);
 
         if (velocidad.Manitud() > Constantes.Velocidad_Mic) {
@@ -77,7 +68,7 @@ choqueEscudo();
         // angulo= jugadorSurdo(jugadorP.NormalizarVector());
         // angulo= jugadorSurdo(posicion);
         
-        ColisonaCon();
+        ColisionaCon();
     }
 
     @Override

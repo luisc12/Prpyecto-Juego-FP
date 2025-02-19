@@ -82,7 +82,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         this.posicion = posicion;
     }
 
-    protected void ColisonaCon() {
+    protected void ColisionaCon() {
         //pedimos la lista de objetos moviles de la ventanapartida y hacemos un for
         ArrayList<ObjetosMovibles> objetosmovibles = ventanapartida.getObjetosmoviles();
 
@@ -102,13 +102,6 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
                 ColisionObjetos(o, this);
             }
         }
-    }
-
-    public Vectores fuerzaHuida() {
-        Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-        velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
-        Vectores v = new Vectores(velocidad);
-        return v.RestaVectores(velocidadDeseada);
     }
 
     protected void ColisionObjetos(ObjetosMovibles a, ObjetosMovibles b) {
@@ -178,60 +171,86 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
             }
 
         }
-
-
-        /*if ((a instanceof Jugador &&((Jugador)a).isAparecer())||
-                (b instanceof Jugador &&((Jugador)b).isAparecer())) {
-            return;
-        }
-        
-        if (!(a instanceof Meteoros&&b instanceof Meteoros)) {
-            ventanapartida.Explotar(CentroImagen());
-            a.Destruir();
-            b.Destruir();
-        }*/
     }
 
     protected void choqueEscudo() {
+        //posicion del jugador 
         Vectores PosicionJ = new Vectores(ventanapartida.getJugador().CentroImagen());
+        //distacia del jugador con respecto al objeto movible
         int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen()).Manitud();
+        /*si la distancia entre el jugador es menor que la mitad del ancho + la 
+        Constante de la distancia del escudo y ademas el escudo es ta activo,
+        el objeto se destruye*/
         if (jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
                 Destruir();
-
             }
         }
+    }
+
+    public Vectores fuerzaHuida() {
+        Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
+        velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
+        Vectores v = new Vectores(velocidad);
+        return v.RestaVectores(velocidadDeseada);
     }
 
     protected Vectores SeekForce(Vectores objetivo) {
         //velocidad deseada vector desde el UFO hacia el objetivo
         Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
         //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
-        velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
+        velocidadDeseada = velocidadDeseada.velocidadlimite(maxVel);
         //
         return velocidadDeseada.RestaVectores(velocidad);
     }
-    
-    protected Vectores PursuingForce(Vectores vjp){
-      //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
-      // Calcular distancia al jugador
-   //   Vectores vjp=jugador.getPosicion();
-      //Vectores vjv=jugador.JugadorgetVelocidad();
-      Vectores posicionJ=vjp.RestaVectores(posicion);
-      
-      double distancia=posicionJ.Manitud();
-      
+
+    protected Vectores PursuingForce(Vectores vjp) {
+        Vectores posicionJ = vjp.RestaVectores(posicion);
+        double distancia = posicionJ.Manitud();
         // Estimar el tiempo de intercepción
-      double prediccion=distancia/maxVel;
-      
-       // Calcular la posición futura del jugador
-      Vectores futuraPosicion = vjp.SumaVectores(ventanapartida.getJugador().JugadorgetVelocidad().MultiplicarVector(prediccion));
-      // Aplicar Seek hacia la posición futura
-      Vectores force = futuraPosicion.RestaVectores(posicion).NormalizarVector().MultiplicarVector(1);
-      
-      return force ;
+        double prediccion = distancia / maxVel;
+        // Calcular la posición futura del jugador
+        Vectores futuraPosicion = vjp.SumaVectores(ventanapartida.getJugador().JugadorgetVelocidad().MultiplicarVector(prediccion));
+        // Aplicar Seek hacia la posición futura
+        Vectores force = futuraPosicion.RestaVectores(posicion).velocidadlimite(1);
+
+        return force;
     }
-    /*
+
+    public void Destruir() {
+        muerte = true;
+        /*si el objeto no es un laser ni un powerUp se destruye y reproduce 
+        el sonido de explosion*/
+        if (!(this instanceof Laser) && !(this instanceof PowerUp)) {
+            explosion.play();
+            /*si el objeto no es un jugador, se tomara un numer al azar si ese 
+            numero es 4 se crea un powrrUP pero primero volvemos su velocidad 
+            igual a 0 y le sumamos esa velocidad a la posicion*/
+            if (!(this instanceof Jugador)) {
+                int probabilidad = (int) (Math.random() * 5);
+               // if (probabilidad == 4) {
+
+                    Vectores aceleracion = (velocidad.MultiplicarVector(-1).velocidadlimite(0));
+                    velocidad = velocidad.SumaVectores(aceleracion);
+
+                    velocidad = velocidad.velocidadlimite(maxVel);
+                    posicion = posicion.SumaVectores(velocidad);
+                    ventanapartida.spawnPowerUp(posicion);
+              //  }
+            }
+        }
+    }
+
+    public Vectores CentroImagen() {
+        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgalto / 2);
+    }
+
+    public boolean isMuerte() {
+        return muerte;
+    }
+
+}
+ /*
   protected Vectores PursuingForce(){
       //  Vectores FuturePosicion=jugador.CentroImagen().SumaVectores(jugador.JugadorgetVelocidad().MultiplicarVector(tiempo));
       // Calcular distancia al jugador
@@ -251,38 +270,3 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
       
       return force ;
     }*/
-    public void Destruir() {
-
-        muerte = true;
-        // ventanapartida.getObjetosmoviles().remove(this);
-
-        if (!(this instanceof Laser) && !(this instanceof PowerUp)) {
-            explosion.play();
-            if (!(this instanceof Jugador)) {
-                int probabilidad = (int) (Math.random() * 5);
-                //   if (probabilidad==4) {
-
-                Vectores aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector()).MultiplicarVector(0);
-                velocidad = velocidad.SumaVectores(aceleracion);
-
-                velocidad = velocidad.velocidadlimite(maxVel);
-                posicion = posicion.SumaVectores(velocidad);
-                ventanapartida.spawnPowerUp(posicion);
-                // }*
-            }
-        }
-
-        /* if (!(this instanceof Laser)) {
-            explosion.play();
-        }*/
-    }
-
-    public Vectores CentroImagen() {
-        return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgalto / 2);
-    }
-
-    public boolean isMuerte() {
-        return muerte;
-    }
-
-}

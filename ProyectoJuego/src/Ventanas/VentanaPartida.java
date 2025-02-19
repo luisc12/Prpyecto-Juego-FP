@@ -221,7 +221,7 @@ public class VentanaPartida extends Ventana {
 
     private void spawnEnemigo() {
         //int probabilidad = (int) (Math.random() * 4 + 1);
-        int probabilidad = 4;
+        int probabilidad = 3;
         int randio = (int) (Math.random() * 2);
 
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;

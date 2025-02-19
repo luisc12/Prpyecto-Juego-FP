@@ -38,7 +38,6 @@ public class Ufo extends Enemigos {
     private ArrayList<Vectores> camino;
     private Vectores nodoActual;
     
-    private int indice;
     private int vida;
 
     private boolean continuar;
@@ -51,7 +50,7 @@ public class Ufo extends Enemigos {
     public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {    
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
-    indice = 0;
+    
     continuar = true;
     fuego=0;
     Sdisparar=new Sonido(Externos.DisparoUfo);
@@ -64,41 +63,6 @@ public class Ufo extends Enemigos {
         }
     }
 
-/*
-    public Ufo(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel,
-    VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
-    super(textura, posicion, velocidad, maxVel, ventanapartida);
-    this.camino = camino;
-    indice = 0;
-    continuar = true;
-    fuego=0;
-    Sdisparar=new Sonido(Externos.DisparoUfo);
-    vida=100;
-    }
-     */
-    /*
-    private Vectores SeguirCamino() {
-        nodoActual = camino.get(indice);
-
-        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Manitud();
-
-        if (distanciaAlNodo < Constantes.RadiusNodo) {
-            indice++;
-            if (indice >= camino.size()) {
-                continuar = false;
-            }
-        }
-        return SeekForce(nodoActual);
-    }*/
-
- /*   private Vectores SeekForce(Vectores objetivo) {
-        //velocidad deseada vector desde el UFO hacia el objetivo
-        Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
-        //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
-        velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
-        //
-        return velocidadDeseada.RestaVectores(velocidad);
-    }*/
 
     @Override
     public void actualizar(float dt) {
@@ -106,14 +70,7 @@ public class Ufo extends Enemigos {
         fuego+=dt;
         Vectores siguindo;
         choqueEscudo();
-        /*  Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
-        int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
-if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
-            if (ventanapartida.getJugador().isEscudoActivo()) {
-               Destruir();
-                
-            }
-        }*/
+      
         if (isContinuar()) {
             siguindo = SeguirCamino(camino);
         } else {
@@ -140,9 +97,6 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             //pi es 180 grados
             anguloActual += Math.random() * Constantes.RangoAnguloUfo - Constantes.RangoAnguloUfo / 2;
 
-           /* if (posicionJ.getX() < 0) {
-                anguloActual = -anguloActual + Math.PI;
-            }*/
             posicionJ=posicionJ.calcularDireccion(anguloActual);
 
             Laser laser = new Laser(Externos.purpuraLaser,
@@ -150,17 +104,9 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
                     posicionJ,
                     Constantes.Velocidad_lac,
                     anguloActual+ Math.PI / 2,
-                    ventanapartida,true,0);
+                    ventanapartida,true);
 
             ventanapartida.getObjetosmoviles().add(0, laser);
-
-     /* Misil misil=new Misil(Externos.blueMisil,
-                    CentroImagen(),
-                    posicionJ.NormalizarVector(),
-                    Constantes.Velocidad_Mic,
-                    anguloActual,
-                    ventanapartida,true,0);
-            ventanapartida.getObjetosmoviles().add(0, laser);*/
             fuego=0;
             
             Sdisparar.play();
@@ -173,7 +119,7 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
         
        
 
-        ColisonaCon();
+        ColisionaCon();
        
     }
 
@@ -200,12 +146,5 @@ if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
 
     }
 
-    public int getVida() {
-        return vida;
-    }
-
-    public void setVida(int vida) {
-        this.vida = vida;
-    }
 
 }
