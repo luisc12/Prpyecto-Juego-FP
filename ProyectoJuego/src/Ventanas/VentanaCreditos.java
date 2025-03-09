@@ -40,11 +40,15 @@ public class VentanaCreditos extends Ventana {
     int totalPaginas;
     int posicion;
     long cambio;
-    ;
-private long tiempoAnterior;
 
-    public VentanaCreditos(ProyectoJuego p) throws ParserConfigurationException, SAXException, IOException {
+    private long tiempoAnterior;
+      BufferedImage imagenEscalada;
+
+    public VentanaCreditos(ProyectoJuego p) throws ParserConfigurationException,
+            SAXException, IOException {
         super(p);
+         imagenEscalada  = Externos.cambiarTamaño(
+                Externos.panelAncho, Constantes.ancho, Constantes.alto);
         tiempoAnterior = System.nanoTime();
 
         posicion = 0;
@@ -59,7 +63,8 @@ private long tiempoAnterior;
                 Constantes.botonActivo,
                 Externos.bGris.getHeight(),
                 Constantes.alto - Constantes.botonApagado.getHeight() * 2,
-                Constantes.Atras, Externos.cEncendido, Externos.cApagado, new Accion() {
+                Constantes.Atras, Externos.cEncendido, Externos.cApagado,
+                new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
@@ -73,18 +78,19 @@ private long tiempoAnterior;
                 "<-", Externos.cEncendido, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
-                 if (cambio > 10000) {
-                  if (numPagina > 1) {
-                    numPagina--; // Reducimos la página sin crear una nueva ventana
-                    repaint(); // Redibujamos la ventana
-                    
-                }
-                cambio = 0;
-            }
-              
+                if (cambio > 10000) {
+                    if (numPagina > 1) {
+                        // Reducimos la página sin crear una nueva ventana
+                        numPagina--;
+                        // Redibujamos la ventana
+                        repaint();
 
+                    }
+                    cambio = 0;
+                }
             }
         }));
+
         botones.add(new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
                 Constantes.ancho / 2,
@@ -93,24 +99,23 @@ private long tiempoAnterior;
             @Override
             public void hacerAccion() {
                 if (cambio > 10000) {
-                int totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
-                if (numPagina < totalPaginas) {
-                    numPagina++; // Aumentamos la página sin crear una nueva ventana
-                    repaint(); // Redibujamos la ventana
-                 
-                    
+                    int totalPaginas = (int) Math.ceil((double) listaDatos.size()
+                            / tamPagina);
+                    if (numPagina < totalPaginas) {
+                        // Aumentamos la página sin crear una nueva ventana
+                        numPagina++;
+                        repaint();
+                    }
+                    cambio = 0;
                 }
-                cambio = 0;
-            }
             }
         }));
         listaDatos = XMLParserCreditos.LeerFichero();
-
     }
 
     @Override
     public void actualizar(float dt) {
-        cambio+= dt;
+        cambio += dt;
 
         for (Boton b : botones) {
             b.actualizar();
@@ -120,11 +125,17 @@ private long tiempoAnterior;
         totalPaginas = (int) Math.ceil((double) listaDatos.size() / tamPagina);
         //usamos System.nanoTime(); para saber el tiempo actual
         long ahora = System.nanoTime();
-        //sacamos la diferencia entre el tiempo anterior y el tiempo actual y lo dividimos entre 1.000.000 para pasarlo a milisegundos
-        long diferencia = (ahora - tiempoAnterior) / 1000000; // Convertir a milisegundos
+        /*sacamos la diferencia entre el tiempo anterior y el tiempo actual y lo
+        dividimos entre 1.000.000 para pasarlo a milisegundos*/
+        // Convertir a milisegundos
+        long diferencia = (ahora - tiempoAnterior) / 1000000;
 
-        //si la diferencia es mayor que nuestra coostante y siempre que que el numero de total de paginas sea mayor al numero de la pagina actual
-        //se cambiara a la pagina siguiente, de no ser asi vuelve a la primera pagina
+        /*si la diferencia es mayor que nuestra coostante y siempre que que el
+        numero de total de paginas sea mayor al numero de la pagina actual se
+        cambiara a la pagina siguiente, de no ser asi vuelve a la primera 
+        pagina*/
+ /*nos aseguramos de que alla pasado el tiempo necsario para cambiar de
+        pagina*/
         if (diferencia > Constantes.TCambioPag) {
             if (numPagina < totalPaginas) {
                 numPagina++;
@@ -139,9 +150,9 @@ private long tiempoAnterior;
     }
 
     @Override
-    public void dibujar(Graphics g) {
+    public void dibujar(Graphics g) {  
         Graphics2D g2d = (Graphics2D) g;
-        BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho, Constantes.ancho, Constantes.alto); // Ancho: 200, Alto: 300
+
         AffineTransform at = AffineTransform.getTranslateInstance(
                 Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
                 -20);
@@ -159,12 +170,10 @@ private long tiempoAnterior;
         if (numPagina < 1) {
             numPagina = 1;
         }
-
+//mostramos los creditos en la pantalla
         List<Creditos> credito = paginaList(listaDatos, numPagina, tamPagina);
         linea = 90;
-        // System.out.println( "Página " + pageNumber + ": " + paginatedResult);
         for (Creditos c : credito) {
-
             if (!tema.equalsIgnoreCase(c.getTema())) {
 
                 Texto.DibujarTexto(g,
@@ -176,21 +185,18 @@ private long tiempoAnterior;
                 tema = c.getTema();
                 linea += 50;
             }
-
             Texto.DibujarTexto(g,
                     "|" + c.getObjeto(),
                     new Vectores(Constantes.ancho / 2 - 680, linea),
                     false,
                     Color.WHITE,
                     Externos.creditos);
-
             Texto.DibujarTexto(g,
                     "|" + c.getCreador(),
                     new Vectores(Constantes.ancho / 2 - 340, linea),
                     false,
                     Color.ORANGE,
                     Externos.creditos);
-
             Texto.DibujarTexto(g,
                     "|" + c.getLicencia(),
                     new Vectores(Constantes.ancho / 2 + 50, linea),
@@ -208,16 +214,22 @@ private long tiempoAnterior;
         }
     }
 
-    public static List<Creditos> paginaList(ArrayList<Creditos> listaDatos, int numPagina, int tamPagina) {
-        // eldesplazamiento indica dónde comenzar a obtener datos. Se calcula en función de la cantidad de elementos que hay en las páginas anteriores.
+    public static List<Creditos> paginaList(ArrayList<Creditos> listaDatos,
+            int numPagina, int tamPagina) {
+        /* el desplazamiento indica dónde comenzar a obtener datos. Se calcula 
+        en función de la cantidad de elementos que hay en las páginas 
+        anteriores.*/
         int desplazamiento = (numPagina - 1) * tamPagina;
 
         // Asegurar que no haya un desplazamiento fuera del rango
         if (desplazamiento >= listaDatos.size()) {
-            return Collections.emptyList();// Devuelve una lista vacía si el número de página está fuera del rango
+        // Devuelve una lista vacía si el número de página está fuera del rango
+            return Collections.emptyList();
         }
-        //Math.min() es un metodo que devuelve un numero con el valor mas bajo, el pie de pagina es 
-        // elpunto final del subconjunto de datos, asegurándose de que no exceda el tamaño total de la lista.
+        /*Math.min() es un metodo que devuelve un numero con el valor mas bajo, 
+        el pie de pagina es el punto final del subconjunto de datos,
+        asegurándose de que no exceda el tamaño total de la lista.*/
+        
         int piePagina = Math.min(desplazamiento + tamPagina, listaDatos.size());
         //devuelve la parte de la lista que corresponde a la página.
         return listaDatos.subList(desplazamiento, piePagina);

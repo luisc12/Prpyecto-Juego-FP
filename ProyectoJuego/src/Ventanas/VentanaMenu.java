@@ -10,15 +10,12 @@ import Graficos.Sonido;
 import Graficos.Texto;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
+import ObjetosMoviles.ObjetosMovibles;
 import Ui.Accion;
 import Ui.Boton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -39,100 +36,101 @@ public class VentanaMenu extends Ventana {
     Color c;
     long cambio;
     boolean ver;
-BufferedImage panel;
- private static Sonido musicaFondo;
-
+    BufferedImage panel;
+    private static Sonido musicaFondo;
     public static Sonido getMusicaFondo() {
         return musicaFondo;
     }
-
+ 
     public static void setMusicaFondo(Sonido musicaFondo) {
         VentanaMenu.musicaFondo = musicaFondo;
     }
- 
+
     public VentanaMenu(ProyectoJuego p) {
         super(p);
-        if (  musicaFondo==null) {
-            musicaFondo=new Sonido(Externos.menuMusica);
-    musicaFondo.MusicaFondo();
-    musicaFondo.cambiarVolumen(-10.0f);
+         ver = false;
+        panel = Externos.cambiarTamaño(Externos.panelMenu,
+                Constantes.ancho / 2, Constantes.alto - 200); 
+        if (musicaFondo == null) {
+            musicaFondo = new Sonido(Externos.menuMusica);
+            musicaFondo.MusicaFondo();
+            musicaFondo.cambiarVolumen(-10.0f);
         }
-    
+
         botones = new ArrayList<Boton>();
 
         botones.add(
-                new Boton( Constantes.botonApagado,
+                new Boton(Constantes.botonApagado,
                         Constantes.botonActivo,
-                        Constantes.ancho / 2 -  Constantes.botonApagado.getWidth() / 2,
-                        Constantes.alto / 2 -  Constantes.botonApagado.getHeight() * 4,
-                        Constantes.Comenzar,Externos.cEncendido,Externos.cApagado,
+                        Constantes.ancho / 2
+                        - Constantes.botonApagado.getWidth() / 2,
+                        Constantes.alto / 2
+                        - Constantes.botonApagado.getHeight() * 4,
+                        Constantes.Comenzar, Externos.cEncendido,
+                        Externos.cApagado,
                         new Accion() {
                     @Override
                     public void hacerAccion() {
-//musicaFondo.parar();
-                        //Ventana.cambiarVentana(new VentanaControl());
                         Ventana.cambiarVentana(new VentanaControl(p));
 
                     }
                 }));
 
-        botones.add(new Boton( Constantes.botonApagado,
-                        Constantes.botonActivo,
-                Constantes.ancho / 2 -  Constantes.botonApagado.getWidth() / 2,
-                Constantes.alto / 2 ,
-                Constantes.Salir,Externos.cEncendido,Externos.cApagado,
+        botones.add(new Boton(Constantes.botonApagado,
+                Constantes.botonActivo,
+                Constantes.ancho / 2 - Constantes.botonApagado.getWidth() / 2,
+                Constantes.alto / 2,
+                Constantes.Salir, Externos.cEncendido, Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
-                
-          //          musicaFondo.parar();
-                    System.exit(0);
-                    
+
+                System.exit(0);
+
             }
         }));
+        int ancho = 300;
+        int alto = 64;
+        BufferedImage scaledgris = Externos.cambiarTamaño(Externos.bInactivo,
+                ancho,alto);
 
-        BufferedImage scaledgris =  Externos.cambiarTamaño(Externos.bInactivo,300, 64);
-
-        BufferedImage scaledverde = Externos.cambiarTamaño(Externos.bActivo,300,  64);
-        
+        BufferedImage scaledverde = Externos.cambiarTamaño(Externos.bActivo,
+                ancho,alto);
 
         botones.add(new Boton(scaledgris,
                 scaledverde,
                 Constantes.ancho / 2 - scaledgris.getWidth() / 2,
                 Constantes.alto / 2 - Externos.bGris.getHeight() * 2,
-                Constantes.MejoresPuntajes,Externos.cEncendido,Externos.cApagado,
+                Constantes.MejoresPuntajes, Externos.cEncendido,
+                Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
-               // musicaFondo.parar();
                 Ventana.cambiarVentana(new VentanaPuntaje(p));
             }
         }));
-        botones.add(new Boton( Constantes.botonApagado,
-                        Constantes.botonActivo,
+        botones.add(new Boton(Constantes.botonApagado,
+                Constantes.botonActivo,
                 Constantes.ancho / 2 - Constantes.botonApagado.getWidth() / 2,
                 Constantes.alto / 2 + Constantes.botonApagado.getHeight() * 2,
-                "Creditos",Externos.cEncendido,Externos.cApagado,
+                "Creditos", Externos.cEncendido, Externos.cApagado,
                 new Accion() {
             @Override
             public void hacerAccion() {
                 try {
-                    // System.exit(0);
-          //          musicaFondo.parar();
                     Ventana.cambiarVentana(new VentanaCreditos(p));
                 } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VentanaMenu.class.getName()).
+                            log(Level.SEVERE, null, ex);
                 } catch (SAXException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VentanaMenu.class.getName()).
+                            log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(VentanaMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }));
-        
-        ver=false;
-        c = Color.MAGENTA;
-        panel=Externos.panelMenu;
+                    Logger.getLogger(VentanaMenu.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }} }));
+
+       
     }
 
     @Override
@@ -141,28 +139,29 @@ BufferedImage panel;
         for (Boton b : botones) {
             b.actualizar();
         }
+        //cambia el color del texto del titulo al pasar un tiempo
         if (cambio > 5000) {
             if (ver) {
                 c = Externos.cApagado;
-                ver=false;
+                ver = false;
             } else {
                 c = Externos.cEncendido;
-                ver=true;
+                ver = true;
             }
         }
     }
 
     @Override
     public void dibujar(Graphics g) {
-          Graphics2D g2d = (Graphics2D) g;
-            BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelMenu, Constantes.ancho/2,  Constantes.alto-200); // Ancho: 200, Alto: 300
-            AffineTransform at = AffineTransform.getTranslateInstance(
-                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
-                    0);
-             g2d.drawImage(imagenEscalada, at, null);
-            
-       //  g.setColor(Color.getHSBColor(37, 137, 41));
-  Texto.DibujarTexto(g,
+        Graphics2D g2d = (Graphics2D) g;
+       
+        AffineTransform at = AffineTransform.getTranslateInstance(
+                Constantes.ancho / 2 - panel.getWidth() / 2,
+                0);
+        g2d.drawImage(panel, at, null);
+
+        //  g.setColor(Color.getHSBColor(37, 137, 41));
+        Texto.DibujarTexto(g,
                 "Entrega Espacial",
                 new Vectores(Constantes.ancho / 2, 100),
                 true,

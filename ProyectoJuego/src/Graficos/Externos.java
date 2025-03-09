@@ -31,7 +31,7 @@ public class Externos {
     //barra de carga
     public static boolean cargado = false;
     public static float cantidad = 0;
-    public static float cantidadMax = 113;
+    public static float cantidadMax = 125;
 
     public static Color cEncendido = new Color(88, 214, 141);
     public static Color cApagado = new Color(47, 153, 68);
@@ -203,14 +203,14 @@ public class Externos {
         bInactivo = CargarImagen("ui/Button Normal.png");
         bDesactivado = CargarImagen("ui/Button Normal.png");
 
-        flechaGrisD = CargarImagen("ui/flecha_Gris_Derecha.png");
+        flechaGrisD = CargarImagen("ui/flecha_Gris_Derecha2.png");
         flechaVerdeD = CargarImagen("ui/flecha_Verde_Derecha.png");
-        flechaGrisI = CargarImagen("ui/flecha_Gris_Izquierda.png");
+        flechaGrisI = CargarImagen("ui/flecha_Gris_Izquierda2.png");
         flechaVerdeI = CargarImagen("ui/flecha_Verde_Izquierda.png");
 
-        flechaGrisA = CargarImagen("ui/flecha_Gris_Arriba.png");
+        flechaGrisA = CargarImagen("ui/flecha_Gris_Arriba2.png");
         flechaVerdeA = CargarImagen("ui/flecha_Verde_Arriba.png");
-        flechaGrisB = CargarImagen("ui/flecha_Gris_Abajo.png");
+        flechaGrisB = CargarImagen("ui/flecha_Gris_Abajo2.png");
         flechaVerdeB = CargarImagen("ui/flecha_Verde_Abajo.png");
 
         panelMenu = CargarImagen("ui/Card X1.png");
@@ -235,6 +235,7 @@ public class Externos {
         /*while (!cargado) {
             
         }*/
+        System.out.println(cantidad); 
         cargado = true;
         //  System.out.println("cantidad de recursos: "+cantidad);
 

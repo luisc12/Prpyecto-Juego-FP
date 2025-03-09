@@ -7,6 +7,7 @@ package ObjetosMoviles.Disparos;
 
 import Matematicas.Vectores;
 import ObjetosMoviles.ObjetosMovibles;
+import Ventanas.VentanaControl;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -17,7 +18,6 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Disparos extends ObjetosMovibles{
    public boolean enemigo;
-    public int daño;
     public Disparos(BufferedImage textura, Vectores posicion, Vectores velocidad,
             double maxVel, double angulo, VentanaPartida ventanapartida, boolean enemigo) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
@@ -26,25 +26,14 @@ public abstract class Disparos extends ObjetosMovibles{
         this.velocidad = velocidad.MultiplicarVector(maxVel);
         this.enemigo = enemigo;
     }
-/*
-    protected double jugadorSurdo( Vectores jugadorP){
-         if (jugadorP.getX() < 0) {
-                angulo = -angulo + Math.PI;
-                return angulo;
-            }
-        return angulo;
-    }/*
-    protected Vectores SeekForce(Vectores objetivo) {
-        //velocidad deseada vector desde el UFO hacia el objetivo
-        Vectores velocidadDeseada = objetivo.RestaVectores(CentroImagen());
-        //tenemos que ajustar esa fuersa a la velocidad maxima del Ufo
-        velocidadDeseada = velocidadDeseada.NormalizarVector().MultiplicarVector(maxVel);
-        //
-        return velocidadDeseada.RestaVectores(velocidad);
-    }*/
 
-    public int getDaño() {
-        return daño;
+ public Disparos(BufferedImage textura, Vectores posicion, Vectores velocidad,
+            double maxVel, double angulo, VentanaControl ventanaControl, boolean enemigo) {
+        super(textura, posicion, velocidad, maxVel, ventanaControl);
+        this.angulo = angulo;
+        //la velocidad seria la direcion multipicado por la velocidad maxima
+        this.velocidad = velocidad.MultiplicarVector(maxVel);
+        this.enemigo = enemigo;
     }
 
     public boolean isEnemigo() {
@@ -55,9 +44,7 @@ public abstract class Disparos extends ObjetosMovibles{
 
      @Override
     public abstract void dibujar(Graphics g);
-
- 
-    /* @Override
+/* @Override
     public Vectores CentroImagen() {
         return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgancho / 2);
     }*/

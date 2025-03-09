@@ -5,12 +5,13 @@
  */
 package ObjetosMoviles;
 
-import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Lacer;
 import ObjetosMoviles.Disparos.Disparos;
 import ObjetosMoviles.Enemigos.Enemigos;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Matematicas.Vectores;
+import Ventanas.VentanaControl;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
@@ -33,7 +34,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
     protected double maxVel;
     protected int imgancho, imgalto;
     protected VentanaPartida ventanapartida;
-
+protected VentanaControl ventanaControl;
     private Sonido explosion;
 
     private boolean muerte;
@@ -54,8 +55,8 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         this.imgalto = imgalto;
     }
 
-    public ObjetosMovibles(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
-        // super(textura, posicion);
+    public ObjetosMovibles(BufferedImage textura, Vectores posicion,
+            Vectores velocidad, double maxVel, VentanaPartida ventanapartida) {
         this.textura = textura;
         this.posicion = posicion;
         this.velocidad = velocidad;
@@ -70,6 +71,21 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
 
     }
 
+    public ObjetosMovibles(BufferedImage textura, Vectores posicion,
+            Vectores velocidad, double maxVel, VentanaControl ventanaControl) {
+        this.textura = textura;
+        this.posicion = posicion;
+        this.velocidad = velocidad;
+        this.maxVel = maxVel;
+        this.ventanaControl = ventanaControl;
+        angulo = 0;
+        imgancho = textura.getWidth();
+        imgalto = textura.getHeight();
+        explosion = new Sonido(Externos.Sonidoexplosion);
+        explosion.cambiarVolumen(-9.0f);
+        muerte = false;
+
+    }
     public abstract void actualizar(float dt);
 
     public abstract void dibujar(Graphics g);
@@ -133,7 +149,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }
         //-----------------------------------------
 
-        if (a instanceof Meteoros && b instanceof Laser && enemigos || b instanceof Meteoros && b instanceof Laser && enemigos) {
+        if (a instanceof Meteoros && b instanceof Lacer && enemigos || b instanceof Meteoros && b instanceof Lacer && enemigos) {
             return;
         }
         //si son ambos objetos enemigos no colisionan
@@ -188,7 +204,7 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         }
     }
 
-    public Vectores fuerzaHuida() {
+    public Vectores FleeForce() {
         Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
         velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
         Vectores v = new Vectores(velocidad);
@@ -221,14 +237,14 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
         muerte = true;
         /*si el objeto no es un laser ni un powerUp se destruye y reproduce 
         el sonido de explosion*/
-        if (!(this instanceof Laser) && !(this instanceof PowerUp)) {
+        if (!(this instanceof Lacer) && !(this instanceof PowerUp)) {
             explosion.play();
             /*si el objeto no es un jugador, se tomara un numer al azar si ese 
             numero es 4 se crea un powrrUP pero primero volvemos su velocidad 
             igual a 0 y le sumamos esa velocidad a la posicion*/
             if (!(this instanceof Jugador)) {
                 int probabilidad = (int) (Math.random() * 5);
-               // if (probabilidad == 4) {
+                if (probabilidad == 4) {
 
                     Vectores aceleracion = (velocidad.MultiplicarVector(-1).velocidadlimite(0));
                     velocidad = velocidad.SumaVectores(aceleracion);
@@ -236,11 +252,25 @@ public abstract class ObjetosMovibles {//extends ObjetosDelJuego
                     velocidad = velocidad.velocidadlimite(maxVel);
                     posicion = posicion.SumaVectores(velocidad);
                     ventanapartida.spawnPowerUp(posicion);
-              //  }
+                }
             }
         }
     }
+protected void LimitarPantalla(){
+       if (posicion.getX() > Constantes.ancho) {
+            posicion.setX(0);
 
+        }
+        if (posicion.getY() > Constantes.alto) {
+            posicion.setY(0);
+        }
+        if (posicion.getX() < 0) {
+            posicion.setX(Constantes.ancho);
+        }
+        if (posicion.getY() < 0) {
+            posicion.setY(Constantes.alto);
+        }
+}
     public Vectores CentroImagen() {
         return new Vectores(posicion.getX() + imgancho / 2, posicion.getY() + imgalto / 2);
     }

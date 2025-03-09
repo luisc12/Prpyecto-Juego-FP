@@ -5,18 +5,20 @@
  */
 package ObjetosMoviles;
 
-import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Lacer;
 import Entrada.Teclado;
 import Graficos.Animacion;
 import Graficos.Externos;
 import static Graficos.Externos.purpuraLaser;
 import Graficos.Sonido;
 import Matematicas.Vectores;
+import Ventanas.VentanaControl;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import proyectojuego.ProyectoJuego;
 
@@ -75,6 +77,28 @@ public class Jugador extends ObjetosMovibles {
         ganarPuntos = true;
     }
 
+    public Jugador(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaControl ventanaControl) {
+        super(textura, posicion, velocidad, maxVel, ventanaControl);
+
+        direccion = new Vectores(0, 1);
+        aceleracion = new Vectores();
+        // tiempo=0;
+        ///TPasado=System.currentTimeMillis();
+        fuego = 0;
+        TAparecer = 0;
+        Tparpadeo = 0;
+        TEscudo = 0;
+        TFuegoRapido = 0;
+        TDobleGun = 0;
+
+        Sdisparar = new Sonido(Externos.DisparoJugador);
+        SPerdida = new Sonido(Externos.PerdidaJugador);
+
+        efectoEscudo = new Animacion(Externos.efectoEscudo2, 80, null);
+
+        visible = true;
+        ganarPuntos = true;
+    }
     public boolean isGanarPuntos() {
         return ganarPuntos;
     }
@@ -105,7 +129,7 @@ public class Jugador extends ObjetosMovibles {
             TDobleGun += dt;
         }
         //-----------------parar los efectos
-        if (TEscudo > Constantes.TiempoEscudo) {
+        if (TEscudo > Constantes.TiempoEscudo*5) {
             escudoActivo = false;
             TEscudo = 0;
 
@@ -131,7 +155,7 @@ public class Jugador extends ObjetosMovibles {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador * 3) {
+            if (TAparecer > Constantes.TiempoAparecerJugador ) {
                 aparecer = false;
                 visible = true;
             }
@@ -151,11 +175,11 @@ public class Jugador extends ObjetosMovibles {
                 temp = temp.calcularDireccion(angulo - 1.9f);
                 gunDerecho = gunDerecho.SumaVectores(temp);
 
-                Laser d = new Laser(Externos.gunLaser,gunDerecho,
+                Lacer d = new Lacer(Externos.gunLaser,gunDerecho,
                         direccion,Constantes.Velocidad_lac,angulo,
                         ventanapartida, false);
 
-                Laser i = new Laser(Externos.gunLaser,gunIzquierdo,
+                Lacer i = new Lacer(Externos.gunLaser,gunIzquierdo,
                         direccion, Constantes.Velocidad_lac, angulo,
                         ventanapartida, false);
                 //el cero antes de introducir un nuevo laser significa que el laser se va a agregar primero y no al final  
@@ -164,17 +188,31 @@ public class Jugador extends ObjetosMovibles {
 
             } else {
                 if (ventanapartida != null) {
-                    ventanapartida.getObjetosmoviles().add(0, new Laser(
+                    ventanapartida.getObjetosmoviles().add(0, new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
                             direccion,Constantes.Velocidad_lac,
                             angulo,ventanapartida, false));
                 } else {
-                    Laser l = new Laser(
+                    if (Teclado.disparar && fuego > velocidadFuego) {
+                         Lacer l = new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
                             direccion, Constantes.Velocidad_lac,angulo,
-                            null, false);
+                            ventanaControl, false);
+                    ventanaControl.getObjetosmoviles().add(0,l);
+                        ArrayList<ObjetosMovibles> obj= ventanaControl.getObjetosmoviles();
+                    for (int i = 0;i<  obj.size(); i++) {
+                        ObjetosMovibles o=obj.get(i);
+                        if (o instanceof Jugador) {
+                             System.out.println("objeto jugador");
+                        }else{
+                            System.out.println("objeto laser");  
+                        }
+                       
+                    }
+                    }
+                   
                 }
             }
             fuego = 0;Sdisparar.play();
@@ -218,25 +256,15 @@ public class Jugador extends ObjetosMovibles {
         posicion = posicion.SumaVectores(velocidad);
 
         //evitamos que el jugador salga de la pantalla
-        if (posicion.getX() > Constantes.ancho) {
-            posicion.setX(0);
+        if (ventanapartida==null) {
+            ventanaControl.limiteControl(this);
+        }else{
+            LimitarPantalla();
         }
-        if (posicion.getY() > Constantes.alto) {
-            posicion.setY(0);
-        }
-
-        if (posicion.getX() < 0) {
-            posicion.setX(Constantes.ancho);
-        }
-        if (posicion.getY() < 0) {
-            posicion.setY(Constantes.alto);
-        }
-        if (escudoActivo) {
-            efectoEscudo.actualizar(dt);
-        }
-        if (ventanapartida != null) {
+        
+       /* if (ventanapartida != null) {
             ColisionaCon();
-        }
+        }*/
 
     }
 

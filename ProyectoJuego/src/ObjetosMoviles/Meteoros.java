@@ -39,9 +39,9 @@ public class Meteoros extends ObjetosMovibles {
         el objeto rebota*/
         if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
-                Vectores fuerzaHuida=fuerzaHuida();
+                Vectores fuerzaHuida=FleeForce();
                 velocidad=velocidad.SumaVectores(fuerzaHuida);
-                
+               
             }
         }
         if (velocidad.Manitud()>=this.maxVel) {

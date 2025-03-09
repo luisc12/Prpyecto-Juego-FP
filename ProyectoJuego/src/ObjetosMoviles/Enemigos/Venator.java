@@ -55,11 +55,7 @@ public class Venator extends Enemigos {
         velocidad = velocidad.velocidadlimite(maxVel);
 
         posicion = posicion.SumaVectores(velocidad);
-           
-//angulo=siguindo.getAngulo();
-       // if (velocidad.Manitud() > 0) {
-            angulo = velocidad.getAngulo();
-      //  }
+        angulo = velocidad.getAngulo();
 
         if (fuego > Constantes.TDisparoVen / 2) {
 
@@ -77,7 +73,6 @@ public class Venator extends Enemigos {
         if (Sdisparar.getFramePsition() > 8500) {
             Sdisparar.parar();
         }
-
         ColisionaCon();
     }
 

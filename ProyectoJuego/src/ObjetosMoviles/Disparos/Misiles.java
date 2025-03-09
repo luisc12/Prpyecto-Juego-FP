@@ -35,39 +35,35 @@ public class Misiles extends Disparos {
 
     @Override
     public void actualizar(float dt) {
-
+        /*tomamos la ubicacion del jugador y despues preguntamos si choca con
+        el escudo*/
         jugadorP = ventanapartida.getJugador().CentroImagen();
-choqueEscudo();
-      /*  int jugadorDistancia = (int) jugadorP.RestaVectores(CentroImagen()).Manitud();
-        if (jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho / 2) {
-            if (ventanapartida.getJugador().isEscudoActivo()) {
-                Destruir();
-
-            }
-        }*/
-      Vectores force;
+        choqueEscudo();
+        
+        /*creamos el vector force que representa la fuersa ejercida, si el 
+        jugador no esta reapareciendo la fuersa buscara al jugador, sino 
+        buscara u nuevo vector*/
+        Vectores force;
         if (!ventanapartida.getJugador().isAparecer()) {
-            
-       
-        force = SeekForce(jugadorP);
-         }else{
-          force = SeekForce(new Vectores());
-        }
-        force = force.MultiplicarVector(1 / Constantes.MasaMisil);
-       
-        velocidad = velocidad.SumaVectores(force);
 
+            force = SeekForce(jugadorP);
+        } else {
+            force = SeekForce(new Vectores());
+        }
+        //dividimos la fuersa por su masa y sumamos la fuerz a la velocidad
+        force = force.MultiplicarVector(1 / Constantes.MasaMisil);
+
+        velocidad = velocidad.SumaVectores(force);
+        
+        /*si la magnitud de la velocidad es mayor a la velocidad limite*/
         if (velocidad.Manitud() > Constantes.Velocidad_Mic) {
             velocidad = velocidad.velocidadlimite(Constantes.Velocidad_Mic);
         }
-
+        /*le sumamos la posicion la velocidad y
+        sacamos el angulo a la velocidad y le sumamos 90 grados debido a que 
+        la cabeza de la imagen esta en la parte superior de la imagen*/
         posicion = posicion.SumaVectores(velocidad);
         angulo = velocidad.getAngulo() + Math.PI / 2;
-        //  angulo = jugadorP.NormalizarVector().getAngulo();
-
-        // angulo= jugadorSurdo(jugadorP.NormalizarVector());
-        // angulo= jugadorSurdo(posicion);
-        
         ColisionaCon();
     }
 

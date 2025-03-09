@@ -38,55 +38,66 @@ public class VentanaControl extends Ventana {
     BufferedImage imagen;
 
     //------------fecha derecha-------
-    BufferedImage derechaGris, derechaVerde, izquierdaGris, izquierdaVerde, arribaGris, arribaVerde, abajoGris, abajoVerde;
+    BufferedImage derechaGris, derechaVerde, izquierdaGris, izquierdaVerde,
+            arribaGris, arribaVerde, abajoGris, abajoVerde;
     double angulo;
     ArrayList<Boton> botones;
-    Boton arriba, abajo, derecha, izquierda, espacio,escape, atras, comenzar;
+    Boton arriba, abajo, derecha, izquierda, espacio, escape, atras, comenzar;
     boolean existe;
     Vectores posicion;
-
+    private ArrayList<ObjetosMovibles> objetosmoviles
+            = new ArrayList<ObjetosMovibles>();
     Jugador j;
 
     public VentanaControl(ProyectoJuego p) {
-         super(p);
+        super(p);
         botones = new ArrayList<Boton>();
 
         imagen = Externos.jugadores[0];
 
         angulo = 0;
 
-        posicion = new Vectores((Constantes.ancho / 2 + 100) + 100, (Constantes.alto / 4 - 50) + 100);
+        posicion = new Vectores((Constantes.ancho / 2 + 100) + 100,
+                (Constantes.alto / 4 - 50) + 100);
 
         //-----------Jugador
-        j = new Jugador(imagen, posicion, new Vectores(0, 0), 7, null);
-
+        j = new Jugador(imagen, posicion, new Vectores(0, 0), 7, this);
+        objetosmoviles.add(j);
         //-------------------
         int tamaño = 100;
         //------------fecha derecha-------
-        derechaGris = Externos.cambiarTamaño(Externos.flechaGrisD, tamaño,tamaño);
+        derechaGris = Externos.cambiarTamaño(Externos.flechaGrisD,
+                tamaño, tamaño);
 
-        derechaVerde = Externos.cambiarTamaño(Externos.flechaVerdeD, tamaño,tamaño);
+        derechaVerde = Externos.cambiarTamaño(Externos.flechaVerdeD,
+                tamaño, tamaño);
 
         //------------flecha izquierda------
-        izquierdaGris = Externos.cambiarTamaño(Externos.flechaGrisI, tamaño,tamaño);
+        izquierdaGris = Externos.cambiarTamaño(Externos.flechaGrisI,
+                tamaño, tamaño);
 
-        izquierdaVerde = Externos.cambiarTamaño(Externos.flechaVerdeI, tamaño,tamaño);
-System.out.println(izquierdaGris.getWidth()+" abajo "+izquierdaGris.getHeight());
+        izquierdaVerde = Externos.cambiarTamaño(Externos.flechaVerdeI,
+                tamaño, tamaño);
+
         //------------flecha Arriba----------
-        arribaGris = Externos.cambiarTamaño(Externos.flechaGrisA, tamaño,tamaño);
+        arribaGris = Externos.cambiarTamaño(Externos.flechaGrisA,
+                tamaño, tamaño);
 
-        arribaVerde = Externos.cambiarTamaño(Externos.flechaVerdeA, tamaño,tamaño);
-System.out.println(arribaGris.getWidth()+" arriba "+arribaGris.getHeight());
+        arribaVerde = Externos.cambiarTamaño(Externos.flechaVerdeA,
+                tamaño, tamaño);
+
         //------------flecha Abajo----------
-        abajoGris = Externos.cambiarTamaño(Externos.flechaGrisB, tamaño,tamaño);
-System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
-        abajoVerde = Externos.cambiarTamaño(Externos.flechaVerdeB, tamaño,tamaño);
+        abajoGris = Externos.cambiarTamaño(Externos.flechaGrisB,
+                tamaño, tamaño);
+
+        abajoVerde = Externos.cambiarTamaño(Externos.flechaVerdeB,
+                tamaño, tamaño);
 
         arriba = new Boton(arribaGris,
                 arribaVerde,
                 Constantes.ancho / 3 - arribaGris.getWidth() * 2,
                 Constantes.alto / 3 - arribaGris.getHeight(),
-                "",Externos.cApagado,Externos.cApagado, new Accion() {
+                "", Externos.cApagado, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -95,7 +106,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 abajoVerde,
                 Constantes.ancho / 3 - arribaGris.getWidth() * 2,
                 Constantes.alto / 3,
-                "",Externos.cApagado,Externos.cApagado, new Accion() {
+                "", Externos.cApagado, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -104,7 +115,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 izquierdaVerde,
                 Constantes.ancho / 3 - izquierdaGris.getWidth() * 3,
                 Constantes.alto / 3,
-                "",Externos.cApagado,Externos.cApagado, new Accion() {
+                "", Externos.cApagado, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -113,30 +124,34 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 derechaVerde,
                 Constantes.ancho / 3 - derechaVerde.getWidth(),
                 Constantes.alto / 3,
-                "",Externos.cApagado,Externos.cApagado, new Accion() {
+                "", Externos.cApagado, Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
             }
         });
-        
-        BufferedImage botonDesactivado = Externos.cambiarTamaño(Externos.bDesactivado, 192, 64);
-        
+
+        BufferedImage botonDesactivado = Externos.cambiarTamaño(
+                Externos.bDesactivado, 192, 64);
+
         espacio = new Boton(botonDesactivado,
                 Constantes.botonActivo,
-                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 3 ),
+                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 3),
                 Constantes.alto - Constantes.botonActivo.getHeight() * 6,
-                "ESPACIO",Color.WHITE,Color.RED, new Accion() {
+                "ESPACIO", Color.WHITE, Color.RED, new Accion() {
             @Override
             public void hacerAccion() {
             }
         });
-         BufferedImage botonZDes = Externos.cambiarTamaño(Externos.bInactivo, 64, 64); // Ancho: 200, Alto: 300
-    BufferedImage botonZAct = Externos.cambiarTamaño(Externos.bActivo, 64, 64);
-        escape= new Boton(botonZDes,
+        BufferedImage botonZDes = Externos.cambiarTamaño(
+                Externos.bInactivo, 64, 64);
+        BufferedImage botonZAct = Externos.cambiarTamaño(
+                Externos.bActivo, 64, 64);
+
+        escape = new Boton(botonZDes,
                 botonZAct,
-                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth()  ),
+                Constantes.ancho / 2 - (Constantes.botonActivo.getWidth()),
                 Constantes.alto - Constantes.botonActivo.getHeight() * 6,
-                "Z",Color.WHITE,Color.RED,Externos.GPixeloid, new Accion() {
+                "Z", Color.WHITE, Color.RED, Externos.GPixeloid, new Accion() {
             @Override
             public void hacerAccion() {
             }
@@ -145,28 +160,34 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
                 Constantes.botonActivo,
                 Constantes.botonActivo.getHeight(),
                 Constantes.alto - Constantes.botonActivo.getHeight() * 2,
-                Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
+                Constantes.Atras, Externos.cEncendido,
+                Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
                 Ventana.cambiarVentana(new VentanaMenu(p));
             }
         });
+
         comenzar = new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
-                Constantes.ancho / 2 + Constantes.botonActivo.getWidth()*2,
+                Constantes.ancho / 2 + Constantes.botonActivo.getWidth() * 2,
                 Constantes.alto - Constantes.botonActivo.getHeight() * 2,
-                Constantes.Comenzar,Externos.cEncendido,Externos.cApagado, new Accion() {
+                Constantes.Comenzar, Externos.cEncendido, Externos.cApagado,
+                new Accion() {
             @Override
             public void hacerAccion() {
 
                 try {
                     Ventana.cambiarVentana(new VentanaSkins(p));
                 } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(VentanaControl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VentanaControl.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 } catch (SAXException ex) {
-                    Logger.getLogger(VentanaControl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VentanaControl.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(VentanaControl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VentanaControl.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -176,7 +197,7 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
         botones.add(izquierda);
         botones.add(derecha);
         botones.add(espacio);
-         botones.add(escape);
+        botones.add(escape);
         botones.add(atras);
 
     }
@@ -195,11 +216,11 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
             derecha.setRatonDentro(true);
         } else if (Teclado.izquierda) {
             izquierda.setRatonDentro(true);
-        } else if (Teclado.disparar) {
+        } /*else if (Teclado.disparar) {
             espacio.setRatonDentro(true);
-        } else if (Teclado.salir) {
+        }*/ else if (Teclado.salir) {
             escape.setRatonDentro(true);
-        }else {
+        } else {
             arriba.setRatonDentro(false);
             abajo.setRatonDentro(false);
             derecha.setRatonDentro(false);
@@ -208,96 +229,141 @@ System.out.println(abajoGris.getWidth()+" abajo "+abajoGris.getHeight());
             escape.setRatonDentro(false);
         }
 
-        j.actualizar(dt);
+        //j.actualizar(dt);
+        for (int i = 0; i < objetosmoviles.size(); i++) {
+            ObjetosMovibles ob = objetosmoviles.get(i);
+            ob.actualizar(dt);
+            //si esta muerto lo borra y se le resta a la i debido a que al borrar
+            //un objeto todos los de su derecha avansan un paso a la izquierda
+            //y el ultimo puesto de la derecha a hora basio lo elimina
+            if (ob.isMuerte()) {
+                objetosmoviles.remove(i);
+                i--;
+            }
 
-        double anchuraRectanguloMinimo = Constantes.ancho / 2 + 100;
-        double anchuraRectanguloMaximo = (Constantes.ancho / 2 + 100) + 200;
-
-        double alturaRectanguloMinimo = Constantes.alto / 4 - 50;
-        double alturaRectanguloMaximo = (Constantes.alto / 4 - 50) + 200;
-
-        if (j.getPosicion().getX() < anchuraRectanguloMinimo) {
-
-            posicion.setX(anchuraRectanguloMaximo - imagen.getWidth());
-            posicion.setY(j.getPosicion().getY());
-            j.setPosicion(posicion);
-
-        } else if (j.getPosicion().getX() > anchuraRectanguloMaximo - imagen.getWidth()) {
-
-            posicion.setX(anchuraRectanguloMinimo);
-            posicion.setY(j.getPosicion().getY());
-            j.setPosicion(posicion);
-
-        } else if (j.getPosicion().getY() < alturaRectanguloMinimo) {
-
-            posicion.setX(j.getPosicion().getX());
-            posicion.setY(alturaRectanguloMaximo - imagen.getHeight());
-            j.setPosicion(posicion);
-
-        } else if (j.getPosicion().getY() > alturaRectanguloMaximo - imagen.getHeight()) {
-            posicion.setX(j.getPosicion().getX());
-            posicion.setY(alturaRectanguloMinimo);
-            j.setPosicion(posicion);
         }
-       
 
     }
 
+    public void limiteControl(ObjetosMovibles o) {
+        int tamaño = 400;
+        double anchuraRectanguloMinimo = Constantes.ancho / 2 + 100;
+        double anchuraRectanguloMaximo = (Constantes.ancho / 2 + 100) + tamaño;
+
+        double alturaRectanguloMinimo = Constantes.alto / 4 - 50;
+        double alturaRectanguloMaximo = (Constantes.alto / 4 - 50) + tamaño;
+        if (o instanceof Jugador) {
+            if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
+
+                posicion.setX(anchuraRectanguloMaximo - imagen.getWidth());
+                posicion.setY(o.getPosicion().getY());
+                o.setPosicion(posicion);
+
+            } else if (o.getPosicion().getX() > anchuraRectanguloMaximo
+                    - imagen.getWidth()) {
+
+                posicion.setX(anchuraRectanguloMinimo);
+                posicion.setY(o.getPosicion().getY());
+                o.setPosicion(posicion);
+
+            } else if (o.getPosicion().getY() < alturaRectanguloMinimo) {
+
+                posicion.setX(o.getPosicion().getX());
+                posicion.setY(alturaRectanguloMaximo - imagen.getHeight());
+                o.setPosicion(posicion);
+
+            } else if (o.getPosicion().getY() > alturaRectanguloMaximo
+                    - imagen.getHeight()) {
+                posicion.setX(o.getPosicion().getX());
+                posicion.setY(alturaRectanguloMinimo);
+                o.setPosicion(posicion);
+            }
+        } else {
+            if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
+
+              o.isMuerte();
+
+            } else if (j.getPosicion().getX() > anchuraRectanguloMaximo
+                    - imagen.getWidth()) {
+
+               o.isMuerte();
+
+            } else if (j.getPosicion().getY() < alturaRectanguloMinimo) {
+
+                o.isMuerte();
+
+            } else if (j.getPosicion().getY() > alturaRectanguloMaximo
+                    - imagen.getHeight()) {
+               o.isMuerte();
+            }
+        }
+
+    }
+
+    public ArrayList<ObjetosMovibles> getObjetosmoviles() {
+        return objetosmoviles;
+    }
     @Override
     public void dibujar(Graphics g) {
-         Graphics2D g2d = (Graphics2D) g;
-          BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho, Constantes.ancho-50,  Constantes.alto-50); // Ancho: 200, Alto: 300
-            AffineTransform at = AffineTransform.getTranslateInstance(
-                    Constantes.ancho / 2-imagenEscalada.getWidth()/2,
-                   0);
-             g2d.drawImage(imagenEscalada, at, null);
+        Graphics2D g2d = (Graphics2D) g;
+        BufferedImage imagenEscalada = Externos.cambiarTamaño(Externos.panelAncho,
+                Constantes.ancho - 50, Constantes.alto - 50);
+        AffineTransform at = AffineTransform.getTranslateInstance(
+                Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
+                0);
+        g2d.drawImage(imagenEscalada, at, null);
         for (Boton b : botones) {
             b.dibujar(g);
         }
-
-        g.setColor(Color.DARK_GRAY);
-        g.drawRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, 200, 200);
-        g.fillRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, 200, 200);
-        j.dibujar(g);
+      
+        int tamaño = 400;
+        g.setColor(Color.BLACK);
+        g.drawRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, tamaño,
+                tamaño);
+        g.fillRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, tamaño,
+                tamaño);
+       
+        //  j.dibujar(g);
+       for (int i = 0; i < objetosmoviles.size(); i++) {
+            objetosmoviles.get(i).dibujar(g);
+        }
         Texto.DibujarTexto(g,
                 "Controles",
                 new Vectores(Constantes.ancho / 2, 100),
                 true,
-                Color.yellow,
+                Externos.cEncendido,
                 Externos.Gfuente);
         Texto.DibujarTexto(g,
                 "Flechas del Teclado",
-                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() +50),
-                        Constantes.alto / 3+arribaGris.getWidth()+40),
+                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() + 50),
+                        Constantes.alto / 3 + arribaGris.getWidth() + 40),
+                true,
+                Color.white,
+                Externos.Pixeloid);
+        Texto.DibujarTexto(g,
+                "Movimiento",
+                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() + 50),
+                        Constantes.ancho / 3 - (arribaGris.getWidth() * 3)),
                 true,
                 Color.white,
                 Externos.Mfuente);
         Texto.DibujarTexto(g,
-                "Movimiento",
-                new Vectores(Constantes.ancho / 3 - (arribaGris.getWidth() +50),
-                        Constantes.ancho / 3 - (arribaGris.getWidth() *3)),
-                true,
-                Color.white,
-                Externos.Pixeloid);
-          Texto.DibujarTexto(g,
                 "Disparar",
-                new Vectores(   Constantes.ancho / 2 - (Constantes.botonActivo.getWidth() * 3 -100),
-                Constantes.alto - (Externos.bGris.getHeight() * 6)),
+                new Vectores(Constantes.ancho / 2 - (Constantes.botonActivo.
+                        getWidth() * 3 - 100),
+                        Constantes.alto - (Externos.bGris.getHeight() * 6)),
                 true,
                 Externos.cEncendido,
                 Externos.Mfuente);
- Texto.DibujarTexto(g,
+        Texto.DibujarTexto(g,
                 "Salir",
-                new Vectores(  Constantes.ancho / 2 - (Externos.bGris.getWidth() * 2+25 )+300,
-                Constantes.alto - Constantes.botonActivo.getHeight() * 6),
-                true,
-               Externos.cEncendido,
+                new Vectores(Constantes.ancho / 2 - (Constantes.botonActivo.
+                        getWidth()),
+                        Constantes.alto - (Externos.bGris.getHeight() * 6)),
+                false,
+                Externos.cEncendido,
                 Externos.Mfuente);
-        
-        /*   AffineTransform   at = AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
-        //punto de rotacion : optenemos el ancho y lo dividimos entre 2        
-        at.rotate(angulo, imagen.getWidth() / 2, imagen.getHeight() / 2);
-        g2d.drawImage(imagen, at, null);*/
+
     }
 
 }

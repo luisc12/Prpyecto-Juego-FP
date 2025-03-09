@@ -12,9 +12,9 @@ import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Disparos.Laser;
-import ObjetosMoviles.Disparos.Laser;
-import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Lacer;
+import ObjetosMoviles.Disparos.Lacer;
+import ObjetosMoviles.Disparos.Lacer;
 import Ventanas.VentanaPartida;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -54,45 +54,50 @@ public class Nostromo extends Enemigos {
 
         fuego += dt;
         choqueEscudo();
-      
-
-       
+        //-----------Movimiento--------------------
          Vectores force;
+         /*si el jugador no acaba de reaparecer ejecutamos la fuerza de 
+         persecucion con respecto a la distancia entre el jugador y Nostromo
+         sino perseguira un nuevo vector*/
         if (!ventanapartida.getJugador().isAparecer()) {
-            
-         jugadorP = new Vectores(ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen()));
-         force = PursuingForce(jugadorP);
-        posicionAnteriro=jugadorP;
+            //sacamos la la distancia del jugador con respecto a Notromo
+         jugadorP = new Vectores(ventanapartida.getJugador().CentroImagen()
+                 .RestaVectores(CentroImagen()));
+        
          }else{
-          force = PursuingForce(posicionAnteriro);
+            jugadorP=new Vectores();
         }
+         //sacamos la fuerza de persecucion 
+         force = PursuingForce(jugadorP);
          if (force.Manitud() > Constantes.maxforceNos) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
         }
+         
         force = force.MultiplicarVector(1 / (Constantes.MasaNos/2));
         velocidad = velocidad.SumaVectores(force);
         velocidad = velocidad.velocidadlimite(maxVel);
         posicion = posicion.SumaVectores(velocidad);
-        angulo = posicionAnteriro.NormalizarVector().getAngulo();
-
-        // angulo = jugadorSurdo(jugadorP.NormalizarVector());
-        // angulo = jugadorSurdo(direccion);
+        angulo = jugadorP.NormalizarVector().getAngulo();
+        
+          //-----------Disparo--------------------
         if (fuego > Constantes.TDisparoNos) {
-            posicionAnteriro = posicionAnteriro.NormalizarVector();
+            jugadorP = jugadorP.NormalizarVector();
 
             // Obtenemos el ángulo correcto usando el método corregido getAngulo()
-            double anguloActual = posicionAnteriro.getAngulo();
+            double anguloActual = jugadorP.getAngulo();
 
             // Introduce variación en el ángulo de disparo
-            anguloActual += Math.random() * Constantes.RangoAnguloUfo - (Constantes.RangoAnguloUfo / 2);
+            anguloActual += Math.random() * Constantes.RangoAnguloUfo
+                    - (Constantes.RangoAnguloUfo / 2);
 
-            // Ajustamos la dirección del disparo usando la función calcularDireccion() de la clase Vectores
-            posicionAnteriro = posicionAnteriro.calcularDireccion(anguloActual);
+            /* Ajustamos la dirección del disparo usando la función
+            calcularDireccion() de la clase Vectores*/
+            jugadorP = jugadorP.calcularDireccion(anguloActual);
 
-            Laser laser = new Laser(
+            Lacer laser = new Lacer(
                     Externos.redLaser,
                     CentroImagen(),
-                    posicionAnteriro, // Ahora la dirección está correctamente ajustada
+                    jugadorP, 
                     Constantes.Velocidad_lacNostromo,
                     anguloActual + Math.PI / 2,
                     ventanapartida, true);
@@ -102,28 +107,10 @@ public class Nostromo extends Enemigos {
             fuego = 0;
             Sdisparar.play();
         }
-        
-        
         if (Sdisparar.getFramePsition() > 100000) {
             Sdisparar.parar();
         }
-        if (posicion.getX() > Constantes.ancho) {
-            posicion.setX(0);
-
-        }
-        if (posicion.getY() > Constantes.alto) {
-            posicion.setY(0);
-            ;
-        }
-
-        if (posicion.getX() < 0) {
-            posicion.setX(Constantes.ancho);
-
-        }
-        if (posicion.getY() < 0) {
-            posicion.setY(Constantes.alto);
-
-        }
+     LimitarPantalla();
         ColisionaCon();
     }
 

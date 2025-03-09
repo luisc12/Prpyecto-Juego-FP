@@ -26,7 +26,7 @@ public class PowerUp extends ObjetosMovibles{
     private Sonido activarPowerUP;
     private BufferedImage tipoTextura;
     private BufferedImage orbe;
-    
+    /*
     public PowerUp(BufferedImage textura, Vectores posicion,VentanaPartida ventanapartida,Accion accion) {
         super(textura, posicion, new Vectores(), 0, ventanapartida);
         this.accion=accion;
@@ -34,7 +34,7 @@ public class PowerUp extends ObjetosMovibles{
         duracion=0;
         activarPowerUP=new Sonido(Externos.PowerUP);
         orbe=Externos.orbe;
-    }
+    }*/
     
     public PowerUp(BufferedImage textura, Vectores posicion,VentanaPartida ventanapartida,Accion accion,BufferedImage orbe) {
         super(textura, posicion, new Vectores(), 0, ventanapartida);
@@ -71,11 +71,7 @@ public class PowerUp extends ObjetosMovibles{
        
        at.rotate(angulo,tipoTextura.getWidth()/2,tipoTextura.getHeight()/2);
        
-       
-       //AffineTransform at2=AffineTransform.getTranslateInstance(posicion.getX(), posicion.getY());
-      // at2.rotate(angulo,orbe.getWidth()/2,orbe.getHeight()/2);
        g.drawImage(orbe,(int)posicion.getX(),(int)posicion.getY(),null);
-      // g.drawImage(orbe, at2, null);
        
        g2d.drawImage(tipoTextura, at, null);
        

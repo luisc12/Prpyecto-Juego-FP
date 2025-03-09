@@ -21,18 +21,13 @@ public enum TiposPowerUP {
     GRAN_PUNTUACION("+1000 PUNTOS",Externos.estrella,Externos.orbPuntuacion),
     DOBLE_GUN("DOBLE GUN",Externos.dobleGun,Externos.orbGun);
     
-    
     public BufferedImage orbe;
     public String texto;
     public BufferedImage textura;
     public int i;
-/*
-    private TiposPowerUP(String texto, BufferedImage textura) {
-        this.texto = texto;
-        this.textura = textura;
-    }
-    */
-    private TiposPowerUP(String texto, BufferedImage textura,BufferedImage orbe) {
+    
+    private TiposPowerUP(String texto, BufferedImage textura,
+            BufferedImage orbe) {
         this.texto = texto;
         this.textura = textura;
         this.orbe=orbe;

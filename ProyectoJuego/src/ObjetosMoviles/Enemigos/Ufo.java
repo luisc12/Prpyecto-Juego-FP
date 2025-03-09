@@ -11,8 +11,8 @@ import Graficos.Sonido;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import ObjetosMoviles.Constantes;
-import ObjetosMoviles.Disparos.Laser;
-import ObjetosMoviles.Disparos.Laser;
+import ObjetosMoviles.Disparos.Lacer;
+import ObjetosMoviles.Disparos.Lacer;
 import Ventanas.VentanaPartida;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -58,69 +58,66 @@ public class Ufo extends Enemigos {
     sonidoufo.cambiarVolumen(-10.0f);
     sonidoufo.play();
     vida=100;
-     for (int i = 0; i < this.camino.size(); i++) {
-            System.out.println(camino.get(i).getX()+" "+camino.get(i).getY());
-        }
+    
     }
 
 
     @Override
     public void actualizar(float dt) {
-         
         fuego+=dt;
-        Vectores siguindo;
+        //-------movimiento--------------
+        Vectores siguiendo;
+        //revisamos si choca con el escudo
         choqueEscudo();
-      
+        /*preguntamos si el camino continua, a la clase abstracta Enemigos
+        si es asi vamos al siguiente punto del ArrayList, sino seguiremos a
+        un nuevo vector*/
         if (isContinuar()) {
-            siguindo = SeguirCamino(camino);
+            siguiendo = SeguirCamino(camino);
         } else {
-            siguindo = new Vectores();
+            siguiendo = new Vectores();
         }
-
-        siguindo = siguindo.MultiplicarVector(1 / Constantes.MasaUfo);
-
-        velocidad = velocidad.SumaVectores(siguindo);
-
+        /*dividimos nuestra fuerza "siguiendo" por su masa y despues sumamos la
+        velocidad con nuestra fuerza y revisamos si tiene su velocidad limite*/
+        siguiendo = siguiendo.MultiplicarVector(1 / Constantes.MasaUfo);
+        velocidad = velocidad.SumaVectores(siguiendo);
         velocidad = velocidad.velocidadlimite(maxVel);
-
+        //sumamos la velocidad a la posicion
         posicion = posicion.SumaVectores(velocidad);
 
-        //disparar
+        //----------------------disparar--------------
         
         if (fuego>Constantes.TDisparoUfo) {
-            //tomamos la posicion del centro del jugador y le restamos el centro y lo normalisamos para optener la distancia
-            Vectores posicionJ = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-
+            /*tomamos la posicion del centro del jugador y le restamos el centro
+            y lo normalisamos para optener la distancia*/
+            Vectores posicionJ = ventanapartida.getJugador().CentroImagen()
+                    .RestaVectores(CentroImagen());
             posicionJ = posicionJ.NormalizarVector();
-            //sacamos el angulo usando asin(y/M)
+            //sacamos el angulo usando tan2(y/x)
             double anguloActual = posicionJ.getAngulo();
-            //pi es 180 grados
-            anguloActual += Math.random() * Constantes.RangoAnguloUfo - Constantes.RangoAnguloUfo / 2;
-
+            /*Pi es 180 grados, sumamos el angulo actual a si mismo junto a un 
+            angulo aleatorio*/
+            anguloActual += Math.random() * Constantes.RangoAnguloUfo
+                    - Constantes.RangoAnguloUfo / 2;
+            //calculamo la direccion del disparo
             posicionJ=posicionJ.calcularDireccion(anguloActual);
 
-            Laser laser = new Laser(Externos.purpuraLaser,
+            Lacer laser = new Lacer(Externos.purpuraLaser,
                     CentroImagen().SumaVectores(posicionJ.MultiplicarVector(imgancho)),
                     posicionJ,
                     Constantes.Velocidad_lac,
                     anguloActual+ Math.PI / 2,
                     ventanapartida,true);
-
+            //agregamos nuestro disparo a nuetro arrayList de objetosMoviles
             ventanapartida.getObjetosmoviles().add(0, laser);
             fuego=0;
-            
             Sdisparar.play();
         }
-         
         if (Sdisparar.getFramePsition()>8500) {
             Sdisparar.parar();
         }
         angulo += 0.05;
-        
-       
-
         ColisionaCon();
-       
     }
 
     @Override

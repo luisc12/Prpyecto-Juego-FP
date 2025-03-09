@@ -31,7 +31,7 @@ private Vectores direccion;
       
         if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
-                Vectores fuerzaHuida=fuerzaHuida();
+                Vectores fuerzaHuida=FleeForce();
                 velocidad=velocidad.SumaVectores(fuerzaHuida);
                 
             }
