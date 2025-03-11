@@ -194,13 +194,13 @@ public class Jugador extends ObjetosMovibles {
                             direccion,Constantes.Velocidad_lac,
                             angulo,ventanapartida, false));
                 } else {
-                    if (Teclado.disparar && fuego > velocidadFuego) {
+                    if (Teclado.disparar && fuego > velocidadFuego*6) {
                          Lacer l = new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
                             direccion, Constantes.Velocidad_lac,angulo,
                             ventanaControl, false);
-                    ventanaControl.getObjetosmoviles().add(0,l);
+                   ventanaControl.getObjetosmoviles().add(0,l);
                         ArrayList<ObjetosMovibles> obj= ventanaControl.getObjetosmoviles();
                     for (int i = 0;i<  obj.size(); i++) {
                         ObjetosMovibles o=obj.get(i);

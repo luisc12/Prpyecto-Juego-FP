@@ -216,9 +216,9 @@ public class VentanaControl extends Ventana {
             derecha.setRatonDentro(true);
         } else if (Teclado.izquierda) {
             izquierda.setRatonDentro(true);
-        } /*else if (Teclado.disparar) {
+        } else if (Teclado.disparar) {
             espacio.setRatonDentro(true);
-        }*/ else if (Teclado.salir) {
+        } else if (Teclado.salir) {
             escape.setRatonDentro(true);
         } else {
             arriba.setRatonDentro(false);

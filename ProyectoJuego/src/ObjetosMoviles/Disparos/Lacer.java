@@ -6,7 +6,6 @@
 package ObjetosMoviles.Disparos;
 
 import Graficos.Externos;
-import ObjetosMoviles.Disparos.Disparos;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import Ventanas.VentanaControl;
