@@ -194,7 +194,7 @@ public class Jugador extends ObjetosMovibles {
                             direccion,Constantes.Velocidad_lac,
                             angulo,ventanapartida, false));
                 } else {
-                    if (Teclado.disparar && fuego > velocidadFuego*6) {
+                   
                          Lacer l = new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
@@ -211,7 +211,7 @@ public class Jugador extends ObjetosMovibles {
                         }
                        
                     }
-                    }
+                   
                    
                 }
             }
@@ -257,7 +257,7 @@ public class Jugador extends ObjetosMovibles {
 
         //evitamos que el jugador salga de la pantalla
         if (ventanapartida==null) {
-            ventanaControl.limiteControl(this);
+            ventanaControl.limiteControl();
         }else{
             LimitarPantalla();
         }

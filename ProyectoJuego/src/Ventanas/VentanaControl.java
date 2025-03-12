@@ -202,6 +202,11 @@ public class VentanaControl extends Ventana {
 
     }
 
+    public Jugador getJugador() {
+
+        return j;
+    }
+
     @Override
     public void actualizar(float dt) {
         atras.actualizar();
@@ -229,72 +234,66 @@ public class VentanaControl extends Ventana {
             escape.setRatonDentro(false);
         }
 
-        //j.actualizar(dt);
         for (int i = 0; i < objetosmoviles.size(); i++) {
             ObjetosMovibles ob = objetosmoviles.get(i);
             ob.actualizar(dt);
-            //si esta muerto lo borra y se le resta a la i debido a que al borrar
-            //un objeto todos los de su derecha avansan un paso a la izquierda
-            //y el ultimo puesto de la derecha a hora basio lo elimina
-            if (ob.isMuerte()) {
-                objetosmoviles.remove(i);
-                i--;
-            }
 
         }
-
+        limiteControl();
     }
 
-    public void limiteControl(ObjetosMovibles o) {
+    public void limiteControl() {
         int tamaño = 400;
         double anchuraRectanguloMinimo = Constantes.ancho / 2 + 100;
         double anchuraRectanguloMaximo = (Constantes.ancho / 2 + 100) + tamaño;
 
         double alturaRectanguloMinimo = Constantes.alto / 4 - 50;
         double alturaRectanguloMaximo = (Constantes.alto / 4 - 50) + tamaño;
-        if (o instanceof Jugador) {
-            if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
 
-                posicion.setX(anchuraRectanguloMaximo - imagen.getWidth());
-                posicion.setY(o.getPosicion().getY());
-                o.setPosicion(posicion);
+        for (int i = 0; i < objetosmoviles.size(); i++) {
+            ObjetosMovibles o = objetosmoviles.get(i);
+            if (o instanceof Jugador) {
+                if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
 
-            } else if (o.getPosicion().getX() > anchuraRectanguloMaximo
-                    - imagen.getWidth()) {
+                    posicion.setX(anchuraRectanguloMaximo - imagen.getWidth());
+                    posicion.setY(o.getPosicion().getY());
+                    o.setPosicion(posicion);
 
-                posicion.setX(anchuraRectanguloMinimo);
-                posicion.setY(o.getPosicion().getY());
-                o.setPosicion(posicion);
+                } else if (o.getPosicion().getX() > anchuraRectanguloMaximo
+                        - imagen.getWidth()) {
 
-            } else if (o.getPosicion().getY() < alturaRectanguloMinimo) {
+                    posicion.setX(anchuraRectanguloMinimo);
+                    posicion.setY(o.getPosicion().getY());
+                    o.setPosicion(posicion);
 
-                posicion.setX(o.getPosicion().getX());
-                posicion.setY(alturaRectanguloMaximo - imagen.getHeight());
-                o.setPosicion(posicion);
+                } else if (o.getPosicion().getY() < alturaRectanguloMinimo) {
 
-            } else if (o.getPosicion().getY() > alturaRectanguloMaximo
-                    - imagen.getHeight()) {
-                posicion.setX(o.getPosicion().getX());
-                posicion.setY(alturaRectanguloMinimo);
-                o.setPosicion(posicion);
-            }
-        } else {
-            if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
+                    posicion.setX(o.getPosicion().getX());
+                    posicion.setY(alturaRectanguloMaximo - imagen.getHeight());
+                    o.setPosicion(posicion);
 
-              o.isMuerte();
+                } else if (o.getPosicion().getY() > alturaRectanguloMaximo
+                        - imagen.getHeight()) {
+                    posicion.setX(o.getPosicion().getX());
+                    posicion.setY(alturaRectanguloMinimo);
+                    o.setPosicion(posicion);
+                }
+            } else {
+                if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
+                    objetosmoviles.remove(o);
+                    System.out.println("paso 1");
+                } else if (o.getPosicion().getX() > anchuraRectanguloMaximo) {
 
-            } else if (j.getPosicion().getX() > anchuraRectanguloMaximo
-                    - imagen.getWidth()) {
+                    objetosmoviles.remove(o);
+  System.out.println("paso 2");
+                } else if (o.getPosicion().getY() < alturaRectanguloMinimo) {
 
-               o.isMuerte();
-
-            } else if (j.getPosicion().getY() < alturaRectanguloMinimo) {
-
-                o.isMuerte();
-
-            } else if (j.getPosicion().getY() > alturaRectanguloMaximo
-                    - imagen.getHeight()) {
-               o.isMuerte();
+                    objetosmoviles.remove(o);
+  System.out.println("paso 3");
+                } else if (o.getPosicion().getY() > alturaRectanguloMaximo) {
+                    objetosmoviles.remove(o);
+                      System.out.println("paso 4");
+                }
             }
         }
 
@@ -303,6 +302,7 @@ public class VentanaControl extends Ventana {
     public ArrayList<ObjetosMovibles> getObjetosmoviles() {
         return objetosmoviles;
     }
+
     @Override
     public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -315,16 +315,16 @@ public class VentanaControl extends Ventana {
         for (Boton b : botones) {
             b.dibujar(g);
         }
-      
+
         int tamaño = 400;
         g.setColor(Color.BLACK);
         g.drawRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, tamaño,
                 tamaño);
         g.fillRect(Constantes.ancho / 2 + 100, Constantes.alto / 4 - 50, tamaño,
                 tamaño);
-       
+
         //  j.dibujar(g);
-       for (int i = 0; i < objetosmoviles.size(); i++) {
+        for (int i = 0; i < objetosmoviles.size(); i++) {
             objetosmoviles.get(i).dibujar(g);
         }
         Texto.DibujarTexto(g,

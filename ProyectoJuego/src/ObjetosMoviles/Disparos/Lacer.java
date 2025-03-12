@@ -37,8 +37,10 @@ public class Lacer extends Disparos{
     public void actualizar(float dt) {
         /*funciona igual que el metodo choqueEscudo() solo que en vez de 
         destruir usamos la fuerza huida*/
-        Vectores PosicionJ = new Vectores(ventanapartida.getJugador()
+        if (ventanapartida!=null) {
+             Vectores PosicionJ = new Vectores(ventanapartida.getJugador()
                 .CentroImagen());
+        
         int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen())
                 .Manitud();
         if (enemigo && ventanapartida.getJugador().isEscudoActivo() && 
@@ -55,6 +57,8 @@ public class Lacer extends Disparos{
                 enemigo=false;
             textura=Externos.greenLaser;
         }
+        }
+       
         if (velocidad.Manitud() >= this.maxVel) {
             Vectores velocidadInvertida = new Vectores(-velocidad.getX(),
                     -velocidad.getY());
@@ -73,12 +77,13 @@ public class Lacer extends Disparos{
              if (posicion.getX() < 0 || posicion.getX() > Constantes.ancho
                 || posicion.getY() < 0 || posicion.getY() > Constantes.alto) {
             Destruir();
+             ColisionaCon();
         }
         }else{
-           // ventanaControl.limiteControl(this);
+           ventanaControl.limiteControl();
         }
        
-        ColisionaCon();
+       
     }
 
     @Override

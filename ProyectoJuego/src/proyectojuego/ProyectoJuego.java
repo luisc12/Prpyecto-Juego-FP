@@ -116,36 +116,28 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
         //this.setVisibles(ventanan.isEjecutando());
         teclado.actualizar();
-        
-            Ventana.getVentanaActual().actualizar(dt);
-        
-    }
 
-    private void dibujar() {
-        bs = canvas.getBufferStrategy();
-
-        if (bs == null) {
-            canvas.createBufferStrategy(3);//el numero de buffer que utiliza un canvas
-
-            return;
-        }
-
-        g = bs.getDrawGraphics();
-
-        //-----------------------
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Constantes.ancho, Constantes.alto);
-
-        // ventanaPartida.dibujar(g);
-        Ventana.getVentanaActual().dibujar(g);
-
-        //g.setColor(Color.WHITE);
-        //  g.drawString("" + PROFPS, 10, 20);
-        //---------------------
-        g.dispose();
-        bs.show();
+        Ventana.getVentanaActual().actualizar(dt);
 
     }
+private void dibujar() {
+    if (canvas.getBufferStrategy() == null) {
+        canvas.createBufferStrategy(3);
+        return;
+    }
+
+    bs = canvas.getBufferStrategy();
+    g = bs.getDrawGraphics();
+
+    g.setColor(Color.BLACK);
+    g.fillRect(0, 0, Constantes.ancho, Constantes.alto);
+
+    Ventana.getVentanaActual().dibujar(g);
+
+    g.dispose();
+    bs.show();
+}
+
 
     private void inicio() {
 
@@ -166,49 +158,48 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
     public void continuar() {
         pausa = false;
-        TTrans=0;
+        TTrans = 0;
     }
 
     @Override
     public void run() {
-       
-            long ahora = 0;
-            long TPasado = System.nanoTime();//hora actual del sistema en nano segundos
-            int frames = 0;
-            long tiempo = 0;
+        long TPasado = System.nanoTime();
+        long ahora;
+        long deltaTiempo;
+        double delta = 0;
+        final double nsPorUpdate = 1000000000.0 / FPS;
 
-            inicio();
+        int frames = 0;
+        int updates = 0;
+        long tiempo = System.currentTimeMillis();
 
-            // usamos un ciclo while que actualizara todos los objetos del juego
-            while (ejecutando) {
-                
-                if (!pausa) {
-                    ahora = System.nanoTime();
-                    TTrans += (ahora - TPasado) / objT;
-                    tiempo += (ahora - TPasado);
-                    TPasado = ahora;
-                    if (TTrans >= 1) {
-                        //paso el tiempo entre fotogramas multiplicando TTrans por objT y luego convertirlo en milisegundos
+        inicio();
 
-                        actualizar((float) (TTrans * objT * 0.000001f));
-                        dibujar();
-                        TTrans--;
-                        frames++;
+        while (ejecutando) {
+            ahora = System.nanoTime();
+            deltaTiempo = ahora - TPasado;
+            TPasado = ahora;
 
-                    }
-                    if (tiempo >= 1000000000) {
-                        PROFPS = frames;
-                        frames = 0;
-                        tiempo = 0;
+            delta += deltaTiempo / nsPorUpdate;
 
-                    }
-
-                }else{
-                    dibujar();
-                }
+            while (delta >= 1) {
+                actualizar((float) (nsPorUpdate * 0.000001f)); // Paso de tiempo fijo
+                updates++;
+                delta--;
             }
-            stop();
-        
+
+            dibujar();
+            frames++;
+
+            if (System.currentTimeMillis() - tiempo >= 1000) {
+                PROFPS = frames;
+                frames = 0;
+                updates = 0;
+                tiempo += 1000;
+            }
+        }
+
+        stop();
     }
 
     private void start() {
