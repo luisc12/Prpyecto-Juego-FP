@@ -13,7 +13,7 @@ import javax.swing.event.MouseInputListener;
  *
  * @author luis
  */
-public class RatonEntrada extends MouseAdapter{
+public class Raton extends MouseAdapter{
 
     public static int x,y;
     public static boolean salidaRaton;

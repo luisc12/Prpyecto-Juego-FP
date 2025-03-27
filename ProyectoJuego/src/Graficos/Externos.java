@@ -5,7 +5,6 @@
  */
 package Graficos;
 
-import static Graficos.Externos.efectoEscudo2;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -20,6 +19,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import static Graficos.Externos.efectoEscudo;
 
 /**
  *
@@ -44,7 +44,7 @@ public class Externos {
     public static BufferedImage propulsion;
 
     //public static BufferedImage[] efectoEscudo1 = new BufferedImage[3];
-    public static BufferedImage[] efectoEscudo2 = new BufferedImage[12];
+    public static BufferedImage[] efectoEscudo = new BufferedImage[12];
     //animacion
 
     //public static BufferedImage[] explosion = new BufferedImage[9];
@@ -79,8 +79,8 @@ public class Externos {
     public static Font creditos;
     //Sonidos
     public static Clip MusicaFondo, Sonidoexplosion, PerdidaJugador, DisparoJugador,
-            DisparoUfo, PowerUP, clickBoton, sodidoMasPuntos, MusicaCarga, menuMusica;
-    public static Clip Ufosonido, disparoNostromo;
+            DisparoUfo,Misiles, PowerUP, clickBoton, sodidoMasPuntos, MusicaCarga, menuMusica;
+    public static Clip Ufosonido, disparoNostromo, disparoGun;
     //ui
     public static BufferedImage bVerde, bGris, bActivo, bInactivo, bDesactivado;
 
@@ -96,7 +96,7 @@ public class Externos {
 
     public static void inicio() {
 
-        jugadorDobleGun = CargarImagen("skins/doubleGunPlayer2.png");
+        
         propulsion = CargarImagen("efectos/fire05.png");
 
         for (int i = 0; i < jugadores.length; i++) {
@@ -105,7 +105,7 @@ public class Externos {
         gun = CargarImagen("skins/gun.png");
         //laseres
 
-        blueLaser = CargarImagen("laseres/laserBlue01.png");
+      //  blueLaser = CargarImagen("laseres/laserBlue01.png");
 
         redLaser = CargarImagen("laseres/laserRed.png");
 
@@ -175,8 +175,8 @@ public class Externos {
         //  for(int i = 0; i < efectoEscudo1.length; i++){
         //    efectoEscudo1[i] = CargarImagen("efectos/shield" + (i + 1) +".png"); 
         // }
-        for (int i = 0; i < efectoEscudo2.length; i++) {
-            efectoEscudo2[i] = CargarImagen("efectos/shieldV2" + (i + 1) + ".png");
+        for (int i = 0; i < efectoEscudo.length; i++) {
+            efectoEscudo[i] = CargarImagen("efectos/shieldV2" + (i + 1) + ".png");
         }
         for (int i = 0; i < planetas.length; i++) {
             planetas[i] = CargarImagen("otros/Planeta" + (i + 1) + ".png");
@@ -184,12 +184,13 @@ public class Externos {
 
         MusicaCarga = CargarMusica("sonidos/TremLoadingloopl.wav");
         MusicaFondo = CargarMusica("sonidos/space_quest_looped_section.wav");
-        //Sonidoexplosion=CargarMusica("sonidos/explosion.wav");
         Sonidoexplosion = CargarMusica("sonidos/Explosion4.wav");
         PerdidaJugador = CargarMusica("sonidos/playerLoose.wav");
-        DisparoJugador = CargarMusica("sonidos/ShotgunShot001V2.wav");
-        DisparoUfo = CargarMusica("sonidos/ufoShoot.wav");
+        DisparoJugador = CargarMusica("sonidos/Laser-weapon3.wav");
+        disparoGun= CargarMusica("sonidos/ShotgunShot001V2.wav");
+        DisparoUfo = CargarMusica("sonidos/Laser-weapon2.wav");
         disparoNostromo = CargarMusica("sonidos/Sniper_Shot-004V2.wav");
+        Misiles=CargarMusica("sonidos/Rocket_Explosion-001V2.wav");
         PowerUP = CargarMusica("sonidos/powerUp.wav");
         Ufosonido = CargarMusica("sonidos/GrapplingHook_Reel(Loop).wav");
         clickBoton = CargarMusica("sonidos/vgmenuselect.wav");
@@ -292,24 +293,6 @@ public class Externos {
         return imagenEscalada;
     }
 
-    /*public static  BufferedImage cambiarancho(BufferedImage img, int newAlto) {
-    
-    double scaleFactor = (double) newAlto / img.getHeight();
-    int newAncho = (int) (img.getWidth() * scaleFactor);
-
-    BufferedImage scaledImage = new BufferedImage(newAncho, img.getHeight(), img.getType());
-    Graphics2D g2d = scaledImage.createGraphics();
-    // Activar renderizado de alta calidad
-    g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    
-    // Dibujar la imagen escalada
-    g2d.drawImage(img, 0, 0, newAncho, img.getHeight(), null);
-    g2d.dispose();
-
-    return scaledImage;
-}*/
     public static Image getIconImage() {
         Image retValue;
         retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Graficos/otros/icono2.png"));

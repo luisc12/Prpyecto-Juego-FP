@@ -48,7 +48,7 @@ import proyectojuego.ProyectoJuego;
  */
 public class VentanaPartida extends Ventana {
 
-    VentanaPausa ventanaPausa;
+  //  VentanaPausa ventanaPausa;
     public static final Vectores PosicionInicial
             = new Vectores(Constantes.ancho / 2 - Externos.jugadores[0].getWidth() / 2,
                     Constantes.alto / 2 - Externos.jugadores[0].getWidth() / 2);
@@ -231,7 +231,8 @@ public class VentanaPartida extends Ventana {
 
     private void spawnEnemigo() {
         //se seleciona un nuemro entre 1 y 4 al azar
-        int probabilidad = (int) (Math.random() * 4 + 1);
+      int probabilidad = (int) (Math.random() * 4 + 1);
+       
         //se seleciona un numero entre cero y dos
         int randio = (int) (Math.random() * 2);
  /*si X es par se seleciona un numero al azar entre 0 y el ancho de la ventana
@@ -285,26 +286,6 @@ public class VentanaPartida extends Ventana {
         /* si no es ninguna de las anteriores no se creea ningun objeto */
     }
 
-    
-//aqui espera al ibjeto pausa lock
-/*
-    private void esperarSiPausado() {
-        System.out.println("p11");
-        while (!ventanaPausa.isPausar()) {
-            System.out.println("p12");
-            System.out.println("entrando en synchronized (ventanaPausa.pauseLock");
-            synchronized (ventanaPausa.pauseLock) {
-                System.out.println("pausado en el metodo");
-                try {
-                    ventanaPausa.pauseLock.wait();
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-
-        }
-    }
-     */
     public void spawnPowerUp(Vectores posicion) {
     /*se selecciona un numero al azar entre sero y el nuemro de objetos de 
         nuestro Enum*/ 
@@ -479,7 +460,7 @@ public class VentanaPartida extends Ventana {
             } catch (TransformerException ex) {
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Ventana.cambiarVentana(new VentanaMenu(p));
+            Ventana.cambiarVentana(new VentanaMenu(p,true));
         }
         if (aparecerUfo > Constantes.TiempoAparecerUfo/2) {
             spawnEnemigo();

@@ -93,7 +93,8 @@ public class Constantes {
     public static final String fecha = "FECHA";
 
     //ubicar la carpeta en mis documentos o en el sistema operativo linix en la carpeta Home
-    public static final String ubicacion = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "\\Entrega_Espacial\\RECORS.XML"; // data.xml if you use XMLParser
+    public static final String ubicacion = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + "\\Entrega_Espacial\\RECORS.XML"; 
+     
     public static final String ubicacioncreditos = "src/Graficos/creditos.xml";
     // This variables are required to use XMLParser
     public static final String JUGADOR = "JUGADOR";

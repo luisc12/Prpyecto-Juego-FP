@@ -33,9 +33,9 @@ public class Venator extends Enemigos {
     public Venator(BufferedImage textura, Vectores posicion, Vectores velocidad, double maxVel, VentanaPartida ventanapartida, ArrayList<Vectores> camino) {
         super(textura, posicion, velocidad, maxVel, ventanapartida);
         this.camino = camino;
-        Sdisparar = new Sonido(Externos.DisparoUfo);
         continuar = true;
-
+        Sdisparar = new Sonido(Externos.Misiles);
+        Sdisparar.cambiarVolumen(-10.0f);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Venator extends Enemigos {
         posicion = posicion.SumaVectores(velocidad);
         angulo = velocidad.getAngulo();
 
-        if (fuego > Constantes.TDisparoVen / 2) {
+        if (fuego > Constantes.TDisparoVen ) {
 
             Misiles misil = new Misiles(Externos.blueMisil,
                     CentroImagen(),
@@ -70,9 +70,7 @@ public class Venator extends Enemigos {
 
             Sdisparar.play();
         }
-        if (Sdisparar.getFramePsition() > 8500) {
-            Sdisparar.parar();
-        }
+        
         ColisionaCon();
     }
 

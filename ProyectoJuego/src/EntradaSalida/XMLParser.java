@@ -11,8 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,9 +35,9 @@ public class XMLParser {
 
     public static ArrayList<DatosPuntaje> LeerFichero() throws ParserConfigurationException, SAXException, IOException {
 
-        ArrayList<DatosPuntaje> datosLista = new ArrayList<DatosPuntaje>();
+        ArrayList<DatosPuntaje> datosLista = new ArrayList<>();
         File f = new File(Constantes.ubicacion);
-
+        
         if (!f.exists() || f.length() == 0) {
             return datosLista;
         }
@@ -60,7 +58,7 @@ public class XMLParser {
                 nombre = ele.getElementsByTagName(Constantes.Nombres).item(0).getTextContent();
                 puntos = Integer.parseInt(ele.getElementsByTagName(Constantes.Puntos).item(0).getTextContent());
                 fecha = ele.getElementsByTagName(Constantes.fecha).item(0).getTextContent();
-                System.out.println(fecha);
+                
                 datosLista.add(new DatosPuntaje(nombre, puntos, fecha));
             }
         }
@@ -69,6 +67,11 @@ public class XMLParser {
 
     public static void escribirFichero(ArrayList<DatosPuntaje> datosLista) throws ParserConfigurationException, IOException, TransformerException {
         File f = new File(Constantes.ubicacion);
+       File carpeta = f.getParentFile();
+// Creamos los directorios solo si no existen
+if (!carpeta.exists()){
+    carpeta.mkdirs();
+}
         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factoria.newDocumentBuilder();
         Document d = builder.newDocument();
@@ -77,11 +80,11 @@ public class XMLParser {
         for (DatosPuntaje dp : datosLista) {
             Element jugador = d.createElement(Constantes.JUGADOR);
             Jugadores.appendChild(jugador);
-
+         
             Element nombre = d.createElement(Constantes.Nombres);
             nombre.appendChild(d.createTextNode(dp.getNombre()));
             jugador.appendChild(nombre);
-
+ 
             Element puntos = d.createElement(Constantes.Puntos);
             puntos.appendChild(d.createTextNode(String.valueOf(dp.getPuntaje())));
             jugador.appendChild(puntos);
@@ -89,6 +92,7 @@ public class XMLParser {
             Element fecha = d.createElement(Constantes.fecha);
             fecha.appendChild(d.createTextNode(dp.getFecha()));
             jugador.appendChild(fecha);
+           
         }
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();

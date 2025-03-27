@@ -5,6 +5,7 @@
  */
 package ObjetosMoviles.Disparos;
 
+import Graficos.Externos;
 import Matematicas.Vectores;
 import ObjetosMoviles.Constantes;
 import Ventanas.VentanaPartida;
@@ -39,7 +40,7 @@ public class Misiles extends Disparos {
         el escudo*/
         jugadorP = ventanapartida.getJugador().CentroImagen();
         choqueEscudo();
-        
+
         /*creamos el vector force que representa la fuersa ejercida, si el 
         jugador no esta reapareciendo la fuersa buscara al jugador, sino 
         buscara u nuevo vector*/
@@ -54,7 +55,7 @@ public class Misiles extends Disparos {
         force = force.MultiplicarVector(1 / Constantes.MasaMisil);
 
         velocidad = velocidad.SumaVectores(force);
-        
+
         /*si la magnitud de la velocidad es mayor a la velocidad limite*/
         if (velocidad.Manitud() > Constantes.Velocidad_Mic) {
             velocidad = velocidad.velocidadlimite(Constantes.Velocidad_Mic);
@@ -73,15 +74,29 @@ public class Misiles extends Disparos {
         super.Destruir();
     }
 
-    @Override
-    public void dibujar(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+   
+@Override  
+public void dibujar(Graphics g) {  
+    Graphics2D g2d = (Graphics2D) g;  
 
-        at = AffineTransform.getTranslateInstance(posicion.getX() - imgancho / 2, posicion.getY());
-        //le sumamos el ancho de la imagen al angulo para que asi siga rotando al rededor de su centro
-        at.rotate(angulo, imgancho / 2, 0);
+    // Transformación del misil (centrado correctamente)
+    at = AffineTransform.getTranslateInstance(posicion.getX() - imgancho / 2, posicion.getY() - imgalto / 2);  
+    at.rotate(angulo, imgancho / 2, imgalto / 2);  
 
-        g2d.drawImage(textura, at, null);
-    }
+    // Posición exacta del fuego en la parte trasera del misil
+    double fuegoX = posicion.getX() - Externos.propulsion.getWidth() / 2;
+    double fuegoY = posicion.getY() + imgalto / 2 - 5;  
+
+    // Transformación del fuego (ajustada para estar en la parte trasera)
+    AffineTransform at1 = AffineTransform.getTranslateInstance(fuegoX, fuegoY);  
+    at1.rotate(angulo, Externos.propulsion.getWidth() / 2, -Externos.propulsion.getHeight() / 2);  
+
+    // Dibujar fuego primero (detrás del misil)
+    g2d.drawImage(Externos.propulsion, at1, null);  
+
+    // Dibujar misil encima
+    g2d.drawImage(textura, at, null);  
+}
+
 
 }

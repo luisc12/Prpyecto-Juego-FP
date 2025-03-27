@@ -79,7 +79,7 @@ public class VentanaSkins extends Ventana {
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu(p));
+                Ventana.cambiarVentana(new VentanaMenu(p,false));
             }
         });
         botones.add(atras);

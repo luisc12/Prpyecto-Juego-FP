@@ -54,8 +54,9 @@ public class Ufo extends Enemigos {
     continuar = true;
     fuego=0;
     Sdisparar=new Sonido(Externos.DisparoUfo);
+    Sdisparar.cambiarVolumen(-18.0f);
     sonidoufo=new Sonido(Externos.Ufosonido);
-    sonidoufo.cambiarVolumen(-10.0f);
+    sonidoufo.cambiarVolumen(-9.0f);
     sonidoufo.play();
     vida=100;
     

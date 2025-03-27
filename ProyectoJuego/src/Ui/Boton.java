@@ -5,7 +5,7 @@
  */
 package Ui;
 
-import Entrada.RatonEntrada;
+import Entrada.Raton;
 import Graficos.Externos;
 import Graficos.Sonido;
 import Graficos.Texto;
@@ -84,12 +84,12 @@ public class Boton {
     public void actualizar() {
         //este metodo retorna verdadero silas coordenadas especificasdas estan dentro
         //del cuadro delimitador
-        if (cuadroDelimitador.contains(RatonEntrada.x, RatonEntrada.y)) {
+        if (cuadroDelimitador.contains(Raton.x, Raton.y)) {
             ratonDentro = true;
         } else {
             ratonDentro = false;
         }
-        if (ratonDentro && RatonEntrada.salidaRaton) {
+        if (ratonDentro && Raton.salidaRaton) {
             click.play();
             accion.hacerAccion();
         }

@@ -164,7 +164,7 @@ public class VentanaControl extends Ventana {
                 Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu(p));
+                Ventana.cambiarVentana(new VentanaMenu(p,false));
             }
         });
 
@@ -281,18 +281,18 @@ public class VentanaControl extends Ventana {
             } else {
                 if (o.getPosicion().getX() < anchuraRectanguloMinimo) {
                     objetosmoviles.remove(o);
-                    System.out.println("paso 1");
+                 
                 } else if (o.getPosicion().getX() > anchuraRectanguloMaximo) {
 
                     objetosmoviles.remove(o);
-  System.out.println("paso 2");
+ 
                 } else if (o.getPosicion().getY() < alturaRectanguloMinimo) {
 
                     objetosmoviles.remove(o);
-  System.out.println("paso 3");
+ 
                 } else if (o.getPosicion().getY() > alturaRectanguloMaximo) {
                     objetosmoviles.remove(o);
-                      System.out.println("paso 4");
+                     
                 }
             }
         }

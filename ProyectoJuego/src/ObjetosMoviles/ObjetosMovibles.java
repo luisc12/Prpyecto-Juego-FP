@@ -96,8 +96,9 @@ protected VentanaControl ventanaControl;
 
     public void setPosicion(Vectores posicion) {
         this.posicion = posicion;
+        
     }
-
+ 
     protected void ColisionaCon() {
         //pedimos la lista de objetos moviles de la ventanapartida y hacemos un for
         ArrayList<ObjetosMovibles> objetosmovibles = ventanapartida.getObjetosmoviles();
@@ -240,9 +241,9 @@ protected VentanaControl ventanaControl;
         if (!(this instanceof Lacer) && !(this instanceof PowerUp)) {
             explosion.play();
             /*si el objeto no es un jugador, se tomara un numer al azar si ese 
-            numero es 4 se crea un powrrUP pero primero volvemos su velocidad 
+            numero es 4 se crea un powerUP pero primero volvemos su velocidad 
             igual a 0 y le sumamos esa velocidad a la posicion*/
-            if (!(this instanceof Jugador)) {
+            if (!(this instanceof Jugador)&&ventanapartida.getJugador().isGanarPuntos()) {
                 int probabilidad = (int) (Math.random() * 5);
                 if (probabilidad == 4) {
 

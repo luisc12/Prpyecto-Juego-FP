@@ -55,7 +55,7 @@ public class VentanaPuntaje extends Ventana {
                 Constantes.Atras,Externos.cEncendido,Externos.cApagado, new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu(p));
+                Ventana.cambiarVentana(new VentanaMenu(p,false));
             }
         });
 

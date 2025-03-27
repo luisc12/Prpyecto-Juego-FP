@@ -13,6 +13,7 @@ import Graficos.Texto;
 import Matematicas.Vectores;
 
 import ObjetosMoviles.Constantes;
+import Ui.Boton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -29,32 +30,46 @@ import proyectojuego.ProyectoJuego;
  *
  * @author luis
  */
-public class VentanaCarga extends Ventana{
+public class VentanaCarga extends Ventana {
 
     private Thread cargarHilo;
     private Font fuente;
     BufferedImage imagenEscalada;
-     private Sonido musicaFondo;
-    public VentanaCarga(Thread cargarHilo,ProyectoJuego p) {
+    private Sonido musicaFondo;
+    private String texto;
+    long permitir;
+
+    public VentanaCarga(Thread cargarHilo, ProyectoJuego p) {
         super(p);
-        this.cargarHilo=cargarHilo;
+        this.cargarHilo = cargarHilo;
         this.cargarHilo.start();
-        fuente=Externos.CargarFuente("fuentes/kenvector_future.ttf", 58);
-        imagenEscalada = Externos.cambiarTamaño(CargarImagen("ui/Card X2.png"), Constantes.ancho -Constantes.ancho/5, Constantes.alto- Constantes.alto/4); 
-      
-         musicaFondo = new Sonido( Externos.CargarMusica("sonidos/TremLoadinglooplV2.wav") );
+        texto = "CARGANDO";
+        permitir = 0;
+        fuente = Externos.CargarFuente("fuentes/kenvector_future.ttf", 58);
+        imagenEscalada = Externos.cambiarTamaño(CargarImagen("ui/Card X2.png"), Constantes.ancho - Constantes.ancho / 5, Constantes.alto - Constantes.alto / 4);
+
+        musicaFondo = new Sonido(Externos.CargarMusica("sonidos/TremLoadinglooplV2.wav"));
         musicaFondo.MusicaFondo();
-       // musicaFondo.cambiarVolumen(-10.0f);
+        // musicaFondo.cambiarVolumen(-10.0f);
         musicaFondo.play();
     }
-    
-    
 
     @Override
     public void actualizar(float dt) {
+        permitir += dt;
+        if (permitir > 200) {
+            if (texto.equalsIgnoreCase("CARGANDO...")) {
+                texto = "CARGANDO";
+            }else{
+                texto = texto + ".";
+            }
+            
+            permitir = 0;
+        }
+
         if (Externos.cargado) {
             musicaFondo.parar();
-            Ventana.cambiarVentana(new VentanaMenu(p));
+            Ventana.cambiarVentana(new VentanaMenu(p,true));
             try {
                 cargarHilo.join();
             } catch (InterruptedException ex) {
@@ -66,52 +81,52 @@ public class VentanaCarga extends Ventana{
     @Override
     public void dibujar(Graphics g) {
         //usamos gradientPaint para estrapolar un color de un punto a otro punto
-        GradientPaint gp=new GradientPaint(
-                Constantes.ancho/2-Constantes.BarraCargaAncho/2,
-                Constantes.alto/2-Constantes.BarraCargaAlto/2,
+        GradientPaint gp = new GradientPaint(
+                Constantes.ancho / 2 - Constantes.BarraCargaAncho / 2,
+                Constantes.alto / 2 - Constantes.BarraCargaAlto / 2,
                 Externos.cApagado,
-                Constantes.ancho/2+Constantes.BarraCargaAncho/2,
-                Constantes.alto/2+Constantes.BarraCargaAlto/2,
+                Constantes.ancho / 2 + Constantes.BarraCargaAncho / 2,
+                Constantes.alto / 2 + Constantes.BarraCargaAlto / 2,
                 Externos.cEncendido);
-        
-        Graphics2D g2d=(Graphics2D)g;
-     
+
+        Graphics2D g2d = (Graphics2D) g;
+
         AffineTransform ati = AffineTransform.getTranslateInstance(
                 Constantes.ancho / 2 - imagenEscalada.getWidth() / 2,
-                 Constantes.alto / 2 - imagenEscalada.getHeight() / 2);
+                Constantes.alto / 2 - imagenEscalada.getHeight() / 2);
         g2d.drawImage(imagenEscalada, ati, null);
-        
+
         g2d.setPaint(gp);
-        
-        float porcentaje=Externos.cantidad/Externos.cantidadMax;
-        int cuadx=Constantes.ancho/2-Constantes.BarraCargaAncho/2;
-        int cuady=Constantes.alto/2+100;
+
+        float porcentaje = Externos.cantidad / Externos.cantidadMax;
+        int cuadx = Constantes.ancho / 2 - Constantes.BarraCargaAncho / 2;
+        int cuady = Constantes.alto / 2 + 100;
         //aqui reyeno
         g2d.fillRect(
-                 cuadx,cuady,
-                (int)(Constantes.BarraCargaAncho*porcentaje),
+                cuadx, cuady,
+                (int) (Constantes.BarraCargaAncho * porcentaje),
                 Constantes.BarraCargaAlto);
         //aqui dibujo el marco
         g2d.drawRect(
-                cuadx,cuady,
+                cuadx, cuady,
                 Constantes.BarraCargaAncho,
                 Constantes.BarraCargaAlto);
-        
+
         Texto.DibujarTexto(
                 g2d,
                 "PREPARANDO ENTREGA",
-                new Vectores(Constantes.ancho/2, Constantes.alto/2 -100),
+                new Vectores(Constantes.ancho / 2, Constantes.alto / 2 - 100),
                 true,
                 Externos.cEncendido,
                 fuente);
-        
-         Texto.DibujarTexto(
+
+        Texto.DibujarTexto(
                 g2d,
-                "CARGANDO..",
-                new Vectores(Constantes.ancho/2, Constantes.alto/2 +50),
+                texto,
+                new Vectores(Constantes.ancho / 2, Constantes.alto / 2 + 50),
                 true,
                 Externos.cEncendido,
                 fuente);
     }
-    
+
 }

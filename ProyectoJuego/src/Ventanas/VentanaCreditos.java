@@ -67,7 +67,7 @@ public class VentanaCreditos extends Ventana {
                 new Accion() {
             @Override
             public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu(p));
+                Ventana.cambiarVentana(new VentanaMenu(p,false));
             }
         }));
 
@@ -180,7 +180,7 @@ public class VentanaCreditos extends Ventana {
                         c.getTema(),
                         new Vectores(Constantes.ancho / 2, linea),
                         true,
-                        Color.yellow,
+                        Externos.cEncendido,
                         Externos.Gfuente);
                 tema = c.getTema();
                 linea += 50;
@@ -195,19 +195,19 @@ public class VentanaCreditos extends Ventana {
                     "|" + c.getCreador(),
                     new Vectores(Constantes.ancho / 2 - 340, linea),
                     false,
-                    Color.ORANGE,
+                    Externos.cEncendido,
                     Externos.creditos);
             Texto.DibujarTexto(g,
                     "|" + c.getLicencia(),
                     new Vectores(Constantes.ancho / 2 + 50, linea),
                     false,
-                    Color.GREEN,
+                    Color.WHITE,
                     Externos.creditos);
             Texto.DibujarTexto(g,
                     "|" + c.getModificacion(),
                     new Vectores(Constantes.ancho / 2 + 240, linea),
                     false,
-                    Color.blue,
+                    Externos.cEncendido,
                     Externos.creditos);
 
             linea += 120;

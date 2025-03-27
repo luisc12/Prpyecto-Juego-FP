@@ -77,10 +77,9 @@ public class Lacer extends Disparos{
              if (posicion.getX() < 0 || posicion.getX() > Constantes.ancho
                 || posicion.getY() < 0 || posicion.getY() > Constantes.alto) {
             Destruir();
-             ColisionaCon();
+             
         }
-        }else{
-           ventanaControl.limiteControl();
+             ColisionaCon();
         }
        
        

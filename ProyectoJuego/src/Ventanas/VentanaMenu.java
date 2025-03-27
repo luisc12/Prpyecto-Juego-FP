@@ -35,7 +35,7 @@ public class VentanaMenu extends Ventana {
     ArrayList<Boton> botones;
     Color c;
     long cambio;
-    boolean ver;
+    boolean ver,musica;
     BufferedImage panel;
     private static Sonido musicaFondo;
     public static Sonido getMusicaFondo() {
@@ -46,12 +46,12 @@ public class VentanaMenu extends Ventana {
         VentanaMenu.musicaFondo = musicaFondo;
     }
 
-    public VentanaMenu(ProyectoJuego p) {
+    public VentanaMenu(ProyectoJuego p,boolean musica) {
         super(p);
          ver = false;
         panel = Externos.cambiarTamaño(Externos.panelMenu,
                 Constantes.ancho / 2, Constantes.alto - 200); 
-        if (musicaFondo == null) {
+        if (musica ) {
             musicaFondo = new Sonido(Externos.menuMusica);
             musicaFondo.MusicaFondo();
             musicaFondo.cambiarVolumen(-10.0f);
@@ -140,7 +140,7 @@ public class VentanaMenu extends Ventana {
             b.actualizar();
         }
         //cambia el color del texto del titulo al pasar un tiempo
-        if (cambio > 5000) {
+        if (cambio > 700) {
             if (ver) {
                 c = Externos.cApagado;
                 ver = false;

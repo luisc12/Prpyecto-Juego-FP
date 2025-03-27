@@ -5,8 +5,8 @@
  */
 package proyectojuego;
 
-import Ventanas.VentanaPausa;
-import Entrada.RatonEntrada;
+//import Ventanas.VentanaPausa;
+import Entrada.Raton;
 import Entrada.Teclado;
 import Graficos.Externos;
 import ObjetosMoviles.Constantes;
@@ -57,7 +57,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
     JLayeredPane layeredPane;
     private BufferStrategy bs;
     private Graphics g;
-    VentanaPausa p;
+    //VentanaPausa p;
     private final int FPS = 60;//fotogramas por segundo
 
     //un segundo en nanosegundos dividido por FPS
@@ -68,7 +68,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
     private int PROFPS = FPS;
 
     private Teclado teclado;
-    private RatonEntrada raton;
+    private Raton raton;
 
     public ProyectoJuego() {
         setTitle("Amenaza Espacial");
@@ -80,7 +80,7 @@ public class ProyectoJuego extends JFrame implements Runnable {
 
         canvas = new Canvas();
         teclado = new Teclado();
-        raton = new RatonEntrada();
+        raton = new Raton();
 
         canvas.setPreferredSize(new Dimension(Constantes.ancho, Constantes.alto));
         canvas.setMaximumSize(new Dimension(Constantes.ancho, Constantes.alto));

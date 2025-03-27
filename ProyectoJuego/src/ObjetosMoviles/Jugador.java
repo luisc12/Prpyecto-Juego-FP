@@ -42,7 +42,7 @@ public class Jugador extends ObjetosMovibles {
     // private long tiempo,TPasado;
     //private Cronometro fuego;
     //sonido
-    private Sonido Sdisparar, SPerdida;
+    private Sonido Sdisparar, SPerdida, SGun;
 
     private boolean escudoActivo, doblePuntajeActivo, fuegoRapidoActivo, dobleGunActivo, ganarPuntos;
 
@@ -69,9 +69,11 @@ public class Jugador extends ObjetosMovibles {
         TDobleGun = 0;
 
         Sdisparar = new Sonido(Externos.DisparoJugador);
+        Sdisparar.cambiarVolumen(-11.0f);
+        SGun = new Sonido(Externos.disparoGun);
         SPerdida = new Sonido(Externos.PerdidaJugador);
 
-        efectoEscudo = new Animacion(Externos.efectoEscudo2, 80, null);
+        efectoEscudo = new Animacion(Externos.efectoEscudo, 80, null);
 
         visible = true;
         ganarPuntos = true;
@@ -92,13 +94,15 @@ public class Jugador extends ObjetosMovibles {
         TDobleGun = 0;
 
         Sdisparar = new Sonido(Externos.DisparoJugador);
+        Sdisparar.cambiarVolumen(-11.0f);
         SPerdida = new Sonido(Externos.PerdidaJugador);
 
-        efectoEscudo = new Animacion(Externos.efectoEscudo2, 80, null);
+        efectoEscudo = new Animacion(Externos.efectoEscudo, 80, null);
 
         visible = true;
         ganarPuntos = true;
     }
+
     public boolean isGanarPuntos() {
         return ganarPuntos;
     }
@@ -129,7 +133,7 @@ public class Jugador extends ObjetosMovibles {
             TDobleGun += dt;
         }
         //-----------------parar los efectos
-        if (TEscudo > Constantes.TiempoEscudo*5) {
+        if (TEscudo > Constantes.TiempoEscudo ) {
             escudoActivo = false;
             TEscudo = 0;
 
@@ -155,7 +159,7 @@ public class Jugador extends ObjetosMovibles {
                 visible = !visible;
                 Tparpadeo = 0;
             }
-            if (TAparecer > Constantes.TiempoAparecerJugador ) {
+            if (TAparecer > Constantes.TiempoAparecerJugador) {
                 aparecer = false;
                 visible = true;
             }
@@ -175,47 +179,53 @@ public class Jugador extends ObjetosMovibles {
                 temp = temp.calcularDireccion(angulo - 1.9f);
                 gunDerecho = gunDerecho.SumaVectores(temp);
 
-                Lacer d = new Lacer(Externos.gunLaser,gunDerecho,
-                        direccion,Constantes.Velocidad_lac,angulo,
+                Lacer d = new Lacer(Externos.gunLaser, gunDerecho,
+                        direccion, Constantes.Velocidad_lac, angulo,
                         ventanapartida, false);
 
-                Lacer i = new Lacer(Externos.gunLaser,gunIzquierdo,
+                Lacer i = new Lacer(Externos.gunLaser, gunIzquierdo,
                         direccion, Constantes.Velocidad_lac, angulo,
                         ventanapartida, false);
                 //el cero antes de introducir un nuevo laser significa que el laser se va a agregar primero y no al final  
                 ventanapartida.getObjetosmoviles().add(0, d);
                 ventanapartida.getObjetosmoviles().add(0, i);
-
+                SGun.play();
+                 if (SGun.getFramePsition() > 8500) {
+            SGun.parar();
+        }
             } else {
                 if (ventanapartida != null) {
                     ventanapartida.getObjetosmoviles().add(0, new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                            direccion,Constantes.Velocidad_lac,
-                            angulo,ventanapartida, false));
+                            direccion, Constantes.Velocidad_lac,
+                            angulo, ventanapartida, false));
                 } else {
-                   
-                         Lacer l = new Lacer(
+
+                    Lacer l = new Lacer(
                             Externos.greenLaser,
                             CentroImagen().SumaVectores(direccion.MultiplicarVector(imgancho)),
-                            direccion, Constantes.Velocidad_lac,angulo,
+                            direccion, Constantes.Velocidad_lac, angulo,
                             ventanaControl, false);
-                   ventanaControl.getObjetosmoviles().add(0,l);
-                        ArrayList<ObjetosMovibles> obj= ventanaControl.getObjetosmoviles();
-                    for (int i = 0;i<  obj.size(); i++) {
-                        ObjetosMovibles o=obj.get(i);
+                    ventanaControl.getObjetosmoviles().add(0, l);
+                    ArrayList<ObjetosMovibles> obj = ventanaControl.getObjetosmoviles();
+                    for (int i = 0; i < obj.size(); i++) {
+                        ObjetosMovibles o = obj.get(i);
                         if (o instanceof Jugador) {
-                             System.out.println("objeto jugador");
-                        }else{
-                            System.out.println("objeto laser");  
+                            System.out.println("objeto jugador");
+                        } else {
+                            System.out.println("objeto laser");
                         }
-                       
+
                     }
-                   
-                   
+
+                }
+                Sdisparar.play();
+                if (Sdisparar.getFramePsition() > 8500) {
+                    Sdisparar.parar();
                 }
             }
-            fuego = 0;Sdisparar.play();
+            fuego = 0;
         }
         if (Sdisparar.getFramePsition() > 8500) {
             Sdisparar.parar();
@@ -255,16 +265,15 @@ public class Jugador extends ObjetosMovibles {
         al vector posicion*/
         posicion = posicion.SumaVectores(velocidad);
 
-        //evitamos que el jugador salga de la pantalla
-        if (ventanapartida==null) {
-            ventanaControl.limiteControl();
-        }else{
-            LimitarPantalla();
+        if (escudoActivo) {
+            efectoEscudo.actualizar(dt);
         }
-        
-       /* if (ventanapartida != null) {
+        //evitamos que el jugador salga de la pantalla
+        if (ventanapartida != null) {
+
+            LimitarPantalla();
             ColisionaCon();
-        }*/
+        }
 
     }
 
@@ -354,6 +363,7 @@ public class Jugador extends ObjetosMovibles {
         }
         //----------------Escudo----------------
         if (escudoActivo) {
+            
             BufferedImage frameActual = efectoEscudo.getFrameActual();
             AffineTransform at3 = AffineTransform.getTranslateInstance(
                     posicion.getX() - frameActual.getWidth() / 2 + imgancho / 2,

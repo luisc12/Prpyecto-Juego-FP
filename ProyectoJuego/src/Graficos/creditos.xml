@@ -24,42 +24,70 @@
   <OBJETO>vgmenuselect.wav</OBJETO>
   <CREADOR>Fupí</CREADOR>
   <LICENCIA>CC0</LICENCIA>
-  <MODIFICACION></MODIFICACION>
+  <MODIFICACION>formato estandar de window</MODIFICACION>
  </CREDITO> 
 <!--sprites recursos utilizados.-->
 
  
  <!--Orbes.-->  
+
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>gun.png</OBJETO>
+  <CREADOR>Kenney Vleugels</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO>  
  
  <CREDITO TEMA="SPRITE">
-  <OBJETO>orbe/orb.png</OBJETO>
+  <OBJETO>laserRed.png</OBJETO>
+  <CREADOR>Wenrexa</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+ 
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>laserGreen.png</OBJETO>
+  <CREADOR>Wenrexa</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>laserGreenGun.png</OBJETO>
+  <CREADOR>Wenrexa</CREADOR>
+  <LICENCIA>CC0</LICENCIA>
+  <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
+ </CREDITO> 
+   
+ <CREDITO TEMA="SPRITE">
+  <OBJETO>orb.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO> 
  
  <CREDITO TEMA="SPRITE">
-  <OBJETO>orb2X/orb2X.png</OBJETO>
+  <OBJETO>orb2X.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO>
  
  <CREDITO TEMA="SPRITE">
-  <OBJETO>orbFuego/orbFuego.png</OBJETO>
+  <OBJETO>orbFuego.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO>  
  <CREDITO TEMA="SPRITE">
-  <OBJETO>orbGun/orbGun.png</OBJETO>
+  <OBJETO>orbGun.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
  </CREDITO>
  
  <CREDITO TEMA="SPRITE">
-  <OBJETO>orbVida.png/orbVida.png</OBJETO>
+  <OBJETO>orbVida.png</OBJETO>
   <CREADOR>Mumu</CREADOR>
   <LICENCIA>CC0</LICENCIA>
   <MODIFICACION>el nombre y tamaño de las imagenes</MODIFICACION>
