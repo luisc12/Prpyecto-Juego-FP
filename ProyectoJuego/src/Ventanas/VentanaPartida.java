@@ -399,16 +399,7 @@ public class VentanaPartida extends Ventana {
 
     @Override
     public void actualizar(float dt) {
-        if (Teclado.pausa) {
-
-            if (p.isPausa()) {
-                p.continuar();
-            } else {
-                dt = 0;
-                p.pausar();
-            }
-            p.setPausa(!p.isPausa());
-        }
+        
         //  angulo += Constantes.anguloBase / 2;
         pausa += dt;
       //si el jugador se quedo sin vidas comiensa el 
