@@ -33,7 +33,7 @@ public class Meteoros extends ObjetosMovibles {
       //posicion del jugador 
       Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
        //distacia del jugador con respecto al objeto movible
-      int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
+      int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Magnitud();
          /*si la distancia entre el jugador es menor que la mitad del ancho + la 
         Constante de la distancia del escudo y ademas el escudo es ta activo,
         el objeto rebota*/
@@ -44,7 +44,7 @@ public class Meteoros extends ObjetosMovibles {
                
             }
         }
-        if (velocidad.Manitud()>=this.maxVel) {
+        if (velocidad.Magnitud()>=this.maxVel) {
             Vectores velocidadInvertida=new Vectores(-velocidad.getX(),-velocidad.getY());
             velocidad=velocidad.SumaVectores(velocidadInvertida.velocidadlimite(0.01f));
             

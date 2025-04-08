@@ -50,7 +50,7 @@ public class Vectores {
     //limitamos la velocidad
     public Vectores velocidadlimite(double valor) {
         //normalizamos y luego multiplicamos para que asi no pierda su direccion
-        if (Manitud() > valor) {
+        if (Magnitud() > valor) {
             return this.NormalizarVector().MultiplicarVector(valor);
         }
         return this;
@@ -58,18 +58,18 @@ public class Vectores {
 
     //hacer que el vector tenga magnitud igual a uno
     public Vectores NormalizarVector() {
-        double magnitud = Manitud();
+        double magnitud = Magnitud();
         return new Vectores(x / magnitud, y / magnitud);
     }
 
     //sacamos la magnitud
-    public double Manitud() {
+    public double Magnitud() {
         return Math.sqrt((x * x) + (y * y));
     }
 
     public Vectores calcularDireccion(double angulo) {
         //para sacar su direccion abra que modificar sus componestes X y Y con el angulo recibido
-        double magnitud = Manitud();
+        double magnitud = Magnitud();
         
         x = Math.cos(angulo) * magnitud;
         y = Math.sin(angulo) * magnitud;
@@ -78,7 +78,7 @@ public class Vectores {
     }
 /*
     public double getAngulo() {
-        return Math.asin(y / Manitud());
+        return Math.asin(y / Magnitud());
         
     }*/
     public double getAngulo() {

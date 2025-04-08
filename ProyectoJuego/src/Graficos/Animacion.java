@@ -23,13 +23,12 @@ public class Animacion {
     private boolean ejecutando;
     //posiion de la animacion
     private Vectores posicion;
-    
+    //tiempo actual
     private long tiempo;
 
     public BufferedImage[] getFrames() {
         return frames;
     }
-
     public Animacion(BufferedImage[] frames, int velocidad, Vectores posicion) {
         this.frames = frames;
         this.velocidad = velocidad;
@@ -42,12 +41,14 @@ public class Animacion {
     public void actualizar(float dt){
         tiempo+=dt;
         
-        
+        /*si el tiempo transcurrido es mayor a la velocidad entonces cambia de
+        a la siiguiente imagen*/
         if (tiempo>velocidad) {
             tiempo=0;
             indice++;
+            //si el indice pasa el tamaño de los frames se para la animacion
             if (indice>=frames.length) {
-                
+                //
                 ejecutando=false;
                 indice=0;
             }

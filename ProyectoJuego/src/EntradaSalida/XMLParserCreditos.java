@@ -40,7 +40,7 @@ public class XMLParserCreditos {
         File f = new File(Constantes.ubicacioncreditos);
         if (!f.exists()) {
            // System.out.println("Archivo no encontrado en: " + f.getAbsolutePath());
-            System.out.println("Directorio actual: " + System.getProperty("user.dir"));
+          
         }
 
         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();

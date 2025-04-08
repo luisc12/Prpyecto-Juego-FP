@@ -27,7 +27,7 @@ private Vectores direccion;
     public void actualizar(float dt) {
         Vectores PosicionJ=new Vectores(ventanapartida.getJugador().CentroImagen());
       
-      int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Manitud();
+      int jugadorDistancia=(int)PosicionJ.RestaVectores(CentroImagen()).Magnitud();
       
         if (jugadorDistancia<Constantes.DistanciaEscudo/2+imgancho/2) {
             if (ventanapartida.getJugador().isEscudoActivo()) {
@@ -37,7 +37,7 @@ private Vectores direccion;
             }
         }
         
-        if (velocidad.Manitud()>=this.maxVel) {
+        if (velocidad.Magnitud()>=this.maxVel) {
             Vectores velocidadInvertida=new Vectores(-velocidad.getX(),-velocidad.getY());
             velocidad=velocidad.SumaVectores(velocidadInvertida.NormalizarVector().MultiplicarVector(0.01f));
             

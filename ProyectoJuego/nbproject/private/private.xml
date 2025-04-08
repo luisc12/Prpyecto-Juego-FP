@@ -5,22 +5,20 @@
             <url>src/proyectojuego/ProyectoJuego.java</url>
             <bookmark id="1">
                 <name/>
-                <line>67</line>
+                <line>66</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/VentanaCarga.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/VentanaPartida.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/ObjetosMoviles/Disparos/Lacer.java</file>
+            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Matematicas/Vectores.java</file>
             <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/proyectojuego/ProyectoJuego.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/VentanaControl.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/ObjetosMoviles/Jugador.java</file>
+            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Graficos/Sonido.java</file>
+            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Graficos/Texto.java</file>
+            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/Ventana.java</file>
+            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Graficos/Animacion.java</file>
             <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/VentanaCreditos.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/ObjetosMoviles/Disparos/Disparos.java</file>
-            <file>file:/C:/Users/luis/Documents/NetBeansProjects/Prpyecto-Juego-FP/ProyectoJuego/src/Ventanas/VentanaMenu.java</file>
         </group>
     </open-files>
 </project-private>

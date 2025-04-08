@@ -53,7 +53,6 @@ public class ProyectoJuego extends JFrame implements Runnable {
     //canvas es un lienso en el que se dibuja y atrapa los eventos del teclado, ratony accion
     private Canvas canvas;
     private boolean ejecutando = false;
-    private boolean pausa = false;
     JLayeredPane layeredPane;
     private BufferStrategy bs;
     private Graphics g;
@@ -120,85 +119,83 @@ public class ProyectoJuego extends JFrame implements Runnable {
         Ventana.getVentanaActual().actualizar(dt);
 
     }
-private void dibujar() {
-    if (canvas.getBufferStrategy() == null) {
-        canvas.createBufferStrategy(3);
-        return;
+
+    private void dibujar() {
+        
+        if (canvas.getBufferStrategy() == null) {
+            canvas.createBufferStrategy(3);
+            return;
+        }
+        bs = canvas.getBufferStrategy();
+        g = bs.getDrawGraphics();
+//colorea el fondo del grafico en negro 
+        g.setColor(Color.BLACK);
+        //ase que el grafico opupe toda la ventana
+        g.fillRect(0, 0, Constantes.ancho, Constantes.alto);
+        //cambia a la ventana actual
+        Ventana.getVentanaActual().dibujar(g);
+        //disipa los recursos no utilizados
+        g.dispose();
+        //mostrar la ventana
+        bs.show();
     }
 
-    bs = canvas.getBufferStrategy();
-    g = bs.getDrawGraphics();
-
-    g.setColor(Color.BLACK);
-    g.fillRect(0, 0, Constantes.ancho, Constantes.alto);
-
-    Ventana.getVentanaActual().dibujar(g);
-
-    g.dispose();
-    bs.show();
-}
-
-
     private void inicio() {
-
+        //creando el hilo que carga los recursos
         Thread hiloCarga = new Thread(new Runnable() {
             @Override
             public void run() {
+                //cargando los recursos
                 Externos.inicio();
             }
         });
-
+        //pasando el hilo recien creado a la ventana carga
         Ventana.cambiarVentana(new VentanaCarga(hiloCarga, this));
 
     }
 
-    public void pausar() {
-        pausa = true;
-    }
-
-    public void continuar() {
-        pausa = false;
-        TTrans = 0;
-    }
-
     @Override
     public void run() {
+        //tiempo pasado
         long TPasado = System.nanoTime();
+        //Tiempo actual
         long ahora;
-        long deltaTiempo;
+        //nuestro contador de tiempo
         double delta = 0;
-        final double nsPorUpdate = 1000000000.0 / FPS;
-
+       
         int frames = 0;
-        int updates = 0;
         long tiempo = System.currentTimeMillis();
-
+         //cargamos los recursos en el metodo inicio()
         inicio();
-
+        //ejectamos el juego
         while (ejecutando) {
             ahora = System.nanoTime();
-            deltaTiempo = ahora - TPasado;
+            //tiempo transcurrido desde la ultima vez a hasta ahora
+            TTrans = ahora - TPasado;
+            //el tiempo pasado sera igual a nuestro tiempo actual
             TPasado = ahora;
-
-            delta += deltaTiempo / nsPorUpdate;
-
+            /*nuestro contador sera igual a uestro tiempo transcurrido
+            dividido entre nuestro tiempo objetivo mas si mismo*/
+            delta += TTrans / objT;
+            //se actualizara siempre que nuestro contador delta sea mayor a 1
             while (delta >= 1) {
-                actualizar((float) (nsPorUpdate * 0.000001f)); // Paso de tiempo fijo
-                updates++;
-                delta--;
-            }
+                actualizar((float) (objT * 0.000001f)); // Paso de tiempo fijo
 
-            dibujar();
+                delta--;
+                dibujar();
+            }
+            //sumamos 1 a frames
             frames++;
 
             if (System.currentTimeMillis() - tiempo >= 1000) {
+                //  nuestro promedio de FPS sera igual a nuestro frames actuales
                 PROFPS = frames;
                 frames = 0;
-                updates = 0;
+                /*tiempo se le suma 1000 milisegundos para restarse los despues 
+                a System.currentTimeMillis()*/
                 tiempo += 1000;
             }
         }
-
         stop();
     }
 
@@ -220,21 +217,4 @@ private void dibujar() {
         }
     }
 
-    public boolean isPausa() {
-        return pausa;
-    }
-
-    public void setPausa(boolean pausa) {
-        this.pausa = pausa;
-    }
-
 }
-/*
-public void impedir(){
-     this.setFocusableWindowState(false);
-        this.setEnabled(false);
-}
-public void  pasar(){
-     this.setFocusableWindowState(true);
-        this.setEnabled(true);
-}*/

@@ -69,7 +69,7 @@ public class Nostromo extends Enemigos {
         }
          //sacamos la fuerza de persecucion 
          force = PursuingForce(jugadorP);
-         if (force.Manitud() > Constantes.maxforceNos) {
+         if (force.Magnitud() > Constantes.maxforceNos) {
             force = force.NormalizarVector().MultiplicarVector(Constantes.maxforceNos);
         }
          

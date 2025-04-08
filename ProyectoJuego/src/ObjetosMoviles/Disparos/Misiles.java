@@ -57,7 +57,7 @@ public class Misiles extends Disparos {
         velocidad = velocidad.SumaVectores(force);
 
         /*si la magnitud de la velocidad es mayor a la velocidad limite*/
-        if (velocidad.Manitud() > Constantes.Velocidad_Mic) {
+        if (velocidad.Magnitud() > Constantes.Velocidad_Mic) {
             velocidad = velocidad.velocidadlimite(Constantes.Velocidad_Mic);
         }
         /*le sumamos la posicion la velocidad y

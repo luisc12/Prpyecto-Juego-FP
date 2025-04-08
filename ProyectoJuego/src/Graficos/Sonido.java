@@ -27,7 +27,7 @@ public class Sonido {
         clip.start();
     }
     public void MusicaFondo(){//loop
-        //lamusica de fondo comiensa desde el frame 0 y se pone en bucle
+        //la musica de fondo comiensa desde el frame 0 y se pone en bucle
         clip.setFramePosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }

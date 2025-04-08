@@ -31,6 +31,7 @@ import java.awt.image.BufferedImage;
  *
  * @author luis
  */
+
 public class VentanaCreditos extends Ventana {
 
     ArrayList<Boton> botones;
@@ -42,14 +43,20 @@ public class VentanaCreditos extends Ventana {
     long cambio;
 
     private long tiempoAnterior;
-      BufferedImage imagenEscalada;
+    // Tiempo para evitar múltiples clics seguidos en botones
+    private long tiempoBotonAnterior; 
+
+    BufferedImage imagenEscalada;
 
     public VentanaCreditos(ProyectoJuego p) throws ParserConfigurationException,
             SAXException, IOException {
         super(p);
-         imagenEscalada  = Externos.cambiarTamaño(
+
+        imagenEscalada = Externos.cambiarTamaño(
                 Externos.panelAncho, Constantes.ancho, Constantes.alto);
+
         tiempoAnterior = System.nanoTime();
+        tiempoBotonAnterior = System.nanoTime(); // Inicializar el tiempo para botones
 
         posicion = 0;
 
@@ -65,51 +72,59 @@ public class VentanaCreditos extends Ventana {
                 Constantes.alto - Constantes.botonApagado.getHeight() * 2,
                 Constantes.Atras, Externos.cEncendido, Externos.cApagado,
                 new Accion() {
-            @Override
-            public void hacerAccion() {
-                Ventana.cambiarVentana(new VentanaMenu(p,false));
-            }
-        }));
+                    @Override
+                    public void hacerAccion() {
+                        Ventana.cambiarVentana(new VentanaMenu(p, false));
+                    }
+                }));
 
         botones.add(new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
                 Constantes.ancho / 2 - Constantes.botonApagado.getWidth(),
                 Constantes.alto - Constantes.botonApagado.getHeight() * 2,
                 "<-", Externos.cEncendido, Externos.cApagado, new Accion() {
-            @Override
-            public void hacerAccion() {
-                if (cambio > 10000) {
-                    if (numPagina > 1) {
-                        // Reducimos la página sin crear una nueva ventana
-                        numPagina--;
-                        // Redibujamos la ventana
-                        repaint();
+                    @Override
+                    public void hacerAccion() {
+                        long ahora = System.nanoTime();
+                        long diferencia = (ahora - tiempoBotonAnterior) / 100000;
 
+                        if (diferencia >= Constantes.TCambioPag) {
+                            if (numPagina > 1) {
+                                // Reducimos la página sin crear una nueva ventana
+                                numPagina--;
+                                System.out.println("pasar");
+                                // Redibujamos la ventana
+                                repaint();
+                            }
+                            tiempoBotonAnterior = ahora;
+                        }
                     }
-                    cambio = 0;
-                }
-            }
-        }));
+                }));
 
         botones.add(new Boton(Constantes.botonApagado,
                 Constantes.botonActivo,
                 Constantes.ancho / 2,
                 Constantes.alto - Constantes.botonApagado.getHeight() * 2,
                 "->", Externos.cEncendido, Externos.cApagado, new Accion() {
-            @Override
-            public void hacerAccion() {
-                if (cambio > 10000) {
-                    int totalPaginas = (int) Math.ceil((double) listaDatos.size()
-                            / tamPagina);
-                    if (numPagina < totalPaginas) {
-                        // Aumentamos la página sin crear una nueva ventana
-                        numPagina++;
-                        repaint();
+                    @Override
+                    public void hacerAccion() {
+                        long ahora = System.nanoTime();
+                        long diferencia = (ahora - tiempoBotonAnterior) / 100000;
+
+                        int totalPaginas = (int) Math.ceil((double) listaDatos.size()
+                                / tamPagina);
+                        if (diferencia >= Constantes.TCambioPag) {
+                            if (numPagina < totalPaginas) {
+                                // Aumentamos la página sin crear una nueva ventana
+                                numPagina++;
+                                repaint();
+                                System.out.println("pasar\"->\"");
+                            }
+                            tiempoBotonAnterior = ahora;
+                        }
                     }
-                    cambio = 0;
-                }
-            }
-        }));
+                }));
+
         listaDatos = XMLParserCreditos.LeerFichero();
     }
 
@@ -132,9 +147,9 @@ public class VentanaCreditos extends Ventana {
 
         /*si la diferencia es mayor que nuestra coostante y siempre que que el
         numero de total de paginas sea mayor al numero de la pagina actual se
-        cambiara a la pagina siguiente, de no ser asi vuelve a la primera 
+        cambiara a la pagina siguiente, de no ser asi vuelve a la primera
         pagina*/
- /*nos aseguramos de que alla pasado el tiempo necsario para cambiar de
+        /*nos aseguramos de que alla pasado el tiempo necsario para cambiar de
         pagina*/
         if (diferencia > Constantes.TCambioPag) {
             if (numPagina < totalPaginas) {
@@ -145,12 +160,11 @@ public class VentanaCreditos extends Ventana {
                 repaint();
             }
             tiempoAnterior = ahora; // Reiniciar el tiempo de referencia
-
         }
     }
 
     @Override
-    public void dibujar(Graphics g) {  
+    public void dibujar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         AffineTransform at = AffineTransform.getTranslateInstance(
@@ -170,7 +184,8 @@ public class VentanaCreditos extends Ventana {
         if (numPagina < 1) {
             numPagina = 1;
         }
-//mostramos los creditos en la pantalla
+
+        //mostramos los creditos en la pantalla
         List<Creditos> credito = paginaList(listaDatos, numPagina, tamPagina);
         linea = 90;
         for (Creditos c : credito) {
@@ -216,20 +231,20 @@ public class VentanaCreditos extends Ventana {
 
     public static List<Creditos> paginaList(ArrayList<Creditos> listaDatos,
             int numPagina, int tamPagina) {
-        /* el desplazamiento indica dónde comenzar a obtener datos. Se calcula 
-        en función de la cantidad de elementos que hay en las páginas 
+        /* el desplazamiento indica dónde comenzar a obtener datos. Se calcula
+        en función de la cantidad de elementos que hay en las páginas
         anteriores.*/
         int desplazamiento = (numPagina - 1) * tamPagina;
 
         // Asegurar que no haya un desplazamiento fuera del rango
         if (desplazamiento >= listaDatos.size()) {
-        // Devuelve una lista vacía si el número de página está fuera del rango
+            // Devuelve una lista vacía si el número de página está fuera del rango
             return Collections.emptyList();
         }
-        /*Math.min() es un metodo que devuelve un numero con el valor mas bajo, 
+        /*Math.min() es un metodo que devuelve un numero con el valor mas bajo,
         el pie de pagina es el punto final del subconjunto de datos,
         asegurándose de que no exceda el tamaño total de la lista.*/
-        
+
         int piePagina = Math.min(desplazamiento + tamPagina, listaDatos.size());
         //devuelve la parte de la lista que corresponde a la página.
         return listaDatos.subList(desplazamiento, piePagina);

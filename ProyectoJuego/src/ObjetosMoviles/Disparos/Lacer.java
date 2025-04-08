@@ -42,7 +42,7 @@ public class Lacer extends Disparos{
                 .CentroImagen());
         
         int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen())
-                .Manitud();
+                .Magnitud();
         if (enemigo && ventanapartida.getJugador().isEscudoActivo() && 
              jugadorDistancia < Constantes.DistanciaEscudo / 2 + imgancho/2) {
           //si el lacer choca con el escudo aplicamos la fuerza huida 
@@ -59,7 +59,7 @@ public class Lacer extends Disparos{
         }
         }
        
-        if (velocidad.Manitud() >= this.maxVel) {
+        if (velocidad.Magnitud() >= this.maxVel) {
             Vectores velocidadInvertida = new Vectores(-velocidad.getX(),
                     -velocidad.getY());
             velocidad = velocidad.SumaVectores(velocidadInvertida.

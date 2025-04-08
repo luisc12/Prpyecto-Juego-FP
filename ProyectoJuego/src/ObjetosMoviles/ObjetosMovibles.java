@@ -110,7 +110,7 @@ protected VentanaControl ventanaControl;
                 continue;
             }
             //para cañcular la distacia hay que restar los centros de las imagenes y sacar su mgnitud
-            double distancia = o.CentroImagen().RestaVectores(CentroImagen()).Manitud();
+            double distancia = o.CentroImagen().RestaVectores(CentroImagen()).Magnitud();
 
             //se pregunta si la distanciaes menor al la suma del ancho de los objetos
             //a demas de si estan muertos para que no alla colisiones fantasma
@@ -194,7 +194,7 @@ protected VentanaControl ventanaControl;
         //posicion del jugador 
         Vectores PosicionJ = new Vectores(ventanapartida.getJugador().CentroImagen());
         //distacia del jugador con respecto al objeto movible
-        int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen()).Manitud();
+        int jugadorDistancia = (int) PosicionJ.RestaVectores(CentroImagen()).Magnitud();
         /*si la distancia entre el jugador es menor que la mitad del ancho + la 
         Constante de la distancia del escudo y ademas el escudo es ta activo,
         el objeto se destruye*/
@@ -206,9 +206,13 @@ protected VentanaControl ventanaControl;
     }
 
     public Vectores FleeForce() {
-        Vectores velocidadDeseada = ventanapartida.getJugador().CentroImagen().RestaVectores(CentroImagen());
-        velocidadDeseada = (velocidadDeseada.velocidadlimite(Constantes.MaxVelocidadMeteor));
+        Vectores velocidadDeseada = ventanapartida.getJugador().
+                CentroImagen().RestaVectores(CentroImagen());
+        velocidadDeseada = (velocidadDeseada.
+                velocidadlimite(Constantes.MaxVelocidadMeteor));
         Vectores v = new Vectores(velocidad);
+        /*es el opuesto de la SeekForce por lo que se saca restando la
+        velocidad del objeto con velocidadDeseada*/
         return v.RestaVectores(velocidadDeseada);
     }
 
@@ -223,13 +227,15 @@ protected VentanaControl ventanaControl;
 
     protected Vectores PursuingForce(Vectores vjp) {
         Vectores posicionJ = vjp.RestaVectores(posicion);
-        double distancia = posicionJ.Manitud();
+        double distancia = posicionJ.Magnitud();
         // Estimar el tiempo de intercepción
         double prediccion = distancia / maxVel;
         // Calcular la posición futura del jugador
-        Vectores futuraPosicion = vjp.SumaVectores(ventanapartida.getJugador().JugadorgetVelocidad().MultiplicarVector(prediccion));
+        Vectores futuraPosicion = vjp.SumaVectores(ventanapartida.getJugador()
+                .JugadorgetVelocidad().MultiplicarVector(prediccion));
         // Aplicar Seek hacia la posición futura
-        Vectores force = futuraPosicion.RestaVectores(posicion).velocidadlimite(1);
+        Vectores force = futuraPosicion.RestaVectores(posicion)
+                .velocidadlimite(1);
 
         return force;
     }
@@ -289,7 +295,7 @@ protected void LimitarPantalla(){
       Vectores vjv=jugador.JugadorgetVelocidad();
       Vectores posicionJ=vjp.RestaVectores(posicion);
       
-      double distancia=posicionJ.Manitud();
+      double distancia=posicionJ.Magnitud();
       
         // Estimar el tiempo de intercepción
       double prediccion=distancia/maxVel;

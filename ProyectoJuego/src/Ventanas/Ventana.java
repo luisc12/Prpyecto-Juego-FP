@@ -13,20 +13,26 @@ import proyectojuego.ProyectoJuego;
  *
  * @author luis
  */
-public abstract class Ventana extends JFrame{//extends JFrame
-    private static Ventana ventanaActual=null;
-ProyectoJuego p;
+public abstract class Ventana extends JFrame {
+
+    private static Ventana ventanaActual = null;
+    ProyectoJuego p;
+
     public Ventana(ProyectoJuego p) {
-        this.p=p;
+        this.p = p;
     }
+    //mostrar la ventana actual
 
     public static Ventana getVentanaActual() {
         return ventanaActual;
     }
-    public static void cambiarVentana(Ventana v){
-        ventanaActual=v;
-    }
     
+    // cambiar la ventana por otro objeto de la clase ventana
+    public static void cambiarVentana(Ventana v) {
+        ventanaActual = v;
+    }
+
     public abstract void actualizar(float dt);
-    public  abstract void dibujar(Graphics g);
+
+    public abstract void dibujar(Graphics g);
 }

@@ -133,7 +133,7 @@ public class Jugador extends ObjetosMovibles {
             TDobleGun += dt;
         }
         //-----------------parar los efectos
-        if (TEscudo > Constantes.TiempoEscudo ) {
+        if (TEscudo > Constantes.TiempoEscudo*6 ) {
             escudoActivo = false;
             TEscudo = 0;
 
@@ -246,7 +246,7 @@ public class Jugador extends ObjetosMovibles {
         } else {
             /*igualar la aceleracion a un vector opuesto a la velocidad pero 
             con magnitud igual a la constante aceleracion*/
-            if (velocidad.Manitud() != 0) {
+            if (velocidad.Magnitud() != 0) {
                 aceleracion = (velocidad.MultiplicarVector(-1).NormalizarVector())
                         .MultiplicarVector(Constantes.ACC / 2);
                 avansado = false;

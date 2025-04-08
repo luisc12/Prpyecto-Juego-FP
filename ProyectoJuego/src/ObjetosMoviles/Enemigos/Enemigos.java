@@ -51,7 +51,7 @@ public abstract class Enemigos extends ObjetosMovibles {
         
         /*calculamos la distancia de nuestro enemigo hacia ese punto restando 
         nuestro nodo actual por nuestra posicion y sacamos su magnitud*/
-        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Manitud();
+        double distanciaAlNodo = nodoActual.RestaVectores(CentroImagen()).Magnitud();
 
         /*preguntamos si nuestra constante RadiusNodo es mayor que la distancia 
         que hay entre nuestro enemigo y el nodo si lo es pasamos al siguiente nodo
