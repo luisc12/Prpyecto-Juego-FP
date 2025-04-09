@@ -236,7 +236,6 @@ public class VentanaSkins extends Ventana {
                     boton1.setForeground(Externos.cEncendido);
                     boton1.setIcon(hoverIcon);
                     nombre = textField.getText();
-                    System.out.println(nombre);
                     activar = true;
                     Pnom.setVisible(false);
 
@@ -252,7 +251,6 @@ public class VentanaSkins extends Ventana {
                     boton1.setIcon(normalIcon);
                     boton1.setForeground(Externos.cApagado);
                 }
-
             }
 
             @Override

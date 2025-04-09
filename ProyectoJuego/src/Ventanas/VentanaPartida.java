@@ -48,7 +48,7 @@ import proyectojuego.ProyectoJuego;
  */
 public class VentanaPartida extends Ventana {
 
-  //  VentanaPausa ventanaPausa;
+    //  VentanaPausa ventanaPausa;
     public static final Vectores PosicionInicial
             = new Vectores(Constantes.ancho / 2 - Externos.jugadores[0].getWidth() / 2,
                     Constantes.alto / 2 - Externos.jugadores[0].getWidth() / 2);
@@ -74,13 +74,11 @@ public class VentanaPartida extends Ventana {
     //private Cronometro TGameOver;
     private long TGameOver;
     private boolean finJuego;
-    private boolean AparecePlaneta;
     public String nombre;
 
     //private Cronometro aparecerUfo;
-    private long pausa;
     private long aparecerUfo;
-    private long aparecerPowerUP;
+    private Sonido SPerdida;
     private BufferedImage apariencia;
 
     public VentanaPartida(String nombre, BufferedImage apariencia, ProyectoJuego p) {
@@ -103,14 +101,11 @@ public class VentanaPartida extends Ventana {
         musicaFondo = new Sonido(Externos.MusicaFondo);
         musicaFondo.MusicaFondo();
         musicaFondo.cambiarVolumen(-10.0f);
-
         sumarP = new Sonido(Externos.sodidoMasPuntos);
         sumarP.cambiarVolumen(-10.0f);
-
+        SPerdida = new Sonido(Externos.PerdidaJugador);
         TGameOver = 0;
         aparecerUfo = 0;
-        aparecerPowerUP = 0;
-        pausa = 500;
     }
 
     public VentanaPartida(ProyectoJuego p) {
@@ -198,14 +193,14 @@ public class VentanaPartida extends Ventana {
         for (int i = 0; i < meteoros; i++) {
             /*pregunto si x es par si es verdadero digo que x es igual a un 
             numero aleatorio entre cero y el ancho de la ventana sino
-            me devuelve 0*/       
+            me devuelve 0*/
             x = 1 % 2 == 0 ? Math.random() * Constantes.ancho : 0;
             //si y es par sera cero 
             y = 1 % 2 == 0 ? 0 : Math.random() * Constantes.alto;
             /*la imagen sera una imagen grande elegido al azar entre cero y el 
             tamaño del array grandes*/
-            BufferedImage textura = Externos.grades[(int) (Math.random() * 
-                    Externos.grades.length)];
+            BufferedImage textura = Externos.grades[(int) (Math.random()
+                    * Externos.grades.length)];
 
             objetosmoviles.add(new Meteoros(textura,
                     new Vectores(x, y),
@@ -231,16 +226,16 @@ public class VentanaPartida extends Ventana {
 
     private void spawnEnemigo() {
         //se seleciona un nuemro entre 1 y 4 al azar
-      int probabilidad = (int) (Math.random() * 4 + 1);
-       
+        int probabilidad = (int) (Math.random() * 4 + 1);
+
         //se seleciona un numero entre cero y dos
         int randio = (int) (Math.random() * 2);
- /*si X es par se seleciona un numero al azar entre 0 y el ancho de la ventana
+        /*si X es par se seleciona un numero al azar entre 0 y el ancho de la ventana
         sino sera 0, en caso del eje Y es el caso contrario si es par sera 0 y
         sino se elige un numero al azar entre 0 y la altura de la ventana*/
         double x = randio == 0 ? (Math.random() * Constantes.ancho) : 0;
         double y = randio == 0 ? 0 : (Math.random() * Constantes.alto);
-/*si la probabilidad es 3 0 cuatro creamos cuatro vectores para
+        /*si la probabilidad es 3 0 cuatro creamos cuatro vectores para
         nuestro ArayList de vectores*/
         if (probabilidad == 3 || probabilidad == 4) {
             ArrayList<Vectores> caminos = new ArrayList<Vectores>();
@@ -265,20 +260,20 @@ public class VentanaPartida extends Ventana {
             /*si la probabilidad es 3  se crea un objeto ufo, con la 
             apariencia al azar*/
             if (probabilidad == 3) {
-              objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
-                        new Vectores(x, y), new Vectores(),Constantes.MaxVelUfo,
+                objetosmoviles.add(new Ufo(Externos.Ufo[(int) (Math.random() * 2)],
+                        new Vectores(x, y), new Vectores(), Constantes.MaxVelUfo,
                         this,
                         caminos));
             } else {
                 //sino un objeto Venator
                 objetosmoviles.add(new Venator(Externos.venator,
-                        new Vectores(x, y),new Vectores(),Constantes.MaxVelVen,
+                        new Vectores(x, y), new Vectores(), Constantes.MaxVelVen,
                         this,
                         caminos));
             }
 //si la probabilidad resulto ser 2 entonces creamos nuestro objeto Nostromo 
         } else if (probabilidad == 2) {
-            objetosmoviles.add(new Nostromo(Externos.nostromo,new Vectores(x, y),
+            objetosmoviles.add(new Nostromo(Externos.nostromo, new Vectores(x, y),
                     new Vectores(),
                     Constantes.MaxVelUfo,
                     this));
@@ -287,16 +282,16 @@ public class VentanaPartida extends Ventana {
     }
 
     public void spawnPowerUp(Vectores posicion) {
-    /*se selecciona un numero al azar entre sero y el nuemro de objetos de 
-        nuestro Enum*/ 
+        /*se selecciona un numero al azar entre sero y el nuemro de objetos de 
+        nuestro Enum*/
         int index = (int) (Math.random() * (TiposPowerUP.values().length));
-     //se abre el objeto de TiposPowerUP que correponde con esa identificacion
+        //se abre el objeto de TiposPowerUP que correponde con esa identificacion
         TiposPowerUP tp = TiposPowerUP.values()[index];
 
         //sacamos texto de nuestro tp que seria el mensaje a mostrar
         final String texto = tp.texto;
         Accion accion = null;
- /*usamos un switch que dependiendo del tipo de poder sus 
+        /*usamos un switch que dependiendo del tipo de poder sus 
         acciones seran diferentes */
         switch (tp) {
             case VIDA:
@@ -399,41 +394,41 @@ public class VentanaPartida extends Ventana {
 
     @Override
     public void actualizar(float dt) {
-        
+
         //  angulo += Constantes.anguloBase / 2;
-        pausa += dt;
-      //si el jugador se quedo sin vidas comiensa el 
+        //si el jugador se quedo sin vidas comiensa el 
         if (finJuego) {
             TGameOver += dt;
         }
         if (Teclado.salir) {
+            SPerdida.play();
             gameOver();
         }
         aparecerUfo += dt;
 
-            //actualisamos los objetos moviles
-            for (int i = 0; i < objetosmoviles.size(); i++) {
-                ObjetosMovibles ob = objetosmoviles.get(i);
-                ob.actualizar(dt);
-                //si esta muerto lo borra y se le resta a la i debido a que al borrar
-                //un objeto todos los de su derecha avansan un paso a la izquierda
-                //y el ultimo puesto de la derecha a hora basio lo elimina
-                if (ob.isMuerte()) {
-                    objetosmoviles.remove(i);
-                    i--;
-                }
+        //actualisamos los objetos moviles
+        for (int i = 0; i < objetosmoviles.size(); i++) {
+            ObjetosMovibles ob = objetosmoviles.get(i);
+            ob.actualizar(dt);
+            //si esta muerto lo borra y se le resta a la i debido a que al borrar
+            //un objeto todos los de su derecha avansan un paso a la izquierda
+            //y el ultimo puesto de la derecha a hora basio lo elimina
+            if (ob.isMuerte()) {
+                objetosmoviles.remove(i);
+                i--;
+            }
 
-            }
+        }
 //animaciones
-            for (int i = 0; i < explosiones.size(); i++) {
-                Animacion animacion = explosiones.get(i);
-                animacion.actualizar(dt);
-                //si la animacion no esta ejecutando la elimino
-                if (!animacion.isEjecutando()) {
-                    explosiones.remove(i);
-                }
+        for (int i = 0; i < explosiones.size(); i++) {
+            Animacion animacion = explosiones.get(i);
+            animacion.actualizar(dt);
+            //si la animacion no esta ejecutando la elimino
+            if (!animacion.isEjecutando()) {
+                explosiones.remove(i);
             }
-        
+        }
+
         if (TGameOver > Constantes.TiempoFinal) {
             try {
                 /*leo los puntajes del fichero XML y lo meto en un ArrayList
@@ -451,28 +446,28 @@ public class VentanaPartida extends Ventana {
             } catch (TransformerException ex) {
                 Logger.getLogger(VentanaPartida.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Ventana.cambiarVentana(new VentanaMenu(p,true));
+            Ventana.cambiarVentana(new VentanaMenu(p, true));
         }
-        if (aparecerUfo > Constantes.TiempoAparecerUfo/2) {
+        if (aparecerUfo > Constantes.TiempoAparecerUfo / 2) {
             spawnEnemigo();
             aparecerUfo = 0;
         }
         //en este for si no hay ningun meteoro continuara a la linea de empezarEntrega
         for (int i = 0; i < objetosmoviles.size(); i++) {
-/*si el objeto np es un objeto de la clase jugador ni es un meteoro*/
-            if (!(objetosmoviles.get(i) instanceof Jugador) && 
-                    !(objetosmoviles.get(i) instanceof Meteoros)) {
+            /*si el objeto np es un objeto de la clase jugador ni es un meteoro*/
+            if (!(objetosmoviles.get(i) instanceof Jugador)
+                    && !(objetosmoviles.get(i) instanceof Meteoros)) {
                 /*si la posision del objeto sale por alguno de los lados de
                 la ventana se destruye*/
-                if (objetosmoviles.get(i).getPosicion().getX() 
-                        < -objetosmoviles.get(i).getImgancho() || 
-                        objetosmoviles.get(i).getPosicion().getX() >
-                        Constantes.ancho + objetosmoviles.get(i).getImgancho()
-                        || objetosmoviles.get(i).getPosicion().getY() 
-                        < -objetosmoviles.get(i).getImgalto() || 
-                        objetosmoviles.get(i).getPosicion().getY() >
-                        Constantes.alto + objetosmoviles.get(i).getImgalto()) {
-                    
+                if (objetosmoviles.get(i).getPosicion().getX()
+                        < -objetosmoviles.get(i).getImgancho()
+                        || objetosmoviles.get(i).getPosicion().getX()
+                        > Constantes.ancho + objetosmoviles.get(i).getImgancho()
+                        || objetosmoviles.get(i).getPosicion().getY()
+                        < -objetosmoviles.get(i).getImgalto()
+                        || objetosmoviles.get(i).getPosicion().getY()
+                        > Constantes.alto + objetosmoviles.get(i).getImgalto()) {
+
                     if (!(objetosmoviles.get(i) instanceof Planetas)) {
                         objetosmoviles.get(i).Destruir();
                     }
@@ -486,7 +481,8 @@ public class VentanaPartida extends Ventana {
         //empesamos una nueva entrega
         empezarEntrega();
     }
- /*   if (p.isPausa()) {
+
+    /*   if (p.isPausa()) {
             Texto.DibujarTexto(g,
                     "Seleccione la Skin",
                     new Vectores(Constantes.ancho / 2 - apariencia.getWidth() / 2,
@@ -503,8 +499,8 @@ public class VentanaPartida extends Ventana {
         //mejora la vista del los objetos
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-   
-       //ArrayList de mensajes qe se muestran en pantalla
+
+        //ArrayList de mensajes qe se muestran en pantalla
         for (int i = 0; i < mensajes.size(); i++) {
             mensajes.get(i).dibujar(g2d);
             if (mensajes.get(i).isMuerte()) {
@@ -535,17 +531,16 @@ public class VentanaPartida extends Ventana {
     private void DibujarPuntuacion(Graphics g) {
         //posicion de puntuacion
         Vectores pos = new Vectores(1050, 25);
-         /*metodo Integer.toString devuelve la representación de cadena del 
+        /*metodo Integer.toString devuelve la representación de cadena del 
         argumento es decir  convierte el
         número de vidas en un String para poder recorrerlo dígito por digito.*/
         String PuntajeText = Integer.toString(puntos);
 
         for (int i = 0; i < PuntajeText.length(); i++) {
             //Se dibuja la imagen que corresponde al numero de la posicion
-            g.drawImage(Externos.cambiarTamaño(Externos.numeros[
-                    Integer.parseInt(PuntajeText.substring(i, i + 1))], 40, 40),
+            g.drawImage(Externos.cambiarTamaño(Externos.numeros[Integer.parseInt(PuntajeText.substring(i, i + 1))], 40, 40),
                     (int) pos.getX(), (int) pos.getY(), null);
-   // Se mueve la posición del eje X para el siguiente numero
+            // Se mueve la posición del eje X para el siguiente numero
             pos.setX(pos.getX() + 50);
         }
     }
@@ -562,21 +557,21 @@ public class VentanaPartida extends Ventana {
 
         //dibujamos la X para saber el numero de vidas
         g.drawImage(Externos.cambiarTamaño(Externos.numeros[10], 40, 40),
-                (int) posV.getX() + 70,(int) posV.getY() + 5, null);
+                (int) posV.getX() + 70, (int) posV.getY() + 5, null);
         /*metodo Integer.toString devuelve la representación de cadena del 
         argumento es decir  convierte el
         número de vidas en un String para poder recorrerlo dígito por digito.*/
         String vidasText = Integer.toString(vidas);
         //la posicion donde estara el numero de vidas
         Vectores pos = new Vectores(posV.getX(), posV.getY());
-    // Se recorre cada digito del numero de vidas para dibujarlo individualmente
+        // Se recorre cada digito del numero de vidas para dibujarlo individualmente
         for (int i = 0; i < vidasText.length(); i++) {
             //sacamos el numero actual del estring
             int numero = Integer.parseInt(vidasText.substring(i, i + 1));
             if (numero <= 0) {
                 break;
             }
-         //Se dibuja la imagen que corresponde al numero de la posicion
+            //Se dibuja la imagen que corresponde al numero de la posicion
             g.drawImage(Externos.cambiarTamaño(Externos.numeros[numero], 40, 40),
                     (int) pos.getX() + 120,
                     (int) pos.getY() + 3, null);
@@ -602,9 +597,9 @@ public class VentanaPartida extends Ventana {
     }
 
     public boolean RestarVidas(Vectores posicion) {
-       //resta 1 a las vidas cuando el jugador muere
+        //resta 1 a las vidas cuando el jugador muere
         vidas--;
-     /*salta un mensaje de perdida de vidas y agrea el mensaje al ArrayList
+        /*salta un mensaje de perdida de vidas y agrea el mensaje al ArrayList
         de mensajes, despues retorna las vidas actuales si son mayor a 0 */
         Mensaje perdida = new Mensaje("-1 VIDA",
                 posicion,

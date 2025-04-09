@@ -133,7 +133,7 @@ public class Jugador extends ObjetosMovibles {
             TDobleGun += dt;
         }
         //-----------------parar los efectos
-        if (TEscudo > Constantes.TiempoEscudo*6 ) {
+        if (TEscudo > Constantes.TiempoEscudo ) {
             escudoActivo = false;
             TEscudo = 0;
 
@@ -208,16 +208,7 @@ public class Jugador extends ObjetosMovibles {
                             direccion, Constantes.Velocidad_lac, angulo,
                             ventanaControl, false);
                     ventanaControl.getObjetosmoviles().add(0, l);
-                    ArrayList<ObjetosMovibles> obj = ventanaControl.getObjetosmoviles();
-                    for (int i = 0; i < obj.size(); i++) {
-                        ObjetosMovibles o = obj.get(i);
-                        if (o instanceof Jugador) {
-                            System.out.println("objeto jugador");
-                        } else {
-                            System.out.println("objeto laser");
-                        }
-
-                    }
+                   
 
                 }
                 Sdisparar.play();

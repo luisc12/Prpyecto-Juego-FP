@@ -31,7 +31,7 @@ public class Externos {
     //barra de carga
     public static boolean cargado = false;
     public static float cantidad = 0;
-    public static float cantidadMax = 125;
+    public static float cantidadMax = 121;
 
     public static Color cEncendido = new Color(88, 214, 141);
     public static Color cApagado = new Color(47, 153, 68);
@@ -90,9 +90,6 @@ public class Externos {
     //powerUP
     public static BufferedImage doblePuntuacion, dobleGun, fuegoRapido, escudo, escudov2, estrella, gun;
     public static BufferedImage orbe, orbFuego, orb2X, orbGun, orbVida, orbPuntuacion;
-
-    //Planetas
-    public static BufferedImage[] planetas = new BufferedImage[4];
 
     public static void inicio() {
 
@@ -178,9 +175,7 @@ public class Externos {
         for (int i = 0; i < efectoEscudo.length; i++) {
             efectoEscudo[i] = CargarImagen("efectos/shieldV2" + (i + 1) + ".png");
         }
-        for (int i = 0; i < planetas.length; i++) {
-            planetas[i] = CargarImagen("otros/Planeta" + (i + 1) + ".png");
-        }
+        
 
         MusicaCarga = CargarMusica("sonidos/TremLoadingloopl.wav");
         MusicaFondo = CargarMusica("sonidos/space_quest_looped_section.wav");
